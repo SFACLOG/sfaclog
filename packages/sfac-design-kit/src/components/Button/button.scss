@@ -14,19 +14,20 @@
 .neutral {
   color: grey;
   border: grey;
+
   &:hover {
     background-color: lightgrey;
   }
 }
 
 .small {
-  font-size: 14;
+  font-size: 14px;
 }
 
 .medium {
-  font-size: 16;
+  font-size: 16px;
 }
 
 .large {
-  font-size: 18;
+  font-size: 18px;
 }

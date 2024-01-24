@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import './input.scss';
 
-interface InputProps {
+export interface InputProps {
   children: ReactNode;
   theme?: 'primary' | 'neutral';
   size?: 'small' | 'medium' | 'large';
@@ -14,4 +14,3 @@ export const Input = ({
 }: InputProps) => {
   return <input className={`input ${theme} ${size}`}>{children}</input>;
 };
-

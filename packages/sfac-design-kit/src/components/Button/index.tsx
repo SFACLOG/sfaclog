@@ -1,13 +1,24 @@
 import { ReactNode } from 'react';
-import './button.scss';
 
-interface ButtonProps {
+export interface ButtonProps {
   children: ReactNode;
   theme?: 'primary' | 'neutral';
   size?: 'small' | 'medium' | 'large';
 
   onClick?: () => void;
 }
+
+const buttonOption = {
+  theme: {
+    primary: 'text-blue-500 border border-blue-500 hover:bg-blue-300',
+    neutral: 'text-gray-400 border border-gray-400 hover:bg-green-500',
+  },
+  size: {
+    small: 'text-sm',
+    medium: 'text-base',
+    large: 'text-lg',
+  },
+};
 
 export const Button = ({
   theme = 'neutral',
@@ -18,7 +29,7 @@ export const Button = ({
   return (
     <button
       type='button'
-      className={`button ${theme} ${size}`}
+      className={`${buttonOption['theme'][theme]} ${buttonOption['size'][size]}`}
       onClick={onClick}
     >
       {children}

@@ -2,13 +2,14 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev",
+    "dev": "turbo dev --filter=sfac-design-kit --filter=web",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "clean": "turbo clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
-    "build-storybook": "yarn workspace sfac-design-kit build-storybook"
+    "build-storybook": "yarn workspace sfac-design-kit build-storybook",
+    "storybook": "cd packages/sfac-design-kit && npm run storybook"
   },
   "devDependencies": {
     "@repo/typescript-config": "*",

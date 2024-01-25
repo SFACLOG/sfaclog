@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import './input.scss';
 
 export interface InputProps {
   children: ReactNode;

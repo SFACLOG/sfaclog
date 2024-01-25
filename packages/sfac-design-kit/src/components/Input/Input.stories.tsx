@@ -1,7 +1,7 @@
 import { Input } from '.';
 
 export default {
-  title: 'ATOMS/Button',
+  title: 'ATOMS/Input',
   component: Input,
   tags: ['autodocs'],
 };

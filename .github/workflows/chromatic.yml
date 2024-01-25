@@ -1,0 +1,22 @@
+# Workflow name
+name: 'Chromatic Deployment'
+
+# Event for the workflow
+on:
+  push:
+    branches:
+      - dev/design-system
+
+# List of jobs
+jobs:
+  test:
+    # Operating System
+    runs-on: ubuntu-latest
+    # Job steps
+    steps:
+      - uses: actions/checkout@v1
+      - run: yarn
+      - run: yarn workspace sfac-design-kit build-storybook
+      - uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}

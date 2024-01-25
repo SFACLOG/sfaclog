@@ -1,6 +1,6 @@
 import reactLogo from './assets/react.svg';
 import viteLogo from '../public/vite.svg';
-import './styles/global.scss';
+import './styles/global.css';
 
 function Counter() {
   return (

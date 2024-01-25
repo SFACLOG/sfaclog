@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite build --watch",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
@@ -30,13 +30,20 @@
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "@repo/tailwind-config": "*",
+    "autoprefixer": "^10.4.17",
+    "chromatic": "^10.3.1",
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "eslint-plugin-storybook": "^0.6.15",
-    "sass": "^1.70.0",
+    "postcss": "^8.4.33",
     "storybook": "^7.6.9",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
-  }
+    "vite": "^5.0.8",
+    "vite-plugin-dts": "^3.7.2"
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "sfac-design-kit@0.0.0"
 }

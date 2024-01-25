@@ -1,16 +1,10 @@
-import { ReactNode } from 'react';
-import './input.scss';
+import './input.css';
 
 export interface InputProps {
-  children: ReactNode;
   theme?: 'primary' | 'neutral';
   size?: 'small' | 'medium' | 'large';
 }
 
-export const Input = ({
-  theme = 'neutral',
-  size = 'medium',
-  children,
-}: InputProps) => {
-  return <input className={`input ${theme} ${size}`}>{children}</input>;
+export const Input = ({ theme = 'neutral', size = 'medium' }: InputProps) => {
+  return <input className={`input ${theme} ${size}`} />;
 };

@@ -6,23 +6,19 @@ export default {
   tags: ['autodocs'],
 };
 
-export const Default = {
-  args: {
-    children: 'Input',
-  },
-};
+export const Default = {};
 
 export const Theme = () => (
   <>
-    <Input theme='primary'>Input</Input>
-    <Input>Input</Input>
+    <Input theme='primary' />
+    <Input />
   </>
 );
 
 export const Size = () => (
   <>
-    <Input size='large'>Input</Input>
-    <Input size='medium'>Input</Input>
-    <Input size='small'>Input</Input>
+    <Input size='large' />
+    <Input size='medium' />
+    <Input size='small' />
   </>
 );

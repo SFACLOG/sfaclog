@@ -1,4 +1,4 @@
-import { Button, RDTestButton } from '.';
+import { Button } from '.';
 
 export default {
   title: 'ATOMS/Button',
@@ -14,7 +14,7 @@ export const Default = {
 
 export const Theme = () => (
   <>
-    <Button theme='primary'>Button</Button>
+    <Button theme='neutral'>Button</Button>
     <Button>Button</Button>
   </>
 );
@@ -24,11 +24,5 @@ export const Size = () => (
     <Button size='large'>Button</Button>
     <Button size='medium'>Button</Button>
     <Button size='small'>Button</Button>
-  </>
-);
-
-export const RadixTest = () => (
-  <>
-    <RDTestButton />
   </>
 );

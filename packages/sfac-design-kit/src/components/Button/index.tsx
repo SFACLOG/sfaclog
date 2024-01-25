@@ -1,62 +1,36 @@
-import { ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { Button as RDButton } from '@radix-ui/themes';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/utils';
 
-export interface ButtonProps {
+export interface ButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof ButtonVariants> {
   children: ReactNode;
-  theme?: 'primary' | 'neutral';
-  size?: 'small' | 'medium' | 'large';
-
-  onClick?: () => void;
 }
 
-const buttonOption = {
-  theme: {
-    primary: 'text-blue-500 border border-blue-500 hover:bg-blue-300',
-    neutral: 'text-gray-400 border border-gray-400 hover:bg-green-500',
+const ButtonVariants = cva(``, {
+  variants: {
+    size: {
+      small: 'text-sm py-1 px-2',
+      medium: 'text-base py-2 px-6',
+      large: 'text-lg py-3 px-6',
+    },
+    theme: {
+      primary: 'text-blue-500 border border-blue-500 hover:bg-blue-300',
+      neutral: 'text-gray-400 border border-gray-400 hover:bg-gray-500',
+    },
   },
-  size: {
-    small: 'text-sm',
-    medium: 'text-base',
-    large: 'text-lg',
+  defaultVariants: {
+    size: 'small',
+    theme: 'primary',
   },
-};
+});
 
-import { Button as RDButton } from '@radix-ui/themes';
-
-export const RDTestButton = () => {
-  return <RDButton className={'bg-red-600'}>button</RDButton>;
-};
-
-export const Button = ({
-  theme = 'neutral',
-  size = 'medium',
-  children,
-  onClick,
-}: ButtonProps) => {
+export const Button = ({ children, size, theme }: ButtonProps) => {
   return (
-    <button
-      type='button'
-      className={`${buttonOption['theme'][theme]} ${buttonOption['size'][size]} bg`}
-      onClick={onClick}
-    >
+    <RDButton className={cn(ButtonVariants({ size, theme }))}>
       {children}
-    </button>
-  );
-};
-
-export const BarButton = ({
-  theme = 'primary',
-  size = 'small',
-
-  children,
-  onClick,
-}: ButtonProps) => {
-  return (
-    <button
-      type='button'
-      className={`button ${theme} ${size} barbtn`}
-      onClick={onClick}
-    >
-      {children}
-    </button>
+    </RDButton>
   );
 };

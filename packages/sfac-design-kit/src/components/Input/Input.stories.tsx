@@ -1,28 +1,24 @@
 import { Input } from '.';
 
 export default {
-  title: 'ATOMS/Button',
+  title: 'ATOMS/Input',
   component: Input,
   tags: ['autodocs'],
 };
 
-export const Default = {
-  args: {
-    children: 'Button',
-  },
-};
+export const Default = {};
 
 export const Theme = () => (
   <>
-    <Input theme='primary'>Button</Input>
-    <Input>Button</Input>
+    <Input theme='primary' />
+    <Input />
   </>
 );
 
 export const Size = () => (
   <>
-    <Input size='large'>Button</Input>
-    <Input size='medium'>Button</Input>
-    <Input size='small'>Button</Input>
+    <Input size='large' />
+    <Input size='medium' />
+    <Input size='small' />
   </>
 );

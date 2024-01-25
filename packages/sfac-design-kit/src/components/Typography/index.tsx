@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import './typography.scss';
+import './typography.css';
 
 interface HeaderBaseProps {
   children: ReactNode;

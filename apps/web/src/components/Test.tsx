@@ -1,11 +1,12 @@
 'use client';
 import React from 'react';
-import { Counter } from 'sfac-design-kit';
+import { Button, Counter } from 'sfac-design-kit';
 
 function Test() {
   return (
     <div>
       <Counter />
+      <Button>버튼</Button>
     </div>
   );
 }

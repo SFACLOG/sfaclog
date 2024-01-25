@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Header from '../components/Header';
+import 'sfac-design-kit/dist/style.css';
 
 export const metadata: Metadata = {
   title: 'Create Turborepo',

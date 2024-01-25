@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 import { Button as RDButton } from '@radix-ui/themes';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/utils';
+import { cn } from '../../utils';
 
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,

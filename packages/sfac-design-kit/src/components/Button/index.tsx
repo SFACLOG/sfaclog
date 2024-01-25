@@ -20,6 +20,12 @@ const buttonOption = {
   },
 };
 
+import { Button as RDButton } from '@radix-ui/themes';
+
+export const RDTestButton = () => {
+  return <RDButton variant='outline'>button</RDButton>;
+};
+
 export const Button = ({
   theme = 'neutral',
   size = 'medium',

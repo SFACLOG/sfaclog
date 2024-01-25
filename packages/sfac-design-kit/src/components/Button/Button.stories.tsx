@@ -1,4 +1,4 @@
-import { Button } from '.';
+import { Button, RDTestButton } from '.';
 
 export default {
   title: 'ATOMS/Button',
@@ -24,5 +24,11 @@ export const Size = () => (
     <Button size='large'>Button</Button>
     <Button size='medium'>Button</Button>
     <Button size='small'>Button</Button>
+  </>
+);
+
+export const RadixTest = () => (
+  <>
+    <RDTestButton />
   </>
 );

@@ -6,6 +6,11 @@ on:
   push:
     branches:
       - dev/design-system
+  pull_request:
+    types:
+      - closed
+    branches:
+      - dev/design-system
 
 # List of jobs
 jobs:

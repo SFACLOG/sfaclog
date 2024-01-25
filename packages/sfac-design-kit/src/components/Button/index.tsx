@@ -20,6 +20,12 @@ const buttonOption = {
   },
 };
 
+import { Button as RDButton } from '@radix-ui/themes';
+
+export const RDTestButton = () => {
+  return <RDButton className={'bg-red-600'}>button</RDButton>;
+};
+
 export const Button = ({
   theme = 'neutral',
   size = 'medium',
@@ -29,7 +35,7 @@ export const Button = ({
   return (
     <button
       type='button'
-      className={`${buttonOption['theme'][theme]} ${buttonOption['size'][size]}`}
+      className={`${buttonOption['theme'][theme]} ${buttonOption['size'][size]} bg`}
       onClick={onClick}
     >
       {children}

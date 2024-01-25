@@ -14,4 +14,3 @@ export const Input = ({
 }: InputProps) => {
   return <input className={`input ${theme} ${size}`}>{children}</input>;
 };
-

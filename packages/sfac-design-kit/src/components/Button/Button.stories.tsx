@@ -14,7 +14,7 @@ export const Default = {
 
 export const Theme = () => (
   <>
-    <Button theme='primary'>Button</Button>
+    <Button theme='neutral'>Button</Button>
     <Button>Button</Button>
   </>
 );

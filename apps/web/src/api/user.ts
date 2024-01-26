@@ -20,9 +20,7 @@ export const signup = async (data: {
   proposals?: string;
 }) => {
   await pb.collection('user').create(data);
-
-  // (optional) send an email verification request
-  //   await pb.collection('user').requestVerification(data.email);
+  await pb.collection('user').requestVerification(data.email);
 };
 
 // 회원탈퇴 기능 수정 필요

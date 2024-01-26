@@ -1,6 +1,44 @@
+'use client';
+import { useState, useMemo } from 'react';
 import LoginLayout from '../../components/LoginLayout';
+import generateRandomNumber from '../../components/RandomNumber';
+
+// const crypto = new Crypto();
 
 const Signup = () => {
+  const [emailInput, setEmailInput] = useState<string>('');
+  const [isClickSendBtn, setIsClickSendBtn] = useState(false);
+
+  const handleEmailButtonClick = async () => {
+    setIsClickSendBtn(prev => !prev);
+
+    try {
+      const response = await fetch('http://localhost:3000/api', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: emailInput, code }),
+      });
+      console.log('이메일 성공적으로 전송됨');
+      console.log(emailInput);
+    } catch (error) {
+      console.error('이메일 전송 중 오류:', error);
+    }
+  };
+
+  const code = useMemo(
+    // () => crypto.randomUUID().split('-')[0],
+    () => generateRandomNumber(),
+    [isClickSendBtn],
+  );
+
+  const handleEmailInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setEmailInput(event.target.value);
+    console.log(emailInput);
+  };
   return (
     <LoginLayout title='회원가입' color='text-neutral-100'>
       <div className=' font-semibold text-neutral-100'>
@@ -32,8 +70,19 @@ const Signup = () => {
             <p className=' text-primary-100'>*</p>
           </div>
           <div className='mb-[10px]'>
-            <input type='email' placeholder='이메일 입력' className='border' />
-            <button className='border ml-[10px]'>인증요청</button>
+            <input
+              type='email'
+              placeholder='이메일 입력'
+              value={emailInput}
+              className='border'
+              onChange={handleEmailInputChange}
+            />
+            <button
+              className='border ml-[10px]'
+              onClick={handleEmailButtonClick}
+            >
+              인증요청
+            </button>
           </div>
 
           <input

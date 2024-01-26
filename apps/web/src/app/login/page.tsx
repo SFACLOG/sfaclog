@@ -16,9 +16,12 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const pattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+
     if (!email) {
       setEmailError('이메일 주소를 입력해주세요.');
-    } else if (!email.includes('@')) {
+    } else if (pattern.test(email) === false) {
       setEmailError('이메일 형식이 올바르지 않습니다.');
     }
 

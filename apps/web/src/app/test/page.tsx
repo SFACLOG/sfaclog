@@ -1,12 +1,11 @@
 import React from 'react';
-// import { BarButton, Button } from '@ui/Button';
-import { Button, BarButton } from 'sfac-design-kit';
+import { Button } from 'sfac-design-kit';
 
 const page = () => {
   return (
     <div className='ml-5'>
-      <BarButton theme='primary'>버튼이요</BarButton>
-      <BarButton theme='neutral'>버튼이요</BarButton>
+      <Button size='small'>버튼이요</Button>
+      <Button theme='neutral'>버튼이요</Button>
     </div>
   );
 };

@@ -20,12 +20,12 @@ const AuthTest = () => {
   console.log('isValid:', isValidUser());
 
   // 회원가입
-  //   signup({
-  //     username: 'test',
-  //     email: 'test@test.com',
-  //     password: '12345678',
-  //     passwordConfirm: '12345678',
-  //   });
+  signup({
+    username: 'zxcaqqqqq',
+    email: 'dhfak1@gmail.com',
+    password: '12345678',
+    passwordConfirm: '12345678',
+  });
 
   // 회원 탈퇴
   //   withdrawal('lydraymd299p1l5');
@@ -33,6 +33,7 @@ const AuthTest = () => {
   return (
     <div className='flex flex-col items-center justify-center'>
       유저 Auth 테스트
+      <div></div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { forwardRef, InputHTMLAttributes } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '../../utils';
+import { cn } from '@/utils';
 
 export interface InputProps
   extends InputHTMLAttributes<HTMLInputElement>,
@@ -46,7 +46,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className='flex flex-col gap-[10px]'>
         {label && (
-          <label htmlFor={`${label}`} className='text-title4'>
+          <label htmlFor={label} className='text-title4'>
             {label}
             {required && <span className='text-primary-100 font-bold'> *</span>}
           </label>

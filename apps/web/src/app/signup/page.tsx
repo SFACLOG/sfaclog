@@ -3,6 +3,7 @@ import { useState, useMemo } from 'react';
 import LoginLayout from '../../components/LoginLayout';
 import generateRandomNumber from '../../components/RandomNumber';
 import Image from 'next/image';
+import Link from 'next/link';
 
 // const crypto = new Crypto();
 
@@ -321,7 +322,9 @@ const Signup = () => {
               통신사 이용약관 동의
             </label>
           </div>
-          <button className='border w-full'>다음</button>
+          <Link href={'/signup/1'}>
+            <button className='border w-full'>다음</button>
+          </Link>
         </div>
       </form>
     </LoginLayout>

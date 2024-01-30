@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  line-height: normal;
+}
+
 input:focus {
   outline: none;
 }

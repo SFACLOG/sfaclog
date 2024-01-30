@@ -51,9 +51,11 @@ const config: Omit<Config, 'content'> = {
       },
 
       backgroundImage: {
+        dropdown: "url('/images/ic_dropdown.svg')",
         'glow-conic':
           'conic-gradient(from 180deg at 50% 50%, #2a8af6 0deg, #a853ba 180deg, #e92a67 360deg)',
       },
+
       fontSize: {
         h1: [
           '34px',

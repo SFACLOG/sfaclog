@@ -25,8 +25,8 @@ export const ProjectCard = ({
 }: ProjectCardProps) => {
   return (
     <div className='w-full h-full max-w-[265px] border border-neutral-20 rounded-[10px] bg-white'>
-      <div className={cn('max-h-[236px] pt-[35px] px-[17px] break-words')}>
-        <p className='text-subtitle'>{title}</p>
+      <div className={'max-h-[236px] pt-[35px] px-[17px] break-words'}>
+        <p className='text-subtitle line-clamp-2'>{title}</p>
         <div className='flex gap-[9px] mt-5 mb-20'>
           {Children.toArray(
             icons.map(icon => (
@@ -43,8 +43,8 @@ export const ProjectCard = ({
       </div>
       <div className='flex justify-between py-[11px] px-[17px] border-t border-neutral-20'>
         <div className='flex items-center gap-2'>
-          <Avatar src={avatar} />
-          <p className='text-caption2'>{name}</p>
+          <Avatar src={avatar} size='tiny' />
+          <p className='text-caption2 text-neutral-60'>{name}</p>
         </div>
         <div className='flex items-center text-caption2 text-neutral-20'>
           <img src='/images/heart.svg' />

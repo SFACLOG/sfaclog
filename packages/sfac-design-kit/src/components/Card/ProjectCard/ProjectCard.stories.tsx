@@ -24,7 +24,7 @@ export const Recruit = {
   },
 };
 
-export const NotRecruit = {
+export const NoRecruit = {
   args: {
     title: '책 취향 기반 매칭 서비스, 사이드 프로젝트 팀원 모집합니다',
     icons: [

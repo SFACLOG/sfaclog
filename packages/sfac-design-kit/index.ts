@@ -1,5 +1,5 @@
 import Counter from './src/Counter';
-import { Button } from './src/components/Button/index';
+import { SquareButton, RoundButton } from './src/components/Button/index';
 import './src/styles/global.css';
 
-export { Counter, Button };
+export { Counter, RoundButton, SquareButton };

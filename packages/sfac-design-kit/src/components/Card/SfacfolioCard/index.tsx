@@ -1,6 +1,6 @@
-import { Avatar } from '@/components/Avatar';
+import { Avatar } from '../../Avatar';
 
-interface SfacfolioCardProps {
+export interface SfacfolioCardProps {
   title: string;
   thumbnail: string;
   likes: number;

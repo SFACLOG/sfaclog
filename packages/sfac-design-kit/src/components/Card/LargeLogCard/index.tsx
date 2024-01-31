@@ -1,6 +1,6 @@
 import { Children } from 'react';
-import { Chip } from '@/components/Chip';
-import { cn } from '@/utils';
+import { Chip } from '../../Chip';
+import { cn } from '../../../utils';
 
 export interface LargeLogCardProps {
   width?: number;

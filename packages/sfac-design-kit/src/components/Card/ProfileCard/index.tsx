@@ -1,7 +1,7 @@
 import { MouseEventHandler } from 'react';
-import { Avatar } from '@/components/Avatar';
-import { RoundButton, SquareButton } from '@/components/Button';
-import { cn } from '@/utils';
+import { Avatar } from '../../Avatar';
+import { RoundButton, SquareButton } from '../../Button';
+import { cn } from '../../../utils';
 
 export interface ProfileCardProps {
   width?: number;

@@ -1,12 +1,12 @@
 import { ReactNode, useState } from 'react';
-import { cn } from '@/utils';
+import { cn } from '../../../utils';
 
-interface SelectBoxOption {
+export interface SelectBoxOption {
   value: string;
   label: string;
 }
 
-interface SelectBoxProps {
+export interface SelectBoxProps {
   children?: ReactNode;
   title: string;
   options: SelectBoxOption[];

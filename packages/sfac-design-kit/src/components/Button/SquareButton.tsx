@@ -42,7 +42,11 @@ const SquareButton = ({
 }: SquareButtonProps) => {
   return (
     <RDButton
-      className={`${cn(SquareButtonVariants({ size, theme }))} ${fullWidth && 'w-full'} ${className}`}
+      className={cn(
+        SquareButtonVariants({ size, theme }),
+        fullWidth && 'w-full',
+        className,
+      )}
     >
       {headIcon && <img src={headIcon} alt='icon' className='w-6 h-6' />}
       {children}

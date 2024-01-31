@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
 import './typography.css';
 
-interface HeaderBaseProps {
+export interface HeaderBaseProps {
   children: ReactNode;
   size?: number;
 }
 
-interface TextBaseProps {
+export interface TextBaseProps {
   children: ReactNode;
   size?: number;
   weight?: number;

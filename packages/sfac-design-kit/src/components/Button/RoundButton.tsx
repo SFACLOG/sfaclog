@@ -44,9 +44,7 @@ const RoundButton = ({
   className,
 }: RoundButtonProps) => {
   return (
-    <RDButton
-      className={`${cn(RoundButtonVariants({ size, theme }))} ${className}`}
-    >
+    <RDButton className={cn(RoundButtonVariants({ size, theme }), className)}>
       {headIcon && <img src={headIcon} alt='icon' className='w-4 h-4' />}
       {children}
     </RDButton>

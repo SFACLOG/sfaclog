@@ -1,13 +1,13 @@
 import { cn } from '@/utils';
 import { InputHTMLAttributes, forwardRef } from 'react';
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   inputStyles?: string;
   labelStyles?: string;
 }
 
-export const Checkbox = forwardRef<HTMLInputElement, InputProps>(
+export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   ({ label, inputStyles, labelStyles, ...rest }, ref) => (
     <div className='flex items-center gap-[10px]'>
       <input

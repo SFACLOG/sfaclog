@@ -1,7 +1,7 @@
 import { LogCard } from '.';
 
 export default {
-  title: 'ATOMS/LogCard',
+  title: 'CARDS/LogCard',
   component: LogCard,
   tags: ['autodocs'],
 };

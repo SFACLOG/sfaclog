@@ -100,7 +100,7 @@ const config: Omit<Config, 'content'> = {
           },
         ],
         subtitle: [
-          '16px',
+          '18px',
           {
             fontWeight: '700',
           },

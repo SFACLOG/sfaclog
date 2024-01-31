@@ -305,10 +305,7 @@ const Signup = () => {
             <label>
               <div className='flex'>
                 <input type='checkbox' className='mb-[14px]' />
-                <div className='flex justify-between w-full'>
-                  <p>(필수) 서비스 이용약관 동의 </p>
-                  <div>약관보기</div>
-                </div>
+                (필수) 서비스 이용약관 동의
               </div>
             </label>
 

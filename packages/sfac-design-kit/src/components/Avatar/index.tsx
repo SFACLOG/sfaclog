@@ -11,7 +11,7 @@ export interface AvatarProps
   styles?: string;
 }
 
-const ImgVariants = cva('rounded-full object-cover', {
+const ImgVariants = cva('aspect-square object-cover rounded-full', {
   variants: {
     size: {
       large: 'w-[120px] h-[120px]',

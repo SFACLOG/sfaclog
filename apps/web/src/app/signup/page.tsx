@@ -58,9 +58,12 @@ const Signup = () => {
     setIsEmailValid(pattern.test(newEmail));
   };
 
-  const handleFormSubmit = async (formData: any) => {
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     const { name, nickname, email, password, passwordconfirm, code } =
-      Object.fromEntries(formData);
+      Object.fromEntries(new FormData(event.currentTarget));
+
     console.log(name, nickname, email, password, passwordconfirm, code);
   };
 
@@ -206,7 +209,7 @@ const Signup = () => {
 
   return (
     <LoginLayout title='회원가입' color='text-neutral-100'>
-      <form action={handleFormSubmit}>
+      <form onSubmit={handleFormSubmit}>
         <div className=' font-semibold text-neutral-100'>
           <div className='mb-[15px]'>
             <div className='flex'>

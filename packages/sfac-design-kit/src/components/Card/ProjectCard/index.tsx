@@ -25,7 +25,7 @@ export const ProjectCard = ({
 }: ProjectCardProps) => {
   return (
     <div className='w-full h-full max-w-[265px] border border-neutral-20 rounded-[10px] bg-white'>
-      <div className={'max-h-[236px] pt-[35px] px-[17px] break-words'}>
+      <div className={'max-h-[236px] pt-[35px] px-[17px]'}>
         <p className='text-subtitle line-clamp-2'>{title}</p>
         <div className='flex gap-[9px] mt-5 mb-20'>
           {Children.toArray(

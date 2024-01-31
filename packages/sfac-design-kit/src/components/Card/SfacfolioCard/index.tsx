@@ -28,9 +28,7 @@ export const ProjectCard = ({
         <span className='text-caption2'>{likes}</span>
       </div>
       <img className='object-cover rounded-[10px]' src={thumbnail} />
-      <p className='mt-[15px] mb-5 mx-3 text-subtitle break-words line-clamp-2'>
-        {title}
-      </p>
+      <p className='mt-[15px] mb-5 mx-3 text-subtitle line-clamp-2'>{title}</p>
       <div className='flex items-center justify-evenly h-[37px] border border-neutral-20 rounded-[5px] text-neutral-80'>
         <p>기획{isPlanner ? ' ✅' : ' ❌'}</p>
         <div className='w-[1px] h-full bg-neutral-20'></div>

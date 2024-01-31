@@ -1,5 +1,6 @@
-import Image from 'next/image';
 import LoginLayout from '../../../components/LoginLayout';
+import { intersts, proposals } from '@images/interest';
+import InterestAndProposalButton from '@/components/InterestAndProposalButton';
 
 const page = () => {
   return (
@@ -8,27 +9,26 @@ const page = () => {
         <div>
           <div className='border mb-[35px]'>관심분야</div>
           <div className='grid grid-cols-4 gap-[20px] mb-[70px]'>
-            <Image src='/images/frontend.svg' alt='' width={80} height={111} />
-            <Image src='/images/backend.svg' alt='' width={80} height={111} />
-            <Image src='/images/machine.svg' alt='' width={80} height={111} />
-            <Image src='/images/cloud.svg' alt='' width={80} height={111} />
-            <Image src='/images/database.svg' alt='' width={80} height={111} />
-            <Image src='/images/container.svg' alt='' width={80} height={111} />
-            <Image
-              src='/images/serverless.svg'
-              alt=''
-              width={80}
-              height={111}
-            />
-            <Image src='/images/mobile.svg' alt='' width={80} height={111} />
+            {intersts.map(interest => (
+              <InterestAndProposalButton
+                key={interest}
+                size='sm'
+                type={interest}
+              />
+            ))}
           </div>
         </div>
         <div>
           <div className='border mb-[35px]'>제안허용</div>
           <div className='grid grid-cols-3 gap-[20px] mb-[70px]'>
-            <Image src='/images/frontend.svg' alt='' width={80} height={111} />
-            <Image src='/images/backend.svg' alt='' width={80} height={111} />
-            <Image src='/images/machine.svg' alt='' width={80} height={111} />
+            {proposals.map(proposal => (
+              <InterestAndProposalButton
+                key={proposal}
+                category='proposal'
+                size='lg'
+                type={proposal}
+              />
+            ))}
           </div>
         </div>
         <p className='mb-[10px]'>

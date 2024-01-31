@@ -1,7 +1,7 @@
 import { UserCard } from '.';
 
 export default {
-  title: 'ATOMS/UserCard',
+  title: 'CARDS/UserCard',
   component: UserCard,
   tags: ['autodocs'],
 };

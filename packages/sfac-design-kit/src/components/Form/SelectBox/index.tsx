@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { cn } from '../../utils';
+import { cn } from '@/utils';
 
 interface SelectBoxOption {
   value: string;

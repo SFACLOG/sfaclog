@@ -11,7 +11,7 @@ interface ProjectCardProps {
   position: string;
 }
 
-export const ProjectCard = ({
+export const SfacfolioCard = ({
   title,
   thumbnail,
   likes,

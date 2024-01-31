@@ -1,8 +1,8 @@
-import { ProjectCard } from '.';
+import { SfacfolioCard } from '.';
 
 export default {
   title: 'CARDS/SfacfolioCard',
-  component: ProjectCard,
+  component: SfacfolioCard,
   tags: ['autodocs'],
 };
 
@@ -46,7 +46,7 @@ export const Negative = {
 
 export const All = () => (
   <div className='flex gap-4'>
-    <ProjectCard
+    <SfacfolioCard
       title='AI 데이팅 어시스턴트 앱 디자인 길어지면 이렇게 ~~~~~~~~~~~~~~~~'
       thumbnail='/images/gray_box.svg'
       likes={10}
@@ -56,7 +56,7 @@ export const All = () => (
       name='민들레'
       position='디자이너'
     />
-    <ProjectCard
+    <SfacfolioCard
       title='AI 데이팅 어시스턴트 앱 디자인 길어지면 이렇게 ~~~~~~~~~~~~~~~~'
       thumbnail='/images/gray_box.svg'
       likes={7}

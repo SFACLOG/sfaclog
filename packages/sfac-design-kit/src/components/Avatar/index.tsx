@@ -1,7 +1,6 @@
 import { ImgHTMLAttributes } from 'react';
 import { VariantProps, cva } from 'class-variance-authority';
-import { cn } from '@/utils';
-import AVATAR from '/images/avatar.svg';
+import { cn } from '../../utils';
 
 export interface AvatarProps
   extends ImgHTMLAttributes<HTMLImageElement>,
@@ -11,7 +10,7 @@ export interface AvatarProps
   styles?: string;
 }
 
-const ImgVariants = cva('rounded-full object-cover', {
+const ImgVariants = cva('aspect-square object-cover rounded-full', {
   variants: {
     size: {
       large: 'w-[120px] h-[120px]',
@@ -26,7 +25,7 @@ export const Avatar = ({ size, src, alt, styles, ...rest }: AvatarProps) => {
   return (
     <img
       className={cn(ImgVariants({ size }), styles)}
-      src={src || AVATAR}
+      src={src || '/images/avatar.svg'}
       alt={alt || 'avatar'}
       {...rest}
     />

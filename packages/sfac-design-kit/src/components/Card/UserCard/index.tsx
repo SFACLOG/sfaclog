@@ -1,5 +1,5 @@
-import { Avatar } from '@/components/Avatar';
-import { Chip } from '@/components/Chip';
+import { Avatar } from '../../Avatar';
+import { Chip } from '../../Chip';
 
 export interface UserCardProps {
   image: string;

@@ -1,19 +1,15 @@
 import { ReactNode, useState, useEffect, useRef } from 'react';
-import { cn } from '@/utils';
+import { SelectBoxOption } from '.';
+import { cn } from '../../../utils';
 
-interface SelectBoxOption {
-  value: string;
-  label: string;
-}
-
-export interface SelectBoxProps {
+export interface SelectSeriesBoxProps {
   children?: ReactNode;
   title: string;
 }
 
-export const SelectSeriesBox: React.FC<SelectBoxProps> = ({
+export const SelectSeriesBox: React.FC<SelectSeriesBoxProps> = ({
   title,
-}: SelectBoxProps) => {
+}: SelectSeriesBoxProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<SelectBoxOption | null>(
     null,

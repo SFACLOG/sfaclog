@@ -2,7 +2,7 @@ import { SelectBox } from '.';
 import { SelectSeriesBox } from './series';
 
 export default {
-  title: 'ATOMS/SelectBox',
+  title: 'FORMS/SelectBox',
   component: SelectBox,
   tags: ['autodocs'],
 };

@@ -1,6 +1,6 @@
-import { Avatar } from '@/components/Avatar';
+import { Avatar } from '../../Avatar';
 
-interface ProjectCardProps {
+export interface SfacfolioCardProps {
   title: string;
   thumbnail: string;
   likes: number;
@@ -20,7 +20,7 @@ export const SfacfolioCard = ({
   avatar,
   name,
   position,
-}: ProjectCardProps) => {
+}: SfacfolioCardProps) => {
   return (
     <div className='relative w-full h-full max-w-[280px] max-h-[449px]'>
       <div className='absolute top-[10px] right-[10px] flex items-center justify-around p-[5px] w-[73px] h-[32px] bg-white rounded-[10px]'>

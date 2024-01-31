@@ -47,7 +47,7 @@ export const ProjectCard = ({
           <p className='text-caption2 text-neutral-60'>{name}</p>
         </div>
         <div className='flex items-center text-caption2 text-neutral-20'>
-          <img src='/images/heart.svg' />
+          <img src='/images/dark_heart.svg' />
           <span className='ml-[7px]'>{likes}</span>
           <img className='ml-3' src='/images/chat.svg' />
           <span className='ml-[7px]'>{comments}</span>

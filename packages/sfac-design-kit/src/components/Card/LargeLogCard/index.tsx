@@ -1,9 +1,9 @@
+import { Children } from 'react';
 import { Chip } from '@/components/Chip';
 import { cn } from '@/utils';
-import { Children } from 'react';
 
-export interface LogLargeCardProps {
-  width?: string;
+export interface LargeLogCardProps {
+  width?: number;
   thumbnail: string;
   tags?: string[];
   title: string;
@@ -12,7 +12,7 @@ export interface LogLargeCardProps {
   comments: number;
 }
 
-export const LogLargeCard = ({
+export const LargeLogCard = ({
   width,
   thumbnail,
   tags,
@@ -20,9 +20,12 @@ export const LogLargeCard = ({
   summary,
   likes,
   comments,
-}: LogLargeCardProps) => {
+}: LargeLogCardProps) => {
   return (
-    <div className={cn('flex flex-col gap-5 w-full max-h-[225px]', width)}>
+    <div
+      className={cn('flex flex-col gap-5 w-full max-h-[225px]')}
+      style={{ maxWidth: width }}
+    >
       <div className='flex gap-5 max-h-[180px]'>
         <img
           className='w-[265px] object-cover rounded-[10px]'

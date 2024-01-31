@@ -1,8 +1,8 @@
-import { LogLargeCard } from '.';
+import { LargeLogCard } from '.';
 
 export default {
-  title: 'CARDS/LogLargeCard',
-  component: LogLargeCard,
+  title: 'CARDS/LargeLogCard',
+  component: LargeLogCard,
   tags: ['autodocs'],
 };
 
@@ -19,7 +19,7 @@ export const Default = {
 
 export const Sized = {
   args: {
-    width: 'max-w-[780px]',
+    width: 780,
     thumbnail: './images/gray_box.svg',
     tags: ['AI', '커리어', '디지털 노마드'],
     title: 'api 와장창 호출하지 않는 법 (Feat. 디바운스)',
@@ -31,7 +31,7 @@ export const Sized = {
 
 export const Clip = {
   args: {
-    width: 'max-w-[400px]',
+    width: 400,
     thumbnail: './images/gray_box.svg',
     tags: ['AI', '커리어', '디지털 노마드'],
     title: 'api 와장창 호출하지 않는 법 (Feat. 디바운스)',
@@ -43,7 +43,7 @@ export const Clip = {
 
 export const All = () => (
   <div className='flex flex-col gap-12'>
-    <LogLargeCard
+    <LargeLogCard
       thumbnail='./images/gray_box.svg'
       tags={['AI', '커리어', '디지털 노마드']}
       title='api 와장창 호출하지 않는 법 (Feat. 디바운스)'
@@ -51,8 +51,8 @@ export const All = () => (
       likes={17}
       comments={7}
     />
-    <LogLargeCard
-      width='max-w-[780px]'
+    <LargeLogCard
+      width={780}
       thumbnail='./images/gray_box.svg'
       tags={['AI', '커리어', '디지털 노마드']}
       title='api 와장창 호출하지 않는 법 (Feat. 디바운스)'
@@ -60,8 +60,8 @@ export const All = () => (
       likes={17}
       comments={7}
     />
-    <LogLargeCard
-      width='max-w-[400px]'
+    <LargeLogCard
+      width={400}
       thumbnail='./images/gray_box.svg'
       tags={['AI', '커리어', '디지털 노마드']}
       title='api 와장창 호출하지 않는 법 (Feat. 디바운스)'

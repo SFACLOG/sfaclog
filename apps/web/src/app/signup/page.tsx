@@ -9,36 +9,44 @@ import Link from 'next/link';
 
 const Signup = () => {
   const [email, setEmail] = useState<string>('');
+  const [emailVerify, setEmailVerify] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
   const [isLengthValid, setIsLengthValid] = useState<boolean>(false);
   const [isCompositionValid, setIsCompositionValid] = useState<boolean>(false);
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
   const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
-  const [isClickSendBtn, setIsClickSendBtn] = useState(false);
+
+  const [isNameChecked, setIsNameChecked] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false);
+
+  const [code, setCode] = useState<string>('');
+  const [checkboxStates, setCheckboxStates] = useState([false, false, false]);
 
   const handleEmailButtonClick = async () => {
-    setIsClickSendBtn(prev => !prev);
-
     try {
+      const newCode = generateRandomNumber();
+      setCode(newCode);
+
       const response = await fetch('http://localhost:3000/api', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: email, code }),
+        body: JSON.stringify({ email: email, code: newCode }),
       });
+
       console.log('이메일 성공적으로 전송됨');
     } catch (error) {
       console.error('이메일 전송 중 오류:', error);
     }
   };
 
-  const code = useMemo(
-    // () => crypto.randomUUID().split('-')[0],
-    () => generateRandomNumber(),
-    [isClickSendBtn],
-  );
+  // const code = useMemo(
+  //   // () => crypto.randomUUID().split('-')[0],
+  //   () => generateRandomNumber(),
+  //   [isClickSendBtn],
+  // );
 
   const handleEmailInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -76,6 +84,20 @@ const Signup = () => {
     const newPasswordConfirm = event.target.value;
     setPasswordConfirm(newPasswordConfirm);
     setIsPasswordValid(newPasswordConfirm === password);
+  };
+
+  const handleEmailVerifyChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const newEmailVerify = event.target.value;
+    setIsEmailVerified(newEmailVerify === code);
+    setEmailVerify(newEmailVerify);
+  };
+
+  const handleCheckboxChange = (index: number) => {
+    const newCheckboxStates = [...checkboxStates];
+    newCheckboxStates[index] = !newCheckboxStates[index];
+    setCheckboxStates(newCheckboxStates);
   };
 
   const getEmailColor = (valid: boolean) => {
@@ -128,6 +150,26 @@ const Signup = () => {
     }
   };
 
+  const getEmailVerifyColor = (valid: boolean) => {
+    if (emailVerify.length === 0) {
+      return ' text-gray-300 ';
+    } else if (valid) {
+      return ' text-system-success';
+    } else {
+      return ' text-system-warning';
+    }
+  };
+
+  const getEmailVerifyResult = (valid: boolean) => {
+    if (emailVerify.length === 0) {
+      return '인증번호를 입력해주세요';
+    } else if (valid) {
+      return '인증되었습니다.';
+    } else {
+      return '잘못된 인증번호입니다. 다시 인증해주세요.';
+    }
+  };
+
   const getRuleImage = (valid: boolean) => {
     if (password.length === 0) {
       return (
@@ -176,6 +218,7 @@ const Signup = () => {
               placeholder='(필수) 이름 입력'
               className='border w-full'
               name='name'
+              onChange={() => setIsNameChecked(!isNameChecked)}
             />
           </div>
 
@@ -220,6 +263,8 @@ const Signup = () => {
               placeholder='인증번호 입력'
               className='border w-full'
               name='code'
+              value={emailVerify}
+              onChange={handleEmailVerifyChange}
             />
             <p
               className={`${getEmailColor(isEmailValid)} text-[12px]  mt-[10px]`}
@@ -229,8 +274,10 @@ const Signup = () => {
                 : !isEmailValid &&
                   '잘못된 이메일 형식입니다. 다시 입력해주세요.'}
             </p>
-            <p className=' text-neutral-60 text-[12px] mt-[10px]'>
-              *인증번호를 입력해주세요.
+            <p
+              className={`{${getEmailVerifyColor(isEmailVerified)} text-[12px] mt-[10px]}`}
+            >
+              *{getEmailVerifyResult(isEmailVerified)}
             </p>
           </div>
           <div className='mb-[50px]'>
@@ -288,23 +335,40 @@ const Signup = () => {
           </div>
           <div className='flex flex-col mb-[50px]'>
             <label>
-              <input type='checkbox' className='mb-[14px]' />
+              <input
+                type='checkbox'
+                className='mb-[14px]'
+                checked={checkboxStates[0]}
+                onChange={() => handleCheckboxChange(0)}
+              />
               (필수) 본인인증 약관 전체 동의
             </label>
 
             <label>
               <div className='flex'>
-                <input type='checkbox' className='mb-[14px]' />
+                <input
+                  type='checkbox'
+                  className='mb-[14px]'
+                  checked={checkboxStates[1]}
+                  onChange={() => handleCheckboxChange(1)}
+                />
                 <div className='flex justify-between w-full'>
-                  <p>(필수)개인정보 수집 이용 동의 </p>
-                  <div>약관보기</div>
+                  <p>(필수) 개인정보 수집 이용 동의 </p>
+                  <Link href={'/signup/terms'}>
+                    <div>약관보기</div>
+                  </Link>
                 </div>
               </div>
             </label>
 
             <label>
               <div className='flex'>
-                <input type='checkbox' className='mb-[14px]' />
+                <input
+                  type='checkbox'
+                  className='mb-[14px]'
+                  checked={checkboxStates[2]}
+                  onChange={() => handleCheckboxChange(2)}
+                />
                 (필수) 서비스 이용약관 동의
               </div>
             </label>
@@ -320,7 +384,17 @@ const Signup = () => {
             </label>
           </div>
           <Link href={'/signup/1'}>
-            <button className='border w-full'>다음</button>
+            <button
+              className={`border w-full`}
+              disabled={
+                !isNameChecked ||
+                !isPasswordValid ||
+                !isEmailVerified ||
+                checkboxStates.some(state => !state)
+              }
+            >
+              다음
+            </button>
           </Link>
         </div>
       </form>

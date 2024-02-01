@@ -39,14 +39,20 @@ const SquareButton = ({
   headIcon,
   fullWidth = false,
   className,
+  ...rest
 }: SquareButtonProps) => {
   return (
-    <RDButton
-      className={`${cn(SquareButtonVariants({ size, theme }))} ${fullWidth && 'w-full'} ${className}`}
+    <button
+      className={cn(
+        SquareButtonVariants({ size, theme }),
+        fullWidth && 'w-full',
+        className,
+      )}
+      {...rest}
     >
       {headIcon && <img src={headIcon} alt='icon' className='w-6 h-6' />}
       {children}
-    </RDButton>
+    </button>
   );
 };
 

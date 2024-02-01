@@ -7,9 +7,7 @@ import tailwindcss from 'tailwindcss';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), dts({ copyDtsFiles: true })],
-  resolve: {
-    alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
-  },
+  resolve: {},
   build: {
     lib: {
       entry: path.resolve(__dirname, 'index.ts'),

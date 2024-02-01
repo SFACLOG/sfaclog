@@ -1,8 +1,8 @@
 import { Children } from 'react';
-import { Avatar } from '@/components/Avatar';
-import { cn } from '@/utils';
+import { Avatar } from '../../Avatar';
+import { cn } from '../../../utils';
 
-interface ProjectCardProps {
+export interface ProjectCardProps {
   title: string;
   icons: string[];
   isRecruit?: boolean;

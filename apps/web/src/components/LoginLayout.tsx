@@ -22,12 +22,12 @@ const LoginLayout: React.FC<CommonLayoutProps> = ({
   const pathname = usePathname();
   const isTerm = pathname === '/signup/terms';
   return (
-    <div className='flex flex-col justify-center items-center'>
+    <div className='flex flex-col justify-center items-center mb-20'>
       <Logo />
-      <div className='flex justify-center w-[700px] min-h-min-[450px]  bg-white mt-[11.5px] rounded-[40px]'>
-        <div
-          className={`flex flex-col items-center ${isTerm ? 'mx-[100px]' : 'mx-[160px]'} my-[60px]`}
-        >
+      <div
+        className={`flex justify-center w-[700px] min-h-min-[450px]  bg-white mt-[11.5px] rounded-[40px] ${isTerm ? 'px-[100px]' : 'px-[160px]'} py-[60px]`}
+      >
+        <div className={`flex flex-col items-center w-full`}>
           <div
             className={`flex ${isTerm ? '' : 'justify-center'} mb-[55px] w-full`}
           >

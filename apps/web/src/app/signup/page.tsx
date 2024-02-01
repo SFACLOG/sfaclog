@@ -4,6 +4,7 @@ import LoginLayout from '../../components/LoginLayout';
 import generateRandomNumber from '../../components/RandomNumber';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Checkbox, Input, SquareButton } from 'sfac-design-kit';
 
 // const crypto = new Crypto();
 
@@ -71,7 +72,8 @@ const Signup = () => {
     const newPassword = event.target.value;
     setPassword(newPassword);
 
-    const passwordCompositionRegex = /^(?=.*[a-zA-Z])(?=.*\d|\W).+$/;
+    const passwordCompositionRegex =
+      /^(?:(?=.*[a-z])(?=.*[A-Z])|(?=.*[a-z])(?=.*\d)|(?=.*[A-Z])(?=.*\d)|(?=.*\W)).+$/;
 
     const isLengthValid = newPassword.length >= 10 && newPassword.length <= 16;
 
@@ -209,28 +211,22 @@ const Signup = () => {
 
   return (
     <LoginLayout title='회원가입' color='text-neutral-100'>
-      <form onSubmit={handleFormSubmit}>
-        <div className=' font-semibold text-neutral-100'>
+      <form onSubmit={handleFormSubmit} className='w-full'>
+        <div className=' font-semibold text-neutral-100 '>
           <div className='mb-[15px]'>
-            <div className='flex'>
-              <p className='mb-[10px]'>이름</p>
-              <p className=' text-primary-100'>*</p>
-            </div>
-            <input
-              type='text'
+            <Input
               placeholder='(필수) 이름 입력'
-              className='border w-full'
+              label='이름'
+              required={true}
               name='name'
               onChange={() => setIsNameChecked(!isNameChecked)}
             />
           </div>
 
           <div className='mb-[15px]'>
-            <p className='mb-[10px]'>닉네임</p>
-            <input
-              type='text'
+            <Input
               placeholder='닉네임 입력'
-              className='border w-full'
+              label='닉네임'
               name='nickname'
               maxLength={8}
             />
@@ -240,31 +236,28 @@ const Signup = () => {
           </div>
 
           <div className='mb-[50px]'>
-            <div className='flex'>
-              <p className='mb-[10px]'>이메일 인증</p>
-              <p className=' text-primary-100'>*</p>
-            </div>
-            <div className='mb-[10px]'>
-              <input
+            <div className='flex items-end mb-[10px] w-full'>
+              <Input
                 type='email'
                 placeholder='이메일 입력'
+                label='이메일'
+                required={true}
                 value={email}
-                className={`border ${getEmailColor(isEmailValid)}`}
+                // className={`${getEmailColor(isEmailValid)}`}
                 name='email'
                 onChange={handleEmailInputChange}
               />
-              <button
-                className='border ml-[10px]'
+              <SquareButton
+                theme={`disable`}
                 onClick={handleEmailButtonClick}
+                className={`text-neutral-50 ${isEmailValid && 'bg-primary-100 text-white'} h-[52.9px] ml-[10px] w-[100px] cursor-pointer text-sm font-semibold `}
               >
-                인증요청
-              </button>
+                {!code ? '인증요청' : '재요청'}
+              </SquareButton>
             </div>
 
-            <input
-              type='text'
+            <Input
               placeholder='인증번호 입력'
-              className='border w-full'
               name='code'
               value={emailVerify}
               onChange={handleEmailVerifyChange}
@@ -275,7 +268,7 @@ const Signup = () => {
               {email.length === 0
                 ? ''
                 : !isEmailValid &&
-                  '잘못된 이메일 형식입니다. 다시 입력해주세요.'}
+                  '*잘못된 이메일 형식입니다. 다시 입력해주세요.'}
             </p>
             <p
               className={`{${getEmailVerifyColor(isEmailVerified)} text-[12px] mt-[10px]}`}
@@ -284,120 +277,106 @@ const Signup = () => {
             </p>
           </div>
           <div className='mb-[50px]'>
-            <div className='mb-[15px]'>
-              <div className='flex'>
-                <p className='mb-[10px]'>비밀번호</p>
-                <p className=' text-primary-100'>*</p>
-              </div>
-              <input
-                type='password'
-                placeholder='(필수) 비밀번호 입력'
-                className={`border w-full ${getPasswordStyle()}`}
-                name='password'
-                value={password}
-                onChange={handlePasswordChange}
-              />
-              <div className='flex items-center  mt-2'>
-                {getRuleImage(isLengthValid)}
-                <div
-                  className={`${getPasswordColor(isLengthValid)} text-[12px]`}
-                >
-                  10~16자 길이의 비밀번호
-                </div>
-              </div>
-              <div className='flex items-center mb-[15px]  mt-2'>
-                {getRuleImage(isCompositionValid)}
-                <div
-                  className={`${getPasswordColor(
-                    isCompositionValid,
-                  )} text-[12px]`}
-                >
-                  영어 대소문자/ 숫자/ 특수문자 중 2가지 이상 조합
-                </div>
-              </div>
-              <div className='mb-[15px]'>
-                <div className='flex'>
-                  <p className='mb-[10px]'>비밀번호 확인</p>
-                  <p className=' text-primary-100'>*</p>
-                </div>
-                <input
-                  type='password'
-                  placeholder='(필수) 비밀번호 재입력'
-                  className={`border w-full ${getPasswordConfirmColor(isPasswordValid)}`}
-                  name='passwordconfirm'
-                  value={passwordConfirm}
-                  onChange={handlePasswordConfirmChange}
-                />
-                <p
-                  className={`text-neutral-60 text-[12px] mt-[10px] ${getPasswordConfirmColor(isPasswordValid)}`}
-                >
-                  *{getPasswordConfirmResult(isPasswordValid)}
-                </p>
+            <Input
+              type='password'
+              placeholder='(필수) 비밀번호 입력'
+              label='비밀번호'
+              required={true}
+              // className={`border w-full ${getPasswordStyle()}`}
+              name='password'
+              value={password}
+              onChange={handlePasswordChange}
+            />
+            <div className='flex items-center  mt-2'>
+              {getRuleImage(isLengthValid)}
+              <div
+                className={`${getPasswordColor(isLengthValid)} text-neutral-40 text-caption3`}
+              >
+                10~16자 길이의 비밀번호
               </div>
             </div>
-          </div>
-          <div className='flex flex-col mb-[50px]'>
-            <label>
-              <input
-                type='checkbox'
-                className='mb-[14px]'
-                checked={checkboxStates[0]}
-                onChange={() => handleCheckboxChange(0)}
+            <div className='flex items-center mb-[15px]  mt-2'>
+              {getRuleImage(isCompositionValid)}
+              <div
+                className={`${getPasswordColor(
+                  isCompositionValid,
+                )} text-neutral-40 text-caption3`}
+              >
+                영어 대소문자/ 숫자/ 특수문자 중 2가지 이상 조합
+              </div>
+            </div>
+            <div>
+              <Input
+                type='password'
+                placeholder='(필수) 비밀번호 재입력'
+                label='비밀번호 확인'
+                required={true}
+                // className={`border w-full ${getPasswordConfirmColor(isPasswordValid)}`}
+                name='passwordconfirm'
+                value={passwordConfirm}
+                onChange={handlePasswordConfirmChange}
               />
-              (필수) 본인인증 약관 전체 동의
-            </label>
+              <p
+                className={`text-neutral-60 text-[12px] mt-[10px] ${getPasswordConfirmColor(isPasswordValid)}`}
+              >
+                *{getPasswordConfirmResult(isPasswordValid)}
+              </p>
+            </div>
+          </div>
+          <div className='flex flex-col gap-[10px] mb-[50px] text-neutral-60 text-caption3'>
+            <Checkbox
+              type='checkbox'
+              label='(필수) 본인인증 약관 전체 동의'
+              checked={checkboxStates[0]}
+              onChange={() => handleCheckboxChange(0)}
+            />
 
-            <label>
-              <div className='flex'>
-                <input
-                  type='checkbox'
-                  className='mb-[14px]'
-                  checked={checkboxStates[1]}
-                  onChange={() => handleCheckboxChange(1)}
-                />
-                <div className='flex justify-between w-full'>
-                  <p>(필수) 개인정보 수집 이용 동의 </p>
-                  <Link href={'/signup/terms'}>
-                    <div>약관보기</div>
-                  </Link>
-                </div>
-              </div>
-            </label>
+            <div className='flex justify-between w-full'>
+              <Checkbox
+                type='checkbox'
+                label='(필수) 개인정보 수집 이용 동의'
+                checked={checkboxStates[1]}
+                onChange={() => handleCheckboxChange(1)}
+              />
+              <Link href={'/signup/terms'}>
+                <div>약관보기</div>
+              </Link>
+            </div>
 
-            <label>
-              <div className='flex'>
-                <input
-                  type='checkbox'
-                  className='mb-[14px]'
-                  checked={checkboxStates[2]}
-                  onChange={() => handleCheckboxChange(2)}
-                />
-                (필수) 서비스 이용약관 동의
-              </div>
-            </label>
+            <div className='flex'>
+              <Checkbox
+                type='checkbox'
+                label='(필수) 서비스 이용약관 동의'
+                checked={checkboxStates[2]}
+                onChange={() => handleCheckboxChange(2)}
+              />
+            </div>
 
-            <label>
-              <input type='checkbox' className='mb-[14px]' />
-              고유식별 정보처리 동의
-            </label>
+            <Checkbox type='checkbox' label='고유식별 정보처리 동의' />
 
-            <label>
-              <input type='checkbox' className='mb-[14px]' />
-              통신사 이용약관 동의
-            </label>
+            <Checkbox type='checkbox' label='통신사 이용약관 동의' />
           </div>
           <Link href={'/signup/1'}>
-            <button
-              className={`border w-full`}
+            <SquareButton
+              size='lg'
+              theme='disable'
               disabled={
                 !isNameChecked ||
                 !isPasswordValid ||
                 !isEmailVerified ||
                 checkboxStates.some(state => !state)
               }
+              className={`cursor-pointer ${
+                !(
+                  !isNameChecked ||
+                  !isPasswordValid ||
+                  !isEmailVerified ||
+                  checkboxStates.some(state => !state)
+                ) && 'bg-primary-100 text-white'
+              } `}
             >
               다음
-            </button>
+            </SquareButton>
           </Link>
         </div>
       </form>

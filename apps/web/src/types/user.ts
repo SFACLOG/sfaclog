@@ -12,13 +12,14 @@ export interface User {
 }
 
 export interface Interest {
-  frontend?: string;
-  backend?: string;
-  machineLearning?: string;
-  cloudCloud?: string;
-  database?: string;
-  android?: string;
-  ios?: string;
+  frontend?: boolean;
+  backend?: boolean;
+  machineLearning?: boolean;
+  cloudComputing?: boolean;
+  database?: boolean;
+  container?: boolean;
+  serverless?: boolean;
+  mobile?: boolean;
 }
 
 export interface Proposal {

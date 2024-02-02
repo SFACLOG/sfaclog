@@ -1,4 +1,7 @@
-import Counter from './src/Counter';
-import { Button } from './src/components/Button/index';
+import './src/styles/global.css';
 
-export { Counter, Button };
+export * from './src/components/Button';
+export * from './src/components/Avatar';
+export * from './src/components/Card';
+export * from './src/components/Chip';
+export * from './src/components/Form';

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Header from '../components/Header';
 import 'sfac-design-kit/dist/style.css';
+import { UserProvider } from './context/UserContext';
 
 export const metadata: Metadata = {
   title: 'Create Turborepo',
@@ -26,7 +27,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${pretendard.className} bg-background-5`}>
         <Header />
-        {children}
+        <UserProvider>{children}</UserProvider>
       </body>
     </html>
   );

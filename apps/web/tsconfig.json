@@ -3,6 +3,12 @@
   "compilerOptions": {
     "target": "ESNext",
     "plugins": [{ "name": "next" }],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@images": ["./public/images"],
+      "@images/*": ["./public/images/*"],
+    },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"],

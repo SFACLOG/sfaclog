@@ -8,8 +8,10 @@ import { Input, SquareButton, Checkbox } from 'sfac-design-kit';
 
 const Login = () => {
   const router = useRouter();
-  const [email, setEamil] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [emailChange, setEamilChange] = useState<string>('');
+  const [passwordChange, setPasswordChange] = useState<string>('');
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
@@ -17,6 +19,13 @@ const Login = () => {
 
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEamilChange(event.target.value);
+  };
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordChange(event.target.value);
+  };
 
   useEffect(() => {
     const performLogin = async () => {
@@ -31,9 +40,12 @@ const Login = () => {
           router.push('/');
         } catch (error: any) {
           console.error('로그인 실패:', error.message);
+
           setLoginError(
             '잘못된 이메일 혹은 비밀번호입니다. 다시 입력해주세요.',
           );
+          setEamilChange('');
+          setPasswordChange('');
         }
       }
     };
@@ -66,7 +78,7 @@ const Login = () => {
       setPasswordError('');
     }
 
-    setEamil(enteredEmail);
+    setEmail(enteredEmail);
     setPassword(enteredPassword);
   };
 
@@ -91,6 +103,7 @@ const Login = () => {
                     : 'error'
             }
             description={loginError ? '' : emailError}
+            onChange={handleEmailChange}
           />
 
           <Input
@@ -107,14 +120,14 @@ const Login = () => {
                     : 'error'
             }
             description={loginError ? loginError : passwordError}
+            onChange={handlePasswordChange}
           />
         </div>
 
         <SquareButton
           fullWidth={true}
           theme={'disable'}
-          type='submit'
-          className='mb-[15px] h-[50px] text-btn cursor-pointer'
+          className={`mb-[15px] h-[50px] text-btn cursor-pointer ${emailChange && passwordChange && !emailError && !passwordError && 'bg-primary-100 text-white'}`}
         >
           로그인
         </SquareButton>

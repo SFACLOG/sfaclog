@@ -5,10 +5,15 @@ import generateRandomNumber from '../../components/RandomNumber';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Checkbox, Input, SquareButton } from 'sfac-design-kit';
+import { useUserContext } from '../context/UserContext';
 
 // const crypto = new Crypto();
 
 const Signup = () => {
+  const { userData, setUserData } = useUserContext();
+
+  const [username, setName] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [emailVerify, setEmailVerify] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -24,7 +29,11 @@ const Signup = () => {
   const [code, setCode] = useState<string>('');
   const [checkboxStates, setCheckboxStates] = useState([false, false, false]);
 
-  const handleEmailButtonClick = async () => {
+  const handleEmailButtonClick = async (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+
     try {
       const newCode = generateRandomNumber();
       setCode(newCode);
@@ -49,6 +58,15 @@ const Signup = () => {
   //   [isClickSendBtn],
   // );
 
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsNameChecked(!!event.target.value);
+    setName(event.target.value);
+  };
+
+  const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNickname(event.target.value);
+  };
+
   const handleEmailInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -57,15 +75,6 @@ const Signup = () => {
 
     const pattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
     setIsEmailValid(pattern.test(newEmail));
-  };
-
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const { name, nickname, email, password, passwordconfirm, code } =
-      Object.fromEntries(new FormData(event.currentTarget));
-
-    console.log(name, nickname, email, password, passwordconfirm, code);
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -209,9 +218,21 @@ const Signup = () => {
     }
   };
 
+  const handleSubmit = () => {
+    const userDataToUpdate = {
+      username,
+      nickname,
+      email,
+      password,
+      passwordConfirm,
+    };
+
+    setUserData(userDataToUpdate);
+  };
+
   return (
     <LoginLayout title='회원가입' color='text-neutral-100'>
-      <form onSubmit={handleFormSubmit} className='w-full'>
+      <form className='w-full'>
         <div className=' font-semibold text-neutral-100 '>
           <div className='mb-[15px]'>
             <Input
@@ -219,7 +240,7 @@ const Signup = () => {
               label='이름'
               required={true}
               name='name'
-              onChange={() => setIsNameChecked(!isNameChecked)}
+              onChange={handleNameChange}
             />
           </div>
 
@@ -229,6 +250,7 @@ const Signup = () => {
               label='닉네임'
               name='nickname'
               maxLength={8}
+              onChange={handleNicknameChange}
             />
             <p className=' text-neutral-60 text-[12px] mt-[10px]'>
               *최대 8글자
@@ -243,7 +265,7 @@ const Signup = () => {
                 label='이메일'
                 required={true}
                 value={email}
-                // className={`${getEmailColor(isEmailValid)}`}
+                styles={`${getEmailColor(isEmailValid)}`}
                 name='email'
                 onChange={handleEmailInputChange}
               />
@@ -282,7 +304,7 @@ const Signup = () => {
               placeholder='(필수) 비밀번호 입력'
               label='비밀번호'
               required={true}
-              // className={`border w-full ${getPasswordStyle()}`}
+              styles={`${getPasswordStyle()}`}
               name='password'
               value={password}
               onChange={handlePasswordChange}
@@ -311,7 +333,7 @@ const Signup = () => {
                 placeholder='(필수) 비밀번호 재입력'
                 label='비밀번호 확인'
                 required={true}
-                // className={`border w-full ${getPasswordConfirmColor(isPasswordValid)}`}
+                styles={` ${getPasswordConfirmColor(isPasswordValid)}`}
                 name='passwordconfirm'
                 value={passwordConfirm}
                 onChange={handlePasswordConfirmChange}
@@ -356,7 +378,8 @@ const Signup = () => {
 
             <Checkbox type='checkbox' label='통신사 이용약관 동의' />
           </div>
-          <Link href={'/signup/1'}>
+
+          <Link href='/signup/1'>
             <SquareButton
               size='lg'
               theme='disable'
@@ -366,6 +389,7 @@ const Signup = () => {
                 !isEmailVerified ||
                 checkboxStates.some(state => !state)
               }
+              onClick={() => handleSubmit()}
               className={`cursor-pointer ${
                 !(
                   !isNameChecked ||

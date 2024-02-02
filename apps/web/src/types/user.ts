@@ -23,7 +23,7 @@ export interface Interest {
 }
 
 export interface Proposal {
-  projcet?: boolean;
+  project?: boolean;
   recruit?: boolean;
   opinion?: boolean;
 }

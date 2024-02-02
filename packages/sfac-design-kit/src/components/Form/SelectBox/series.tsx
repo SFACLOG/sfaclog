@@ -1,3 +1,4 @@
+'use client';
 import { ReactNode, useState, useEffect, useRef } from 'react';
 import { SelectBoxOption } from '.';
 import { cn } from '../../../utils';

@@ -2,7 +2,7 @@ import LoginLayout from '../../../../components/LoginLayout';
 
 const page = () => {
   return (
-    <LoginLayout title='비밀번호 찾기' color='text-neutral-100'>
+    <LoginLayout title='비밀번호 변경' color='text-neutral-100'>
       <div className='mb-[50px] w-full'>
         <div className='mb-[15px]'>
           <div className='flex'>

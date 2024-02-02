@@ -25,7 +25,7 @@ export interface FollowCardProps {
   }[];
 }
 
-export interface ProjectCardProps {
+export interface NotiProjectCardProps {
   title: string;
   summary: string;
   onClickCard: MouseEventHandler<HTMLDivElement>;
@@ -110,7 +110,7 @@ const FollowCard = ({ users }: FollowCardProps) => {
   );
 };
 
-const ProjectCard = ({ title, summary, onClickCard }: ProjectCardProps) => {
+const ProjectCard = ({ title, summary, onClickCard }: NotiProjectCardProps) => {
   return (
     <div
       className='min-h-[110px] mt-[25px] text-subtitle cursor-pointer'

@@ -1,6 +1,9 @@
 import { Children } from 'react';
 import { Chip } from '../../Chip';
 import { cn } from '../../../utils';
+import ImageWrapper from '../../common/ImageWrapper';
+import HEART_ICON from '../../../../public/images/dark_heart.svg';
+import CHAT_ICON from '../../../../public/images/chat.svg';
 
 export interface LargeLogCardProps {
   width?: number;
@@ -44,9 +47,9 @@ export const LargeLogCard = ({
           </div>
         )}
         <div className='flex items-center text-caption2'>
-          <img src='/images/dark_heart.svg' />
+          <ImageWrapper path={HEART_ICON} />
           <span className='ml-[7px]'>{likes}</span>
-          <img className='ml-6' src='/images/chat.svg' />
+          <ImageWrapper className='ml-6' path={CHAT_ICON} />
           <span className='ml-[7px]'>{comments}</span>
         </div>
       </div>

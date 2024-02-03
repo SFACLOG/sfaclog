@@ -63,7 +63,7 @@ const MyPage = ({}: MyPageProps) => {
         <h2 className='text-title1'>log title</h2>
         <SquareButton>+ 로그 작성</SquareButton>
       </header>
-      <div className='mt-10 px-[200px]'>
+      <div className='mt-10 max-w-[780px] mx-auto'>
         <ProfileCard
           avatar='/images/avatar.svg'
           name='닉네임'

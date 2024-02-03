@@ -15,7 +15,7 @@ const MyPageLayout = ({ children, tabs }: MyPageLayout) => {
   return (
     <main className='mx-auto container mb-[200px]'>
       {children}
-      <section className='mt-10 px-[200px]'>{tabs}</section>
+      <section className='max-w-[780px] mx-auto'>{tabs}</section>
     </main>
   );
 };

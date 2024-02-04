@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Children, useRef } from 'react';
-import { Avatar, Input, SquareButton } from 'sfac-design-kit';
+import { Children, useRef, useState } from 'react';
+import { Avatar, Input, Modal, SquareButton } from 'sfac-design-kit';
 
 const POSITIONS = [
   { icon: 'frontend', name: '프론트엔드' },
@@ -29,16 +29,15 @@ const MyPageEdit = () => {
   const descriptionRef = useRef<HTMLInputElement>(null);
   const sfacURLRef = useRef<HTMLInputElement>(null);
   const sfacTitleRef = useRef<HTMLInputElement>(null);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const handleClickSubmit = () => {
+    setIsOpenModal(prev => !prev);
+  };
 
   return (
     <main className='relative max-w-[700px] mx-auto bg-white rounded-[40px]'>
-      <form
-        className='flex flex-col items-center gap-[55px] px-[160px] py-[60px]'
-        onSubmit={e => {
-          e.preventDefault();
-          console.log(e);
-        }}
-      >
+      <div className='flex flex-col items-center gap-[55px] px-[160px] py-[60px]'>
         <button
           className='absolute top-[61px] left-[66px] px-2'
           onClick={() => router.back()}
@@ -133,10 +132,22 @@ const MyPageEdit = () => {
             />
           </Link>
         </section>
-        <SquareButton theme='primary' size='lg'>
+        <SquareButton
+          type='submit'
+          theme='primary'
+          size='lg'
+          onClick={handleClickSubmit}
+        >
           변경사항 적용하기
         </SquareButton>
-      </form>
+        <Modal
+          isOpen={isOpenModal}
+          setOpen={setIsOpenModal}
+          title='저장 완료'
+          content='해당 정보가 저장되었습니다.'
+          onClickConfirm={() => router.push('/mypage/12')}
+        />
+      </div>
     </main>
   );
 };

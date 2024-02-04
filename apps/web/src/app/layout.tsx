@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Header from '../components/Header';
 import 'sfac-design-kit/dist/style.css';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Create Turborepo',
@@ -24,9 +25,10 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang='en'>
-      <body className={`${pretendard.className} bg-background-5`}>
+      <body className={`relative ${pretendard.className}`}>
         <Header />
         {children}
+        <div id='modal'></div>
       </body>
     </html>
   );

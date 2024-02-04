@@ -57,7 +57,7 @@ const MyPage = ({}: MyPageProps) => {
   const [activeBtn, setActiveBtn] = useState(
     pathname.split('/').at(-1) === 'notification' ? 3 : 0,
   );
-  console.log(pathname);
+
   return (
     <>
       <header className='flex justify-between items-center py-[25px] border-b border-neutral-20'>

@@ -22,7 +22,7 @@ const SquareButtonVariants = cva(
       },
       theme: {
         primary: 'text-white bg-primary-100',
-        disable: 'text-neutral-40 bg-neutral-10 cursor-default',
+        disable: 'text-neutral-40 bg-neutral-10',
       },
     },
     defaultVariants: {
@@ -39,6 +39,7 @@ const SquareButton = ({
   headIcon,
   fullWidth = false,
   className,
+  onClick,
 }: SquareButtonProps) => {
   return (
     <RDButton
@@ -47,6 +48,7 @@ const SquareButton = ({
         fullWidth && 'w-full',
         className,
       )}
+      onClick={onClick}
     >
       {headIcon && <img src={headIcon} alt='icon' className='w-6 h-6' />}
       {children}

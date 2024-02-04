@@ -22,7 +22,7 @@ const SquareButtonVariants = cva(
       },
       theme: {
         primary: 'text-white bg-primary-100',
-        disable: 'text-neutral-40 bg-neutral-10 cursor-default',
+        disable: 'text-neutral-40 bg-neutral-10',
       },
     },
     defaultVariants: {

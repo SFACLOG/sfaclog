@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Children, useState } from 'react';
 import { ProfileCard, SelectBox, SquareButton } from 'sfac-design-kit';
 import { cn } from 'sfac-design-kit/src/utils';
@@ -52,11 +52,12 @@ const FILTER_OPTIONS = [
 ];
 
 const MyPage = ({}: MyPageProps) => {
+  const router = useRouter();
   const pathname = usePathname();
   const [activeBtn, setActiveBtn] = useState(
     pathname.split('/').at(-1) === 'notification' ? 3 : 0,
   );
-
+  console.log(pathname);
   return (
     <>
       <header className='flex justify-between items-center py-[25px] border-b border-neutral-20'>
@@ -71,6 +72,7 @@ const MyPage = ({}: MyPageProps) => {
           following={77}
           follower={77}
           isMine={true}
+          onClickEdit={() => router.push('/mypage/edit')}
         />
         <div className='h-[1px] my-[30px] bg-neutral-10'></div>
         <nav className='relative flex justify-between h-[38px]'>

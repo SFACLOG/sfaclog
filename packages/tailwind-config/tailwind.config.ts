@@ -64,7 +64,7 @@ const config: Omit<Config, 'content'> = {
           },
         ],
         h2: [
-          '20px',
+          '24px',
           {
             fontWeight: '700',
           },

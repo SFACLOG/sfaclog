@@ -2,6 +2,8 @@ import PocketBase from 'pocketbase';
 
 const pb = new PocketBase('http://3.38.183.51:8090');
 
+pb.autoCancellation(false);
+
 export const login = async (id: string, password: string) => {
   await pb.collection('user').authWithPassword(id, password);
 };

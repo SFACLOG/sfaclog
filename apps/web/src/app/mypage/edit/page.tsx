@@ -111,7 +111,7 @@ const MyPageEdit = () => {
           )}
         </section>
         <section className='flex flex-col gap-5 w-full text-caption1 text-neutral-40'>
-          <Link className='relative' href=''>
+          <Link className='relative' href='/mypage/policy'>
             이용약관&개인정보처리방침
             <Image
               className='absolute top-0 right-0'

@@ -118,10 +118,10 @@ const Login = () => {
               loginError
                 ? 'error'
                 : emailError.length === 0
-                ? 'normal'
-                : !emailError
-                ? 'success'
-                : 'error'
+                  ? 'normal'
+                  : !emailError
+                    ? 'success'
+                    : 'error'
             }
             description={loginError ? '' : emailError}
             onChange={handleEmailChange}
@@ -135,10 +135,10 @@ const Login = () => {
               loginError
                 ? 'error'
                 : passwordError.length === 0
-                ? 'normal'
-                : !passwordError
-                ? 'success'
-                : 'error'
+                  ? 'normal'
+                  : !passwordError
+                    ? 'success'
+                    : 'error'
             }
             description={loginError ? loginError : passwordError}
             onChange={handlePasswordChange}

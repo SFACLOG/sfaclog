@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Children, useState } from 'react';
+import { Children, useEffect, useReducer, useState } from 'react';
 import { ProfileCard, SelectBox, SquareButton } from 'sfac-design-kit';
 import { cn } from 'sfac-design-kit/src/utils';
+import { useGetUser } from '@/app/hooks/useUserData';
+import { isValidUser, login, logout } from '@/api/user';
 
 interface MyPageProps {}
 
@@ -57,6 +59,12 @@ const MyPage = ({}: MyPageProps) => {
   const [activeBtn, setActiveBtn] = useState(
     pathname.split('/').at(-1) === 'notification' ? 3 : 0,
   );
+  const { data } = useGetUser();
+
+  // 임의 로그인
+  login('imsi@google.com', 'imsi1234');
+
+  console.log(data);
 
   return (
     <>
@@ -67,12 +75,14 @@ const MyPage = ({}: MyPageProps) => {
       <div className='mt-10 max-w-[780px] mx-auto'>
         <ProfileCard
           avatar='/images/avatar.svg'
-          name='닉네임'
-          description={`노력을 좋아하는 프론트엔드 개발자, ‘차윤정'입니다 😀\n항상 새로운 것에 도전하고 노력하는 개발자가 되고 싶습니다!\n\n[경력] DGB 데이터시스 웹개발자 (2016.08 ~ 2017.03 / 8개월)`}
-          following={77}
-          follower={77}
-          isMine={true}
-          onClickEdit={() => router.push('/mypage/edit')}
+          name={data?.nickname}
+          description={data?.description}
+          following={data?.following}
+          follower={data?.follower}
+          isMine={isValidUser()}
+          onClickEdit={
+            isValidUser() ? () => router.push('/mypage/edit') : () => {}
+          }
         />
         <div className='h-[1px] my-[30px] bg-neutral-10'></div>
         <nav className='relative flex justify-between h-[38px]'>

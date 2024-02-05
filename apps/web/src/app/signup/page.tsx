@@ -273,7 +273,9 @@ const Signup = () => {
               <SquareButton
                 theme={`disable`}
                 onClick={handleEmailButtonClick}
-                className={`text-neutral-50 ${isEmailValid && 'bg-primary-100 text-white'} h-[52.9px] ml-[10px] w-[100px] cursor-pointer text-sm font-semibold `}
+                className={`text-neutral-50 ${
+                  isEmailValid && 'bg-primary-100 text-white'
+                } h-[52.9px] ml-[10px] w-[100px] cursor-pointer text-sm font-semibold `}
               >
                 {!code ? '인증요청' : '재요청'}
               </SquareButton>
@@ -286,7 +288,9 @@ const Signup = () => {
               onChange={handleEmailVerifyChange}
             />
             <p
-              className={`${getEmailColor(isEmailValid)} text-[12px]  mt-[10px]`}
+              className={`${getEmailColor(
+                isEmailValid,
+              )} text-[12px]  mt-[10px]`}
             >
               {email.length === 0
                 ? ''
@@ -294,7 +298,9 @@ const Signup = () => {
                   '*잘못된 이메일 형식입니다. 다시 입력해주세요.'}
             </p>
             <p
-              className={`{${getEmailVerifyColor(isEmailVerified)} text-[12px] mt-[10px]}`}
+              className={`{${getEmailVerifyColor(
+                isEmailVerified,
+              )} text-[12px] mt-[10px]}`}
             >
               *{getEmailVerifyResult(isEmailVerified)}
             </p>
@@ -313,7 +319,9 @@ const Signup = () => {
             <div className='flex items-center  mt-2'>
               {getRuleImage(isLengthValid)}
               <div
-                className={`${getPasswordColor(isLengthValid)} text-neutral-40 text-caption3`}
+                className={`${getPasswordColor(
+                  isLengthValid,
+                )} text-neutral-40 text-caption3`}
               >
                 10~16자 길이의 비밀번호
               </div>
@@ -340,7 +348,9 @@ const Signup = () => {
                 onChange={handlePasswordConfirmChange}
               />
               <p
-                className={`text-neutral-60 text-[12px] mt-[10px] ${getPasswordConfirmColor(isPasswordValid)}`}
+                className={`text-neutral-60 text-[12px] mt-[10px] ${getPasswordConfirmColor(
+                  isPasswordValid,
+                )}`}
               >
                 *{getPasswordConfirmResult(isPasswordValid)}
               </p>

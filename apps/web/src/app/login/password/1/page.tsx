@@ -144,7 +144,9 @@ const page = () => {
         <div className='flex items-center  mt-2'>
           {getRuleImage(isLengthValid)}
           <div
-            className={`${getPasswordColor(isLengthValid)} text-neutral-40 text-caption3`}
+            className={`${getPasswordColor(
+              isLengthValid,
+            )} text-neutral-40 text-caption3`}
           >
             10~16자 길이의 비밀번호
           </div>
@@ -171,7 +173,9 @@ const page = () => {
             onChange={handlePasswordConfirmChange}
           />
           <p
-            className={`text-neutral-60 text-[12px] mt-[10px] ${getPasswordConfirmColor(isPasswordValid)}`}
+            className={`text-neutral-60 text-[12px] mt-[10px] ${getPasswordConfirmColor(
+              isPasswordValid,
+            )}`}
           >
             *{getPasswordConfirmResult(isPasswordValid)}
           </p>

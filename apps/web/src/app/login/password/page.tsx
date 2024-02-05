@@ -70,7 +70,9 @@ const page = () => {
             label='이메일'
             required={true}
             value={email}
-            styles={`${getEmailColor(isEmailValid)} ${isEmailFoundText && getEmailColor(isEmailFound)} `}
+            styles={`${getEmailColor(isEmailValid)} ${
+              isEmailFoundText && getEmailColor(isEmailFound)
+            } `}
             name='email'
             onChange={handleEmailInputChange}
           />
@@ -78,7 +80,9 @@ const page = () => {
             theme={`disable`}
             disabled={!isEmailValid}
             onClick={handleEmailButtonClick}
-            className={`text-neutral-50 bg-neutral-20 ${isEmailValid && 'bg-primary-100 text-white cursor-pointer'} h-[52.9px] ml-[10px] w-[100px] text-sm font-semibold `}
+            className={`text-neutral-50 bg-neutral-20 ${
+              isEmailValid && 'bg-primary-100 text-white cursor-pointer'
+            } h-[52.9px] ml-[10px] w-[100px] text-sm font-semibold `}
           >
             {!isEmailFound ? '인증요청' : '재요청'}
           </SquareButton>

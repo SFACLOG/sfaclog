@@ -118,10 +118,10 @@ const Login = () => {
               loginError
                 ? 'error'
                 : emailError.length === 0
-                  ? 'normal'
-                  : !emailError
-                    ? 'success'
-                    : 'error'
+                ? 'normal'
+                : !emailError
+                ? 'success'
+                : 'error'
             }
             description={loginError ? '' : emailError}
             onChange={handleEmailChange}
@@ -135,10 +135,10 @@ const Login = () => {
               loginError
                 ? 'error'
                 : passwordError.length === 0
-                  ? 'normal'
-                  : !passwordError
-                    ? 'success'
-                    : 'error'
+                ? 'normal'
+                : !passwordError
+                ? 'success'
+                : 'error'
             }
             description={loginError ? loginError : passwordError}
             onChange={handlePasswordChange}
@@ -148,7 +148,13 @@ const Login = () => {
         <SquareButton
           fullWidth={true}
           theme={'disable'}
-          className={`mb-[15px] h-[50px] text-btn cursor-pointer ${emailChange && passwordChange && !emailError && !passwordError && 'bg-primary-100 text-white'}`}
+          className={`mb-[15px] h-[50px] text-btn cursor-pointer ${
+            emailChange &&
+            passwordChange &&
+            !emailError &&
+            !passwordError &&
+            'bg-primary-100 text-white'
+          }`}
         >
           로그인
         </SquareButton>

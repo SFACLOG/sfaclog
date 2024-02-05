@@ -63,7 +63,7 @@ export default function Page(): JSX.Element {
         {data ? (
           <div>{data.user?.name}님 로그인됨</div>
         ) : (
-          <div>{isLogiin && `${userData.email}님 로그인됨`}</div>
+          <div>{isLogiin && userData && `${userData.email}님 로그인됨`}</div>
         )}
 
         <SquareButton

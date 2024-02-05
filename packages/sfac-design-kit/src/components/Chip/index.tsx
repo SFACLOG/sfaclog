@@ -11,7 +11,7 @@ export const Chip = ({ children }: ChipProps) => {
   return (
     <div
       className={cn(
-        ' inline-block px-[15px] py-[5px] bg-primary-5 text-neutral-100 rounded-[30px] text-tag',
+        ' inline-block px-[15px] py-[5px] bg-primary-10 text-neutral-100 rounded-[30px] text-tag',
       )}
     >
       {children}

@@ -1,9 +1,9 @@
-import { MouseEventHandler } from 'react';
+import { HTMLAttributes, MouseEventHandler } from 'react';
 import { Avatar } from '../../Avatar';
 import { RoundButton, SquareButton } from '../../Button';
 import { cn } from '../../../utils';
 
-export interface ProfileCardProps {
+export interface ProfileCardProps extends HTMLAttributes<HTMLDivElement> {
   width?: number;
   avatar: string;
   name: string;
@@ -19,6 +19,7 @@ export interface ProfileCardProps {
 }
 
 export const ProfileCard = ({
+  className,
   width,
   avatar,
   name,
@@ -34,7 +35,7 @@ export const ProfileCard = ({
 }: ProfileCardProps) => {
   return (
     <div
-      className={cn('flex items-center w-full max-h-[150px]')}
+      className={cn('flex items-center w-full max-h-[150px]', className)}
       style={{ maxWidth: width }}
     >
       <Avatar src={avatar} size='large' styles='mr-[30px]' />

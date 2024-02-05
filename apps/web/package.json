@@ -10,6 +10,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.18.1",
+    "@tanstack/react-query-devtools": "^5.18.1",
     "next": "^14.0.4",
     "next-auth": "^4.24.5",
     "nodemailer": "^6.9.8",

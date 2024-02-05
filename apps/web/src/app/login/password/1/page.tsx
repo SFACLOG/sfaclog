@@ -3,6 +3,8 @@ import { Input, SquareButton } from 'sfac-design-kit';
 import LoginLayout from '../../../../components/LoginLayout';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useUserContext } from '@/app/context/UserContext';
+import { getUserByEmail, updateUser } from '@/api/user';
 
 const page = () => {
   const [password, setPassword] = useState<string>('');
@@ -10,6 +12,24 @@ const page = () => {
   const [isLengthValid, setIsLengthValid] = useState<boolean>(false);
   const [isCompositionValid, setIsCompositionValid] = useState<boolean>(false);
   const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
+  const { userData, setUserData } = useUserContext();
+
+  const userEmail = userData.email;
+  const userId = userData.id;
+
+  // getUserByEmail(userEmail)
+
+  const handleButtonClick = async () => {
+    const user = await getUserByEmail(userEmail);
+    if (user) {
+      console.log(user.id);
+      await updateUser(userId, {
+        ...user,
+        password,
+        passwordConfirm,
+      });
+    }
+  };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = event.target.value;
@@ -162,6 +182,7 @@ const page = () => {
         theme={'disable'}
         disabled={!isPasswordValid}
         className={`${isPasswordValid && 'bg-primary-100 text-white'}`}
+        onClick={handleButtonClick}
       >
         완료
       </SquareButton>

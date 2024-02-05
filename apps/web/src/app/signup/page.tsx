@@ -219,13 +219,14 @@ const Signup = () => {
   };
 
   const handleSubmit = () => {
-    const userDataToUpdate = {
+    const userDataToUpdate = (prev: any) => ({
+      ...prev,
       username,
       nickname,
       email,
       password,
       passwordConfirm,
-    };
+    });
 
     setUserData(userDataToUpdate);
   };

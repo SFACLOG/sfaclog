@@ -3,7 +3,7 @@ import LoginLayout from '../../../components/LoginLayout';
 import { intersts, proposals } from '@images/interest';
 import InterestAndProposalButton from '@/components/InterestAndProposalButton';
 import { SquareButton } from 'sfac-design-kit';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUserContext } from '@/app/context/UserContext';
 import { signup } from '@/api/user';
 import Link from 'next/link';
@@ -14,6 +14,8 @@ const page = () => {
   const [selectedProposals, setSelectedProposals] = useState<string[]>([]);
 
   const { username, nickname, email, password, passwordConfirm } = userData;
+
+  console.log(username, nickname, email, password, passwordConfirm);
 
   const handleInterestClick = (interest: string) => {
     const newSelectedInterests = selectedInterests.includes(interest)
@@ -53,6 +55,7 @@ const page = () => {
         recruit: selectedProposals.includes('recruit'),
         opinion: selectedProposals.includes('opinion'),
       },
+      emailVisibility: true,
     });
 
     // const updatedUserData = {

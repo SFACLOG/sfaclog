@@ -5,6 +5,8 @@ import { login } from '../../api/user';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Input, SquareButton, Checkbox } from 'sfac-design-kit';
+import { signIn, useSession } from 'next-auth/react';
+import { useUserContext } from '../context/UserContext';
 
 const Login = () => {
   const router = useRouter();
@@ -19,6 +21,8 @@ const Login = () => {
 
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
+
+  const { userData, setUserData } = useUserContext();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEamilChange(event.target.value);
@@ -37,6 +41,11 @@ const Login = () => {
         try {
           await login(email, password);
           console.log('로그인 성공!');
+          setUserData(prevUserData => ({
+            ...prevUserData,
+            email,
+          }));
+
           router.push('/');
         } catch (error: any) {
           console.error('로그인 실패:', error.message);
@@ -53,7 +62,7 @@ const Login = () => {
     performLogin();
   }, [emailError, passwordError, email, password]);
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const enteredEmail = emailInputRef.current?.value || '';
@@ -80,6 +89,18 @@ const Login = () => {
 
     setEmail(enteredEmail);
     setPassword(enteredPassword);
+
+    try {
+      await login(enteredEmail, enteredPassword);
+      console.log('로그인 성공!');
+      router.push('/');
+    } catch (error: any) {
+      console.error('로그인 실패:', error.message);
+
+      setLoginError('잘못된 이메일 혹은 비밀번호입니다. 다시 입력해주세요.');
+      setEamilChange('');
+      setPasswordChange('');
+    }
   };
 
   return (
@@ -150,6 +171,7 @@ const Login = () => {
         theme={'disable'}
         headIcon='https://cdn-icons-png.flaticon.com/512/2111/2111466.png'
         className='h-[50px] mb-[50px] bg-kakao-yellow text-btn cursor-pointer'
+        onClick={() => signIn('kakao', { callbackUrl: '/' })}
       >
         카카오 로그인 하기
       </SquareButton>

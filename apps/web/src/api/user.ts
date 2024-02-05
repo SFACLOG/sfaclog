@@ -1,8 +1,9 @@
+import { UserData } from '@/app/context/UserContext';
 import { Interest, Proposal } from '@/types/user';
 import PocketBase from 'pocketbase';
 
 const pb = new PocketBase('http://3.38.183.51:8090');
-
+pb.autoCancellation(false);
 export const login = async (id: string, password: string) => {
   await pb.collection('user').authWithPassword(id, password);
 };
@@ -20,27 +21,40 @@ export const signup = async (data: {
   description?: string;
   interests?: Interest;
   proposals?: Proposal;
+  emailVisibility?: boolean;
 }) => {
   await pb.collection('user').create(data);
-  await pb.collection('user').requestVerification(data.email);
 };
 
 export const resetPassword = async (email: string) => {
   await pb.collection('user').requestPasswordReset(email);
 };
+export const resultx = async () => {
+  const result = await pb.collection('user').listAuthMethods();
+  console.log(result);
+};
+export const resultList = async (email: string) => {
+  const result = await pb.collection('user').getFullList({
+    filter: `email = "${email}"`,
+    sort: '-created',
+  });
+  console.log(result);
+  return result;
+};
 
-// export const resultList = async () => {
-//   try {
-//     const result = await pb.collection('user').getFullList({
-//       sort: '-id',
-//     });
-//     console.log(result);
-//     return result; // You might want to return the result for further processing
-//   } catch (error) {
-//     console.error('Error fetching user list:', error);
-//     throw error; // Re-throw the error or handle it accordingly
-//   }
-// };
+export const getUserByEmail = async (email: string) => {
+  const records = await pb
+    .collection('user')
+    .getFirstListItem(`email = "${email}"`);
+  console.log(records);
+  console.log(records.oldPassword);
+
+  return records;
+};
+
+export const updateUser = async (id: string, data: any) => {
+  await pb.collection('user').update(id, data);
+};
 
 export const view = async (id: string) => {
   const user = await pb.collection('user').getOne(id);

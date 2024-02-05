@@ -1,4 +1,9 @@
+'use client';
+import { signOut, useSession } from 'next-auth/react';
 import Test from '../components/Test';
+import { SquareButton } from 'sfac-design-kit';
+import { isValidUser, logout } from '@/api/user';
+import { useUserContext } from './context/UserContext';
 
 function Gradient({
   conic,
@@ -43,11 +48,32 @@ const LINKS = [
 ];
 
 export default function Page(): JSX.Element {
+  const { data } = useSession();
+  const isLogiin = isValidUser();
+  const { userData, setUserData } = useUserContext();
+
+  console.log(data);
+  console.log(isLogiin);
+
   return (
     <main className='flex flex-col items-center justify-between min-h-screen p-24'>
       <div>
         <Test />
         <span>TEST test 123123 font 테스트를 해봅니다!!!</span>
+        {data ? (
+          <div>{data.user?.name}님 로그인됨</div>
+        ) : (
+          <div>{isLogiin && `${userData.email}님 로그인됨`}</div>
+        )}
+
+        <SquareButton
+          onClick={() => {
+            signOut({ callbackUrl: '/' });
+            logout();
+          }}
+        >
+          로그아웃
+        </SquareButton>
       </div>
     </main>
   );

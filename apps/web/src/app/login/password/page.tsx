@@ -2,17 +2,16 @@
 import { useState } from 'react';
 import { Input, SquareButton } from 'sfac-design-kit';
 import LoginLayout from '../../../components/LoginLayout';
-import generateRandomNumber from '@/components/RandomNumber';
-import Link from 'next/link';
-import { resetPassword } from '@/api/user';
-import { useRouter } from 'next/navigation';
+import { getUserByEmail, resetPassword } from '@/api/user';
+import { useUserContext } from '@/app/context/UserContext';
 
 const page = () => {
   const [email, setEmail] = useState<string>('');
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
-  const [emailVerify, setEmailVerify] = useState<string>('');
-  const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false);
-  const [code, setCode] = useState<string>('');
+  const [isEmailFound, setIsEmailFound] = useState<boolean>(false);
+  const [isEmailFoundText, setIsEmailFoundText] = useState<string>('');
+
+  const { userData, setUserData } = useUserContext();
 
   const handleEmailInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -30,29 +29,25 @@ const page = () => {
     event.preventDefault();
 
     try {
-      const newCode = generateRandomNumber();
-      setCode(newCode);
+      const user = await getUserByEmail(email);
 
-      const response = await fetch('http://localhost:3000/api', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: email, code: newCode }),
-      });
-
-      console.log('이메일 성공적으로 전송됨');
+      if (user.email === email) {
+        setIsEmailFound(true);
+        setIsEmailFoundText('');
+        setUserData(prev => ({
+          ...prev,
+          email,
+          id: user.id,
+        }));
+        resetPassword(email);
+      } else {
+        setIsEmailFound(false);
+        setIsEmailFoundText('등록되지 않은 이메일입니다.');
+      }
     } catch (error) {
-      console.error('이메일 전송 중 오류:', error);
+      setIsEmailFound(false);
+      setIsEmailFoundText('등록되지 않은 이메일입니다.');
     }
-  };
-
-  const handleEmailVerifyChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const newEmailVerify = event.target.value;
-    setIsEmailVerified(newEmailVerify === code);
-    setEmailVerify(newEmailVerify);
   };
 
   const getEmailColor = (valid: boolean) => {
@@ -65,32 +60,6 @@ const page = () => {
     }
   };
 
-  const getEmailVerifyColor = (valid: boolean) => {
-    if (emailVerify.length === 0) {
-      return ' text-gray-300 ';
-    } else if (valid) {
-      return ' text-system-success';
-    } else {
-      return ' text-system-warning';
-    }
-  };
-
-  const getEmailVerifyResult = (valid: boolean) => {
-    if (emailVerify.length === 0) {
-      return '인증번호를 입력해주세요';
-    } else if (valid) {
-      return '인증되었습니다.';
-    } else {
-      return '잘못된 인증번호입니다. 다시 인증해주세요.';
-    }
-  };
-  const route = useRouter();
-
-  const handleSubmit = () => {
-    resetPassword(email);
-    route.push('/login/password/1');
-  };
-
   return (
     <LoginLayout title='비밀번호 찾기' color='text-netural-100'>
       <div className='mb-[50px] w-full'>
@@ -101,7 +70,7 @@ const page = () => {
             label='이메일'
             required={true}
             value={email}
-            styles={`${getEmailColor(isEmailValid)}`}
+            styles={`${getEmailColor(isEmailValid)} ${isEmailFoundText && getEmailColor(isEmailFound)} `}
             name='email'
             onChange={handleEmailInputChange}
           />
@@ -109,37 +78,21 @@ const page = () => {
             theme={`disable`}
             disabled={!isEmailValid}
             onClick={handleEmailButtonClick}
-            className={`text-neutral-50 ${isEmailValid && 'bg-primary-100 text-white cursor-pointer'} h-[52.9px] ml-[10px] w-[100px] text-sm font-semibold `}
+            className={`text-neutral-50 bg-neutral-20 ${isEmailValid && 'bg-primary-100 text-white cursor-pointer'} h-[52.9px] ml-[10px] w-[100px] text-sm font-semibold `}
           >
-            {!code ? '인증요청' : '재요청'}
+            {!isEmailFound ? '인증요청' : '재요청'}
           </SquareButton>
         </div>
 
-        <Input
-          placeholder='인증번호 입력'
-          name='code'
-          value={emailVerify}
-          onChange={handleEmailVerifyChange}
-        />
         <p className={`${getEmailColor(isEmailValid)} text-[12px]  mt-[10px]`}>
           {email.length === 0
             ? ''
             : !isEmailValid && '*잘못된 이메일 형식입니다. 다시 입력해주세요.'}
         </p>
-        <p
-          className={`{${getEmailVerifyColor(isEmailVerified)} text-[12px] mt-[10px]}`}
-        >
-          *{getEmailVerifyResult(isEmailVerified)}
+        <p className={`${getEmailColor(isEmailFound)} text-[12px]  mt-[10px]`}>
+          {isEmailFoundText}
         </p>
       </div>
-
-      <SquareButton
-        fullWidth={true}
-        disabled={!isEmailVerified}
-        onClick={handleSubmit}
-      >
-        다음
-      </SquareButton>
     </LoginLayout>
   );
 };

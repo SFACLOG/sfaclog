@@ -1,27 +1,50 @@
 import {
   getToken,
   getUser,
+  getUserByEmail,
   isValidUser,
   login,
   logout,
-  resetPassword,
+  resultList,
+  resultx,
   signup,
   view,
   withdrawal,
 } from '../../api/user';
-import PocketBase from 'pocketbase';
-
-const pb = new PocketBase('http://3.38.183.51:8090');
 
 const AuthTest = () => {
-  const fetchData = async () => {
-    const records = await pb.collection('user').getFullList({
-      sort: '-created',
-    });
-    console.log(records);
-  };
-  fetchData();
+  // try {
+  //   // Call resultList using await to wait for the result
+  //   const users = await resultList('you@naver.com');
+  //   console.log(users);
+  // } catch (error) {
+  //   console.error('Error in AuthTest:', error);
+  // }
 
+  //유저이메일확인
+  // const userEmail = 'you@naver.com';
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const user = await getUserByEmail(userEmail);
+
+  //       if (user.email === userEmail) {
+  //         console.log('Emails match!');
+  //       } else {
+  //         console.log('Emails do not match.');
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching user:', error);
+
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [userEmail]);
+
+  // console.log(data);
+  // console.log(aaa('you@naver.com'));
   // const users = view('63uiryfe1e1gdmy');
   // const fetchData = async () => {
   //   const userData = await view('63uiryfe1e1gdmy');
@@ -56,12 +79,13 @@ const AuthTest = () => {
   // console.log('isValid:', isValidUser());
 
   // signup({
-  //   username: 'john_doe',
-  //   nickname: 'John',
-  //   email: 'john.doe@example.com',
+  //   username: 'john_doexaa',
+  //   nickname: 'Johnxaa',
+  //   email: 'john.doexaa@example.com',
   //   password: 'password123',
   //   passwordConfirm: 'password123',
   //   description: 'Passionate developer',
+  //   emailVisibility: true,
   //   interests: {
   //     frontend: true,
   //     backend: true,
@@ -81,19 +105,21 @@ const AuthTest = () => {
 
   // 회원가입
   // signup({
-  //   username: 'zxcaqqqqq',
-  //   email: 'dhfak1@gmail.com',
-  //   password: '12345678',
-  //   passwordConfirm: '12345678',
+  //   username: 'zaa33xcv',
+  //   nickname: 'z3344xcv',
+  //   email: 'tstststs@aasdzxc.com',
+  //   password: '12345678aaa',
+  //   passwordConfirm: '12345678aaa',
   // });
 
   // 회원 탈퇴
   //   withdrawal('lydraymd299p1l5');
 
+  // resultx();
+
   return (
     <div className='flex flex-col items-center justify-center'>
       유저 Auth 테스트
-      <div></div>
     </div>
   );
 };

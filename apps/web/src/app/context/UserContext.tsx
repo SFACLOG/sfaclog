@@ -2,7 +2,8 @@
 import { Interest, Proposal } from '@/types/user';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-interface UserData {
+export interface UserData {
+  id: string;
   username: string;
   nickname: string;
   email: string;
@@ -23,6 +24,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [userData, setUserData] = useState<UserData>({
+    id: '',
     username: '',
     nickname: '',
     email: '',

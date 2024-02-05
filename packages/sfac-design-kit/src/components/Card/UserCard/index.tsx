@@ -21,7 +21,7 @@ export const UserCard = ({
   views,
 }: UserCardProps) => {
   return (
-    <div className='w-[265px] h-[346px] rounded-[10px]'>
+    <div className='flex-shrink-0 w-[265px] h-[346px] rounded-[10px] bg-white'>
       <div className='relative mb-[60px]'>
         <img
           src={image}
@@ -30,7 +30,7 @@ export const UserCard = ({
           alt='Background Image'
           className='mb-[10px] w-[265px] h-[125px] object-cover rounded-t-[10px]'
         />
-        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/5 border p-[3px] rounded-full bg-white w-[110px] h-[110px]'>
+        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/5 p-[3px] rounded-full bg-white w-[110px] h-[110px]'>
           <Avatar src={profileImage} size='medium' />
         </div>
       </div>

@@ -38,6 +38,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
     <div
       className={cn(
         'inline-flex flex-col items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-netural-10 rounded-md text-center bg-white',
+        selectedOption && 'bg-primary-10',
         className,
       )}
     >
@@ -45,7 +46,6 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
         onClick={toggleDropdown}
         className={cn(
           'flex items-center justify-center  py-auto w-full min-h-[38px]',
-          selectedOption && 'bg-primary-10',
         )}
       >
         <div className='mr-[5px]'>

@@ -121,7 +121,7 @@ const MyPageEdit = () => {
               alt='right arrow'
             />
           </Link>
-          <Link className='relative' href=''>
+          <Link className='relative' href='/mypage/withdraw'>
             회원탈퇴
             <Image
               className='absolute top-0 right-0'

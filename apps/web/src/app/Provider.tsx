@@ -6,7 +6,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { UserProvider } from './context/UserContext';
 import { SessionProvider } from 'next-auth/react';
-import { Session } from 'next-auth';
 
 interface ProviderProps {
   children: ReactNode;

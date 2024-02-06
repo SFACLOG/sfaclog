@@ -11,8 +11,8 @@ interface InterestAndProposalButtonProps {
   type: InterestAndProposalButtonProps['category'] extends 'interest'
     ? interestType
     : InterestAndProposalButtonProps['category'] extends 'proposal'
-    ? proposalType
-    : string;
+      ? proposalType
+      : string;
   selected?: boolean;
   onClick?: () => void;
 }

@@ -12,6 +12,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.18.1",
     "@tanstack/react-query-devtools": "^5.18.1",
+    "embla-carousel-react": "^8.0.0-rc22",
     "next": "^14.0.4",
     "next-auth": "^4.24.5",
     "nodemailer": "^6.9.8",

@@ -99,7 +99,7 @@ export const SelectSeriesBox: React.FC<SelectSeriesBoxProps> = ({
         >
           {selectedOption !== null ? selectedOption.label : title}
         </div>
-        {!isOpen ? (
+        {isOpen ? (
           <img src='/images/ic_down_arrow.svg' alt='Dropdown Icon' />
         ) : (
           <img src='/images/ic_up_arrow.svg' alt='Dropdown Icon' />

@@ -46,7 +46,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
         <div className='mr-[5px]'>
           {selectedOption ? selectedOption.label : title}
         </div>
-        {!isOpen ? (
+        {isOpen ? (
           <img src='/images/ic_down_arrow.svg' alt='Dropdown Icon' />
         ) : (
           <img src='/images/ic_up_arrow.svg' alt='Dropdown Icon' />

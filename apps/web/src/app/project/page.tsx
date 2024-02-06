@@ -6,6 +6,7 @@ import {
   ProjectCard,
   RoundButton,
   SelectBox,
+  SelectChipBox,
   SfacfolioCard,
   UserCard,
 } from 'sfac-design-kit';
@@ -151,17 +152,14 @@ const Project = () => {
             </div>
           </div>
           <div className='mb-[35px]'>
-            <SelectBox
-              title='기술스택'
-              options={options}
-              className='mr-[10px]'
-            ></SelectBox>
+            <SelectChipBox title='기술 스택' className='mr-[10px]' />
+
             <SelectBox
               title='모집 포지션'
               options={options}
               className='mr-[10px]'
             ></SelectBox>
-            <SelectBox title='진행 방식' options={options}></SelectBox>
+            <SelectBox title='진행방식' options={options}></SelectBox>
           </div>
           <div className='grid grid-cols-4 gap-10'>
             <ProjectCard

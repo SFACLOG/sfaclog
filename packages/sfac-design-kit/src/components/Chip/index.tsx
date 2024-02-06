@@ -23,17 +23,22 @@ export const IconChip = ({
   children,
   image,
   isClicked,
+  className,
   ...rest
 }: ChipProps) => {
   return (
     <div
       className={cn(
         'inline-flex justify-center items-center px-[15px] py-[6px] text-neutral-100 rounded-[34px] border border-neutral-40 text-btn',
-        isClicked && 'opacity-50',
+        !isClicked && 'opacity-50',
+        className,
       )}
       {...rest}
     >
-      <img src={image} width={30} height={30} className='mr-[6.5px]' />
+      {image && (
+        <img src={image} width={30} height={30} className='mr-[6.5px]' />
+      )}
+
       {children}
     </div>
   );

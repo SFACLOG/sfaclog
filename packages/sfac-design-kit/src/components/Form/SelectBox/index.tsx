@@ -38,7 +38,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
   return (
     <div
       className={cn(
-        `inline-flex flex-col items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-netural-10 rounded-md text-center ${selectedOption && 'border-primary-100'}`,
+        `inline-flex flex-col items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-netural-10 rounded-md text-center ${selectedOption && 'border-primary-100'} relative`,
         className,
       )}
     >
@@ -59,7 +59,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
         )}
       </div>
       {isOpen && (
-        <div className='w-full'>
+        <div className='w-full absolute top-[103%] left-0 z-50 bg-white border '>
           {options.map((option, index) => (
             <div
               key={index}

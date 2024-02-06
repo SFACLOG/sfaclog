@@ -1,4 +1,7 @@
+'use client';
+import { usePathname, useRouter } from 'next/navigation';
 import Logo from './Logo';
+import Image from 'next/image';
 
 interface CommonLayoutProps {
   title: string;
@@ -11,13 +14,39 @@ const LoginLayout: React.FC<CommonLayoutProps> = ({
   title,
   color,
 }) => {
-  return (
-    <div className='flex flex-col justify-center items-center'>
-      <Logo />
-      <div className='w-[700px] min-h-min-[450px]  bg-white mt-[11.5px] rounded-[40px]'>
-        <div className='flex flex-col items-center mx-[160px] my-[60px]'>
-          <p className={` ${color} text-2xl font-bold mb-[55px]`}>{title}</p>
+  const router = useRouter();
 
+  const handleGoBack = () => {
+    router.back();
+  };
+  const pathname = usePathname();
+  const isTerm = pathname === '/signup/terms';
+  return (
+    <div className='flex flex-col justify-center items-center mb-20'>
+      <Logo />
+      <div
+        className={`flex justify-center w-[700px] min-h-min-[450px]  bg-white mt-[11.5px] rounded-[40px] ${
+          isTerm ? 'px-[100px]' : 'px-[160px]'
+        } py-[60px]`}
+      >
+        <div className={`flex flex-col items-center w-full`}>
+          <div
+            className={`flex ${
+              isTerm ? '' : 'justify-center'
+            } mb-[55px] w-full`}
+          >
+            {isTerm && (
+              <Image
+                src='/images/ic_big_arrow.svg'
+                alt=''
+                width={32}
+                height={32}
+                className='w-8 h-8 mr-[100px] cursor-pointer'
+                onClick={handleGoBack}
+              />
+            )}
+            <p className={` ${color} text-2xl font-bold`}>{title}</p>
+          </div>
           {children}
         </div>
       </div>

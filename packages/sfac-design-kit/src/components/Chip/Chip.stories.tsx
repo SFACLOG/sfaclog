@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Chip, IconChip } from '.';
 
 export default {
@@ -12,6 +13,12 @@ export const Default = {
   },
 };
 
+const [isClicked, setIsClicked] = useState<boolean>(false);
+
+const handleClick = () => {
+  setIsClicked(!isClicked);
+};
+
 export const ChipUseage = () => (
   <>
     <Chip>#UI/UX</Chip>
@@ -20,7 +27,13 @@ export const ChipUseage = () => (
 
 export const IconChipUseage = () => (
   <>
-    <IconChip image='/images/chipIcon/react.svg'>React</IconChip>
+    <IconChip
+      image='/images/chipIcon/react.svg'
+      onClick={handleClick}
+      isClicked={isClicked}
+    >
+      React
+    </IconChip>
     <IconChip image='/images/chipIcon/java.svg'>Java</IconChip>
   </>
 );

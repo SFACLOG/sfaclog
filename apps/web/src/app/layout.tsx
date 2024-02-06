@@ -28,7 +28,9 @@ export default function RootLayout({
       <body className={`relative ${pretendard.className}`}>
         <Provider>
           <Header />
+
           {children}
+
           <div id='modal'></div>
         </Provider>
       </body>

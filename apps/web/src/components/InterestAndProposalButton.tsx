@@ -11,9 +11,10 @@ interface InterestAndProposalButtonProps {
   type: InterestAndProposalButtonProps['category'] extends 'interest'
     ? interestType
     : InterestAndProposalButtonProps['category'] extends 'proposal'
-      ? proposalType
-      : string;
+    ? proposalType
+    : string;
   selected?: boolean;
+  onClick?: () => void;
 }
 
 interface InterestProposalInKorean {
@@ -44,9 +45,10 @@ const InterestAndProposalButton = ({
   category = 'interest',
   type,
   selected = false,
+  onClick,
 }: InterestAndProposalButtonProps) => {
   return (
-    <button className='flex flex-col gap-[14px] items-center'>
+    <button className='flex flex-col gap-[14px] items-center' onClick={onClick}>
       <Image
         src={interestProposal[category][type]}
         alt={`${type}`}

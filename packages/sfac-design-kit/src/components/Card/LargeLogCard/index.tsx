@@ -41,11 +41,9 @@ export const LargeLogCard = ({
         </div>
       </div>
       <div className='flex items-center justify-between'>
-        {tags && (
-          <div className='flex gap-[5px]'>
-            {Children.toArray(tags.map(tag => <Chip># {tag}</Chip>))}
-          </div>
-        )}
+        <div className='flex gap-[5px]'>
+          {tags && Children.toArray(tags.map(tag => <Chip># {tag}</Chip>))}
+        </div>
         <div className='flex items-center text-caption2'>
           <ImageWrapper path={HEART_ICON} />
           <span className='ml-[7px]'>{likes}</span>

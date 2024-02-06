@@ -38,15 +38,15 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
   return (
     <div
       className={cn(
-        'inline-flex flex-col items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-netural-10 rounded-md text-center bg-white',
-        selectedOption && 'bg-primary-10',
+        `inline-flex flex-col items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-netural-10 rounded-md text-center ${selectedOption && 'border-primary-100'}`,
         className,
       )}
     >
       <div
         onClick={toggleDropdown}
         className={cn(
-          'flex items-center justify-center  py-auto w-full min-h-[38px]',
+          'flex justify-center py-[10.5px] w-full',
+          selectedOption && ' text-primary-100',
         )}
       >
         <div className='mr-[5px]'>
@@ -65,7 +65,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
               key={index}
               onClick={() => handleOptionClick(option)}
               className={cn('py-[10.5px] border-t-[1px]', {
-                'bg-primary-10': selectedOption === option,
+                ' text-primary-100': selectedOption === option,
               })}
             >
               {option.label}

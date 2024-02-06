@@ -3,20 +3,24 @@ import React from 'react';
 
 interface SectionTitleProps {
   title: string;
-  linkText?: string;
-  linkHref?: string;
+  expandText?: string;
+  expandHref?: string;
 }
 
-const SectionHeader = ({ title, linkText, linkHref }: SectionTitleProps) => {
+const SectionHeader = ({
+  title,
+  expandText,
+  expandHref,
+}: SectionTitleProps) => {
   return (
-    <div className='flex justify-between items-center mb-[35px]'>
+    <div className='flex justify-between items-center'>
       <h2 className={`text-primary-100 text-h2`}>{title}</h2>
-      {linkText && (
+      {expandText && (
         <Link
           className='text-neutral-50 text-caption1'
-          href={{ pathname: linkHref }}
+          href={{ pathname: expandHref }}
         >
-          {linkText}
+          {expandText}
         </Link>
       )}
     </div>

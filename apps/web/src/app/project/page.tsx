@@ -10,7 +10,7 @@ import {
   SfacfolioCard,
   UserCard,
 } from 'sfac-design-kit';
-import Carousel from './(components)/Carousel';
+import Carousel from '@/components/Carousel';
 
 const projects = [
   {
@@ -50,41 +50,28 @@ const Project = () => {
     { value: '부트캠프', label: '부트캠프' },
   ];
 
-  const userDummy = Array.from({ length: 12 }, (_, idx) => {
-    return {
-      id: (idx + 1).toString(),
-      image:
-        'https://images.unsplash.com/photo-1463947628408-f8581a2f4aca?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      profileImage:
-        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      nickname: 'user' + (idx + 1).toString(),
-      likes: idx + 8,
-      followers: idx + 26,
-      views: 268 + idx,
-      tags: ['react', 'typescript', 'frontend'],
-      info: '프론트엔드 개발자입니다.',
-    };
-  });
-
   return (
-    <div className='mb-[200px]'>
+    <div className='mb-[200px] '>
       <Carousel
         options={{
           align: 'start',
           slidesToScroll: 1,
           containScroll: 'trimSnaps',
+          loop: true,
         }}
+        isPageButton={true}
+        className=' bg-primary-10 mb-[50px]'
       >
-        <HotCard
-          description={currentProject.description}
-          statuses={currentProject.statuses}
-          imageUrl={currentProject.imageUrl}
-          title={currentProject.title}
-          //   currentProjectIndex={currentProjectIndex}
-          //   totalProjects={projects.length}
-          //   handlePrev={handlePrev}
-          //   handleNext={handleNext}
-        />
+        {projects.map((project, index) => (
+          <div key={index}>
+            <HotCard
+              description={project.description}
+              statuses={project.statuses}
+              imageUrl={project.imageUrl}
+              title={project.title}
+            />
+          </div>
+        ))}
       </Carousel>
 
       <div className='mx-auto container'>

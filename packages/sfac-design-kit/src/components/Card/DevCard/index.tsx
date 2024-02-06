@@ -1,16 +1,19 @@
 import { Children } from 'react';
 import { Avatar } from '../../Avatar';
 import { Chip } from '../../Chip';
+import ImageWrapper from '../../common/ImageWrapper';
+import heart from '../../../../public/images/dark_heart.svg';
 
 export interface DevCardProps {
   thumbnail: string;
   icons?: string[];
-  title: string[];
+  title: string;
   time: string;
   likes: string;
   avatar: string;
   name: string;
   tags?: string[];
+  className?: string;
 }
 
 export const DevCard = ({
@@ -22,9 +25,12 @@ export const DevCard = ({
   avatar,
   name,
   tags,
+  className,
 }: DevCardProps) => {
   return (
-    <div className='relative w-full max-w-[446px] h-[362px]'>
+    <div
+      className={`flex-shrink-0 relative w-full max-w-[446px] h-[362px] ${className}`}
+    >
       <img
         className='w-full h-[249px] object-cover rounded-[10px]'
         src={thumbnail}
@@ -46,7 +52,7 @@ export const DevCard = ({
           <p className='flex-1 text-subtitle line-clamp-1'>{title}</p>
           <div className='flex'>
             <span className='mr-[9px]'>{time}</span>
-            <img className='mr-[7px]' src='/images/dark_heart.svg' />
+            <ImageWrapper path={heart} className='mr-[7px]' />
             <span>{likes}</span>
           </div>
         </div>

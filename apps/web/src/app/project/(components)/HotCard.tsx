@@ -23,7 +23,7 @@ const HotCard = ({
   handlePrev,
   handleNext,
 }: ProjectCardProps) => (
-  <div className='flex h-[270px] bg-primary-10 mb-[50px] '>
+  <div className=' flex h-[270px] w-screen bg-primary-10  '>
     {/* 왼쪽 */}
     <div className='ml-[185px] mt-[56px] mr-[52px] '>
       <div className='font-bold mb-10'>

@@ -88,8 +88,8 @@ const Project = () => {
 
       <div className='mx-auto container'>
         <section className=' mb-[90px]'>
-          <p className=' text-[24px] font-bold text-primary-100'>
-            스팩로그 프로젝트
+          <p className=' text-[24px] font-bold text-primary-100 mb-[35px]'>
+            스팩폴리오 프로젝트
           </p>
           <div className='flex gap-5'>
             <SfacfolioCard

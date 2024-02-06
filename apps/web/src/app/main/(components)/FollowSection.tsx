@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionWrapper from './SectionWrapper';
-import Carousel from './Carousel';
+import Carousel from '../../../components/Carousel';
 import { UserCard } from 'sfac-design-kit';
 
 const userDummy = Array.from({ length: 6 }, (_, idx) => {
@@ -27,6 +27,7 @@ const FollowSection = () => {
           align: 'start',
           slidesToScroll: 1,
           containScroll: 'trimSnaps',
+          loop: true,
         }}
       >
         {userDummy.map(user => (
@@ -37,6 +38,7 @@ const FollowSection = () => {
             nickname={user.nickname}
             image={user.image}
             profileImage={user.profileImage}
+            className='mr-[25px]'
           />
         ))}
       </Carousel>

@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Children, useEffect, useReducer, useState } from 'react';
+import { Children, useState } from 'react';
 import { ProfileCard, SelectBox, SquareButton } from 'sfac-design-kit';
 import { cn } from 'sfac-design-kit/src/utils';
-import { useGetUser } from '@/app/hooks/useUserData';
+import { useGetUser } from '@/hooks/useUserData';
 import { isValidUser, login, logout } from '@/api/user';
 
 interface MyPageProps {}
@@ -59,7 +59,9 @@ const MyPage = ({}: MyPageProps) => {
   const [activeBtn, setActiveBtn] = useState(
     pathname.split('/').at(-1) === 'notification' ? 3 : 0,
   );
-  const { data } = useGetUser();
+  const { data: user } = useGetUser();
+
+  if (!user) return;
 
   // 임의 로그인
   // login('imsi@google.com', 'imsi1234');
@@ -73,13 +75,13 @@ const MyPage = ({}: MyPageProps) => {
       <div className='mt-10 max-w-[780px] mx-auto'>
         <ProfileCard
           avatar='/images/avatar.svg'
-          name={data?.nickname}
-          description={data?.description}
-          github={data?.sns.github}
-          instgram={data?.sns.instagram}
-          facebook={data?.sns.facebook}
-          following={data?.following}
-          follower={data?.follower}
+          name={user.nickname}
+          description={user.description}
+          github={user.sns.github}
+          instgram={user.sns.instagram}
+          facebook={user.sns.facebook}
+          following={user.following}
+          follower={user.follower}
           isMine={isValidUser()}
           onClickEdit={
             isValidUser() ? () => router.push('/mypage/edit') : () => {}
@@ -103,7 +105,7 @@ const MyPage = ({}: MyPageProps) => {
                   )}
                 >
                   <Link
-                    href={`/mypage/12/${link}`}
+                    href={`/mypage/${pathname.split('/')[2]}/${link}`}
                     onClick={() => setActiveBtn(i)}
                   >
                     {tab}

@@ -1,10 +1,5 @@
-import { UserData } from '@/app/context/UserContext';
+import pb from '.';
 import { Interest, Proposal } from '@/types/user';
-import PocketBase from 'pocketbase';
-
-const pb = new PocketBase('http://3.38.183.51:8090');
-
-pb.autoCancellation(false);
 
 export const login = async (id: string, password: string) => {
   await pb.collection('user').authWithPassword(id, password);
@@ -31,10 +26,12 @@ export const signup = async (data: {
 export const resetPassword = async (email: string) => {
   await pb.collection('user').requestPasswordReset(email);
 };
+
 export const resultx = async () => {
   const result = await pb.collection('user').listAuthMethods();
   console.log(result);
 };
+
 export const resultList = async (email: string) => {
   const result = await pb.collection('user').getFullList({
     filter: `email = "${email}"`,

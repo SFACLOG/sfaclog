@@ -30,9 +30,9 @@ export const LargeLogCard = ({
       style={{ maxWidth: width }}
     >
       <div className='flex gap-5 max-h-[180px]'>
-        <img
+        <ImageWrapper
           className='w-[265px] object-cover rounded-[10px]'
-          src={thumbnail}
+          path={thumbnail}
           alt='thumbnail'
         />
         <div className='flex flex-col gap-[25px] w-full h-full whitespace-pre-wrap'>

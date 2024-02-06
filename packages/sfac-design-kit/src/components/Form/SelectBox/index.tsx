@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { HTMLAttributes, ReactNode, useState } from 'react';
 import { cn } from '../../../utils';
 
 export interface SelectBoxOption {
@@ -6,13 +6,14 @@ export interface SelectBoxOption {
   label: string;
 }
 
-export interface SelectBoxProps {
+export interface SelectBoxProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
   title: string;
   options: SelectBoxOption[];
 }
 
 export const SelectBox: React.FC<SelectBoxProps> = ({
+  className,
   options,
   title,
 }: SelectBoxProps) => {
@@ -33,14 +34,15 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
   return (
     <div
       className={cn(
-        'inline-flex flex-col items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-netural-10 rounded-md text-center',
+        `inline-flex flex-col items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-netural-10 rounded-md text-center ${selectedOption && 'border-primary-100'}`,
+        className,
       )}
     >
       <div
         onClick={toggleDropdown}
         className={cn(
           'flex justify-center py-[10.5px] w-full',
-          selectedOption && 'bg-primary-10',
+          selectedOption && ' text-primary-100',
         )}
       >
         <div className='mr-[5px]'>
@@ -59,7 +61,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
               key={index}
               onClick={() => handleOptionClick(option)}
               className={cn('py-[10.5px] border-t-[1px]', {
-                'bg-primary-10': selectedOption === option,
+                ' text-primary-100': selectedOption === option,
               })}
             >
               {option.label}

@@ -28,7 +28,7 @@ const Carousel = ({ children, options }: CarouselProps) => {
   return (
     <div className='relative'>
       <button
-        className='absolute -left-16 top-[170px]'
+        className='absolute top-[170px] left-1/2 transform -translate-x-1/2'
         onClick={() => handlePrevAndNext('prev')}
       >
         <Image
@@ -45,7 +45,7 @@ const Carousel = ({ children, options }: CarouselProps) => {
         <div className='flex gap-[25px]'>{children}</div>
       </div>
       <button
-        className='absolute -right-16 top-[170px]'
+        className='absolute right-0 top-[170px]'
         onClick={() => handlePrevAndNext('next')}
       >
         <Image

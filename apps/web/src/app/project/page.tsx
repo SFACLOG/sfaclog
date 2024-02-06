@@ -67,36 +67,26 @@ const Project = () => {
 
   return (
     <div className='mb-[200px]'>
-      <HotCard
-        description={currentProject.description}
-        statuses={currentProject.statuses}
-        imageUrl={currentProject.imageUrl}
-        title={currentProject.title}
-        currentProjectIndex={currentProjectIndex}
-        totalProjects={projects.length}
-        handlePrev={handlePrev}
-        handleNext={handleNext}
-      />
+      <Carousel
+        options={{
+          align: 'start',
+          slidesToScroll: 1,
+          containScroll: 'trimSnaps',
+        }}
+      >
+        <HotCard
+          description={currentProject.description}
+          statuses={currentProject.statuses}
+          imageUrl={currentProject.imageUrl}
+          title={currentProject.title}
+          //   currentProjectIndex={currentProjectIndex}
+          //   totalProjects={projects.length}
+          //   handlePrev={handlePrev}
+          //   handleNext={handleNext}
+        />
+      </Carousel>
 
       <div className='mx-auto container'>
-        <Carousel
-          options={{
-            align: 'start',
-            slidesToScroll: 1,
-            containScroll: 'trimSnaps',
-          }}
-        >
-          <HotCard
-            description={currentProject.description}
-            statuses={currentProject.statuses}
-            imageUrl={currentProject.imageUrl}
-            title={currentProject.title}
-            currentProjectIndex={currentProjectIndex}
-            totalProjects={projects.length}
-            handlePrev={handlePrev}
-            handleNext={handleNext}
-          />
-        </Carousel>
         <section className=' mb-[90px]'>
           <p className=' text-[24px] font-bold text-primary-100'>
             스팩로그 프로젝트

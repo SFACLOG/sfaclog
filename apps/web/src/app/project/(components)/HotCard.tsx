@@ -7,10 +7,10 @@ interface ProjectCardProps {
   statuses: string[];
   imageUrl: string;
   title: string;
-  currentProjectIndex: number;
-  totalProjects: number;
-  handlePrev: () => void;
-  handleNext: () => void;
+  currentProjectIndex?: number;
+  totalProjects?: number;
+  handlePrev?: () => void;
+  handleNext?: () => void;
 }
 
 const HotCard = ({
@@ -54,7 +54,7 @@ const HotCard = ({
     </div>
 
     {/* 오른쪽 */}
-    <div className='flex justify-center items-center px-[5px] py-2 rounded-[34px] w-[134px] h-[38px] mb-[9px] text-neutral-60 font-semibold  bg-white mt-[223px]'>
+    {/* <div className='flex justify-center items-center px-[5px] py-2 rounded-[34px] w-[134px] h-[38px] mb-[9px] text-neutral-60 font-semibold  bg-white mt-[223px]'>
       <Image
         src='/images/ic_left_arrow.svg'
         width={22}
@@ -72,7 +72,7 @@ const HotCard = ({
         className='ml-[21px]'
         onClick={handleNext}
       />
-    </div>
+    </div> */}
   </div>
 );
 

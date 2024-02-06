@@ -1,7 +1,9 @@
 import { Children } from 'react';
 import { Avatar } from '../../Avatar';
 import { cn } from '../../../utils';
-
+import ImageWrapper from '../../common/ImageWrapper';
+import DarkHeart from '../../../../public/images/dark_heart.svg';
+import Chat from '../../../../public/images/chat.svg';
 export interface ProjectCardProps {
   title: string;
   icons: string[];
@@ -47,9 +49,9 @@ export const ProjectCard = ({
           <p className='text-caption2 text-neutral-60'>{name}</p>
         </div>
         <div className='flex items-center text-caption2 text-neutral-20'>
-          <img src='/images/dark_heart.svg' />
+          <ImageWrapper path={DarkHeart} />
           <span className='ml-[7px]'>{likes}</span>
-          <img className='ml-3' src='/images/chat.svg' />
+          <ImageWrapper className='ml-3' path={Chat} />
           <span className='ml-[7px]'>{comments}</span>
         </div>
       </div>

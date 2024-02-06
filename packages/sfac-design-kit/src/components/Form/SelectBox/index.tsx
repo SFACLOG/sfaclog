@@ -1,18 +1,23 @@
-import { ReactNode, useState } from 'react';
+'use client';
+import { HTMLAttributes, ReactNode, useState } from 'react';
 import { cn } from '../../../utils';
+import ImageWrapper from '../../common/ImageWrapper';
+import UP_ARROW_ICON from '../../../../public/images/ic_up_arrow.svg';
+import DOWN_ARROW_ICON from '../../../../public/images/ic_down_arrow.svg';
 
 export interface SelectBoxOption {
   value: string;
   label: string;
 }
 
-export interface SelectBoxProps {
+export interface SelectBoxProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
   title: string;
   options: SelectBoxOption[];
 }
 
 export const SelectBox: React.FC<SelectBoxProps> = ({
+  className,
   options,
   title,
 }: SelectBoxProps) => {
@@ -33,23 +38,24 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
   return (
     <div
       className={cn(
-        'inline-flex flex-col items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-netural-10 rounded-md text-center',
+        'inline-flex flex-col items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-netural-10 rounded-md text-center bg-white',
+        selectedOption && 'bg-primary-10',
+        className,
       )}
     >
       <div
         onClick={toggleDropdown}
         className={cn(
-          'flex justify-center py-[10.5px] w-full',
-          selectedOption && 'bg-primary-10',
+          'flex items-center justify-center  py-auto w-full min-h-[38px]',
         )}
       >
         <div className='mr-[5px]'>
           {selectedOption ? selectedOption.label : title}
         </div>
         {!isOpen ? (
-          <img src='/images/ic_down_arrow.svg' alt='Dropdown Icon' />
+          <ImageWrapper path={UP_ARROW_ICON} alt='Dropdown Icon' />
         ) : (
-          <img src='/images/ic_up_arrow.svg' alt='Dropdown Icon' />
+          <ImageWrapper path={DOWN_ARROW_ICON} alt='Dropdown Icon' />
         )}
       </div>
       {isOpen && (

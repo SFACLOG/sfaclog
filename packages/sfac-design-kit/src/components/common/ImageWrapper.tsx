@@ -1,4 +1,4 @@
-import React, { ImgHTMLAttributes } from 'react';
+import { ImgHTMLAttributes } from 'react';
 
 interface ImageWrapperProps extends ImgHTMLAttributes<HTMLImageElement> {
   path: string | { src: string };

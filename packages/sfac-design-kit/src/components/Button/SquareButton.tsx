@@ -42,7 +42,7 @@ const SquareButton = ({
   onClick,
 }: SquareButtonProps) => {
   return (
-    <RDButton
+    <button
       className={cn(
         SquareButtonVariants({ size, theme }),
         fullWidth && 'w-full',
@@ -52,7 +52,7 @@ const SquareButton = ({
     >
       {headIcon && <img src={headIcon} alt='icon' className='w-6 h-6' />}
       {children}
-    </RDButton>
+    </button>
   );
 };
 

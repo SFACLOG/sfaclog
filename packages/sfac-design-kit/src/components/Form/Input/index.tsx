@@ -42,9 +42,12 @@ const descriptionVariants = cva(`text-xs border-none`, {
 });
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ status, label, required, styles, description, ...rest }, ref) => {
+  (
+    { status, label, required, styles, description, className, ...rest },
+    ref,
+  ) => {
     return (
-      <div className='flex flex-col gap-[10px]'>
+      <div className={cn('flex flex-col gap-[10px]', className)}>
         {label && (
           <label htmlFor={label} className='text-title4'>
             {label}

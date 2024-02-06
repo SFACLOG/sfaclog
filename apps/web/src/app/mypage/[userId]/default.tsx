@@ -1,5 +1,5 @@
-import MyPage from './page';
+import Profile from './page';
 
-const MyPageDefault = () => <MyPage />;
+const ProfileDefault = () => <Profile />;
 
-export default MyPageDefault;
+export default ProfileDefault;

@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Children, useState } from 'react';
+import { Children, useMemo, useState } from 'react';
 import { ProfileCard, SelectBox, SquareButton } from 'sfac-design-kit';
 import { cn } from 'sfac-design-kit/src/utils';
-import { useGetUser } from '@/hooks/useUserData';
-import { isValidUser, login, logout } from '@/api/user';
+import { useGetUserById } from '@/hooks/useUserData';
+import { getUser, login, logout } from '@/api/user';
 
 interface MyPageProps {}
 
@@ -53,38 +53,43 @@ const FILTER_OPTIONS = [
   },
 ];
 
-const MyPage = ({}: MyPageProps) => {
+const Profile = ({}: MyPageProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const [activeBtn, setActiveBtn] = useState(
     pathname.split('/').at(-1) === 'notification' ? 3 : 0,
   );
-  const { data: user } = useGetUser();
+  const { data: user } = useGetUserById(pathname.split('/')[2]);
+  const isMyProfile = useMemo(
+    () => pathname.split('/')[2] === getUser()?.id,
+    [pathname, getUser()],
+  );
+
+  // 임의 로그인/로그아웃
+  // login('imsi@google.com', 'imsi1234');
+  // logout();
 
   if (!user) return;
-
-  // 임의 로그인
-  // login('imsi@google.com', 'imsi1234');
 
   return (
     <>
       <header className='flex justify-between items-center py-[25px] border-b border-neutral-20'>
         <h2 className='text-title1'>log title</h2>
-        <SquareButton>+ 로그 작성</SquareButton>
+        {isMyProfile && <SquareButton>+ 로그 작성</SquareButton>}
       </header>
       <div className='mt-10 max-w-[780px] mx-auto'>
         <ProfileCard
           avatar='/images/avatar.svg'
           name={user.nickname}
           description={user.description}
-          github={user.sns.github}
-          instgram={user.sns.instagram}
-          facebook={user.sns.facebook}
+          github={user.sns?.github}
+          instgram={user.sns?.instagram}
+          facebook={user.sns?.facebook}
           following={user.following}
           follower={user.follower}
-          isMine={isValidUser()}
+          isMine={isMyProfile}
           onClickEdit={
-            isValidUser() ? () => router.push('/mypage/edit') : () => {}
+            isMyProfile ? () => router.push('/mypage/edit') : () => {}
           }
         />
         <div className='h-[1px] my-[30px] bg-neutral-10'></div>
@@ -95,23 +100,25 @@ const MyPage = ({}: MyPageProps) => {
             )}
           >
             {Children.toArray(
-              NAV_LINK.map(({ link, tab }, i) => (
-                <li
-                  className={cn(
-                    'hover:text-neutral-100',
-                    activeBtn === i && [
-                      'border-b-2 border-neutral-100 text-neutral-100',
-                    ],
-                  )}
-                >
-                  <Link
-                    href={`/mypage/${pathname.split('/')[2]}/${link}`}
-                    onClick={() => setActiveBtn(i)}
+              (isMyProfile ? NAV_LINK : [{ link: 'log', tab: '로그' }]).map(
+                ({ link, tab }, i) => (
+                  <li
+                    className={cn(
+                      'hover:text-neutral-100',
+                      activeBtn === i && [
+                        'border-b-2 border-neutral-100 text-neutral-100',
+                      ],
+                    )}
                   >
-                    {tab}
-                  </Link>
-                </li>
-              )),
+                    <Link
+                      href={`/mypage/${pathname.split('/')[2]}/${link}`}
+                      onClick={() => setActiveBtn(i)}
+                    >
+                      {tab}
+                    </Link>
+                  </li>
+                ),
+              ),
             )}
           </ul>
           <div className='absolute right-0'>
@@ -128,4 +135,4 @@ const MyPage = ({}: MyPageProps) => {
   );
 };
 
-export default MyPage;
+export default Profile;

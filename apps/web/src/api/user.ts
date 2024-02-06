@@ -37,7 +37,7 @@ export const resultList = async (email: string) => {
     filter: `email = "${email}"`,
     sort: '-created',
   });
-  console.log(result);
+
   return result;
 };
 
@@ -45,21 +45,20 @@ export const getUserByEmail = async (email: string) => {
   const records = await pb
     .collection('user')
     .getFirstListItem(`email = "${email}"`);
-  console.log(records);
-  console.log(records.oldPassword);
 
   return records;
+};
+
+// view => getUserById 수정
+export const getUserById = async (id: string) => {
+  const user = await pb.collection('user').getOne(id);
+
+  return user;
 };
 
 export const updateUser = async (id: string, data: any) => {
   await pb.collection('user').update(id, data);
 };
-
-export const view = async (id: string) => {
-  const user = await pb.collection('user').getOne(id);
-  return user;
-};
-// const user = await pb.collection("user").getOne("USER_ID", { expand: "products(user)") })
 
 export const update = async (email: string, data: {}) => {
   await pb.collection('user').update(email, data);

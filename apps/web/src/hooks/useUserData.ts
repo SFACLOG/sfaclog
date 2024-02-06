@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { getUser } from '@/api/user';
+import { getUserById } from '@/api/user';
 
-const getMyData = () => {
+const getUserDataById = async (id: string) => {
   try {
-    const user = getUser();
+    const user = await getUserById(id);
 
     if (!user) throw Error('getUserData error!');
 
@@ -13,9 +13,9 @@ const getMyData = () => {
   }
 };
 
-export const useGetUser = () => {
+export const useGetUserById = (id: string) => {
   return useQuery({
-    queryKey: ['user'],
-    queryFn: getMyData,
+    queryKey: ['user', id],
+    queryFn: () => getUserDataById(id),
   });
 };

@@ -62,9 +62,7 @@ const MyPage = ({}: MyPageProps) => {
   const { data } = useGetUser();
 
   // 임의 로그인
-  login('imsi@google.com', 'imsi1234');
-
-  console.log(data);
+  // login('imsi@google.com', 'imsi1234');
 
   return (
     <>
@@ -77,6 +75,9 @@ const MyPage = ({}: MyPageProps) => {
           avatar='/images/avatar.svg'
           name={data?.nickname}
           description={data?.description}
+          github={data?.sns.github}
+          instgram={data?.sns.instagram}
+          facebook={data?.sns.facebook}
           following={data?.following}
           follower={data?.follower}
           isMine={isValidUser()}

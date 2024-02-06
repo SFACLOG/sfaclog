@@ -9,6 +9,7 @@ export interface UserCardProps {
   tags?: string[];
   followers: number;
   views: number;
+  className?: string;
 }
 
 export const UserCard = ({
@@ -19,9 +20,12 @@ export const UserCard = ({
   tags,
   followers,
   views,
+  className,
 }: UserCardProps) => {
   return (
-    <div className='flex-shrink-0 w-[265px] h-[346px] rounded-[10px] bg-white'>
+    <div
+      className={`flex-shrink-0 w-[265px] h-[346px] rounded-[10px] bg-white ${className}`}
+    >
       <div className='relative mb-[60px]'>
         <img
           src={image}

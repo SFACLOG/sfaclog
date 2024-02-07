@@ -21,6 +21,8 @@ import {
 } from '@images/interest';
 import { Interest, Proposal } from '@/types/user';
 
+const formData = new FormData();
+
 const ProfileEdit = () => {
   const router = useRouter();
   const userId = useMemo(() => getUser()?.id, [getUser]);
@@ -33,6 +35,7 @@ const ProfileEdit = () => {
   const sfacTitleRef = useRef<HTMLInputElement>(null);
   const [interests, setInterests] = useState<Interest>({});
   const [proposals, setProposals] = useState<Proposal>({});
+  const [uploadedImg, setUploadedImg] = useState<string>('');
   const [isOpenModal, setIsOpenModal] = useState(false);
   const { data: user } = useGetUserById(userId);
   const { mutate, isSuccess } = usePatchUser();
@@ -46,7 +49,19 @@ const ProfileEdit = () => {
     setProposals(() => user?.proposals);
   }, [user]);
 
-  const handleClickIcon = (
+  const handleUploadProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files === null) return;
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setUploadedImg(String(reader.result));
+      formData.set('profile', file);
+    };
+  };
+
+  const handleClickInterest = (
     icon: keyof Interest,
     iconGetter: Interest,
     iconSetter: Dispatch<SetStateAction<Interest>>,
@@ -74,6 +89,7 @@ const ProfileEdit = () => {
 
   const handleClickSubmit = async () => {
     const submitData = {
+      profile_image: formData.get('profile'),
       nickname: nicknameRef.current?.value,
       description: descriptionRef.current?.value,
       sfaclog_title: sfacTitleRef.current?.value,
@@ -103,12 +119,25 @@ const ProfileEdit = () => {
         <h2 className='text-h2'>내 정보 수정</h2>
         <section className='flex gap-[30px] w-full'>
           <Avatar
-            src={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${user.id}/${user.profile_image}`}
+            src={
+              uploadedImg ||
+              `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${user.id}/${user.profile_image}`
+            }
             size='large'
           />
           <div className='flex flex-col gap-[10px] mt-[26px]'>
-            <SquareButton className='w-[140px] h-[30px]' theme='disable'>
-              업로드 하기
+            <SquareButton className='w-[140px] h-[30px] p-0' theme='disable'>
+              <label
+                className='w-[140px] h-[30px] leading-[30px] cursor-pointer before:content-["업로드하기"]'
+                htmlFor='profile'
+              />
+              <input
+                className=' hidden'
+                id='profile'
+                type='file'
+                accept='image/*'
+                onChange={handleUploadProfile}
+              />
             </SquareButton>
             <SquareButton className='w-[140px] h-[30px]' theme='disable'>
               프로필 사진 삭제
@@ -162,7 +191,7 @@ const ProfileEdit = () => {
               type={interest}
               selected={interests && interests[interest as keyof Interest]}
               onClick={() =>
-                handleClickIcon(
+                handleClickInterest(
                   interest as keyof Interest,
                   interests,
                   setInterests,

@@ -3,12 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Children, useMemo, useState } from 'react';
-import {
-  ProfileCard,
-  RoundButton,
-  SelectBox,
-  SquareButton,
-} from 'sfac-design-kit';
+import { ProfileCard, SelectBox, SquareButton } from 'sfac-design-kit';
 import { cn } from 'sfac-design-kit/src/utils';
 import { useGetUserById } from '@/hooks/useUserData';
 import { getUser, login, logout } from '@/api/user';
@@ -84,7 +79,10 @@ const Profile = ({}: MyPageProps) => {
       </header>
       <div className='mt-10 max-w-[780px] mx-auto'>
         <ProfileCard
-          avatar='/images/avatar.svg'
+          avatar={
+            `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${user.id}/${user.profile_image}` ||
+            '/images/avatar.svg'
+          }
           name={user.nickname}
           description={user.description}
           github={user.sns?.github}

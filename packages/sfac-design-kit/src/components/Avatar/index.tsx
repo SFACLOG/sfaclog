@@ -1,13 +1,16 @@
 import { ImgHTMLAttributes } from 'react';
 import { VariantProps, cva } from 'class-variance-authority';
 import { cn } from '../../utils';
+import ImageWrapper from '../common/ImageWrapper';
+import AvatarImg from '../../../public/images/avatar.svg';
 
 export interface AvatarProps
   extends ImgHTMLAttributes<HTMLImageElement>,
     VariantProps<typeof ImgVariants> {
-  src: string;
+  src?: string;
   alt?: string;
   styles?: string;
+  className?: string;
 }
 
 const ImgVariants = cva('rounded-full object-cover', {
@@ -21,11 +24,18 @@ const ImgVariants = cva('rounded-full object-cover', {
   },
 });
 
-export const Avatar = ({ size, src, alt, styles, ...rest }: AvatarProps) => {
+export const Avatar = ({
+  size,
+  src,
+  alt,
+  className,
+  styles,
+  ...rest
+}: AvatarProps) => {
   return (
-    <img
-      className={cn(ImgVariants({ size }), styles)}
-      src={src || '/images/avatar.svg'}
+    <ImageWrapper
+      className={cn(ImgVariants({ size, className }), styles)}
+      path={src || AvatarImg}
       alt={alt || 'avatar'}
       {...rest}
     />

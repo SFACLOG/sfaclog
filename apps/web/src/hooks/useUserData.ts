@@ -14,7 +14,7 @@ const getUserDataById = async (id: string) => {
   }
 };
 
-const patchUser = async (id: string, data: any) => {
+const patchUser = async (id: string, data: Partial<User>) => {
   try {
     await updateUser(id, data);
   } catch (e) {
@@ -32,5 +32,7 @@ export const useGetUserById = (id: string) => {
 export const usePatchUser = () => {
   const id = getUser()?.id;
 
-  return useMutation({ mutationFn: (data: any) => patchUser(id, data) });
+  return useMutation({
+    mutationFn: (data: Partial<User>) => patchUser(id, data),
+  });
 };

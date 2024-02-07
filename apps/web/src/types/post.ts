@@ -7,6 +7,8 @@ export interface Post {
   content: string;
   views: number;
   likes: number;
+  comments: number;
+  tag: {};
   profileImage: string;
   userId: Pick<User, 'id'>;
 }

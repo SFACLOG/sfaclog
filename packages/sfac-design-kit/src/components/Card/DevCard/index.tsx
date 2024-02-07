@@ -8,7 +8,6 @@ export interface DevCardProps {
   thumbnail: string;
   icons?: string[];
   title: string;
-  time: string;
   likes: string;
   avatar: string;
   name: string;
@@ -20,7 +19,6 @@ export const DevCard = ({
   thumbnail,
   icons,
   title,
-  time,
   likes,
   avatar,
   name,
@@ -29,10 +27,10 @@ export const DevCard = ({
 }: DevCardProps) => {
   return (
     <div
-      className={`flex-shrink-0 relative w-full max-w-[446px] h-[362px] ${className}`}
+      className={`flex-shrink-0 relative w-full max-w-[446px] h-[362px] bg-white rounded-[10px] ${className}`}
     >
       <img
-        className='w-full h-[249px] object-cover rounded-[10px]'
+        className='w-full h-[249px] object-cover rounded-t-[10px]'
         src={thumbnail}
         alt='thumbnail'
       />
@@ -51,7 +49,6 @@ export const DevCard = ({
         <div className='flex items-center justify-between max-h-6 mt-[13px]'>
           <p className='flex-1 text-subtitle line-clamp-1'>{title}</p>
           <div className='flex'>
-            <span className='mr-[9px]'>{time}</span>
             <ImageWrapper path={heart} className='mr-[7px]' />
             <span>{likes}</span>
           </div>

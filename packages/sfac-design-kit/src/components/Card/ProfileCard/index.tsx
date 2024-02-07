@@ -2,6 +2,10 @@ import { HTMLAttributes, MouseEventHandler } from 'react';
 import { Avatar } from '../../Avatar';
 import { RoundButton, SquareButton } from '../../Button';
 import { cn } from '../../../utils';
+import INSTA_ICON from '../../../../public/images/sns/instagram.svg';
+import GITHUB_ICON from '../../../../public/images/sns/github.svg';
+import FACEBOOK_ICON from '../../../../public/images/sns/facebook.svg';
+import ImageWrapper from '../../common/ImageWrapper';
 
 export interface ProfileCardProps extends HTMLAttributes<HTMLDivElement> {
   width?: number;
@@ -59,22 +63,19 @@ export const ProfileCard = ({
         <div className='flex justify-start self-start gap-[10px]'>
           {github && (
             <a href={github} target='_blank'>
-              <img className='w-[35px] h-[35px]' src='/images/sns/github.svg' />
+              <ImageWrapper className='w-[35px] h-[35px]' path={GITHUB_ICON} />
             </a>
           )}
           {instgram && (
             <a href={instgram} target='_blank'>
-              <img
-                className='w-[35px] h-[35px]'
-                src='/images/sns/instagram.svg'
-              />
+              <ImageWrapper className='w-[35px] h-[35px]' path={INSTA_ICON} />
             </a>
           )}
           {facebook && (
             <a href={facebook} target='_blank'>
-              <img
+              <ImageWrapper
                 className='w-[35px] h-[35px]'
-                src='/images/sns/facebook.svg'
+                path={FACEBOOK_ICON}
               />
             </a>
           )}

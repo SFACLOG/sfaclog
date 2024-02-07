@@ -84,7 +84,11 @@ const Comments = () => {
       <div className='mb-[30px]'>
         <div className='mb-[15px]'>
           <div className='flex items-center text-subtitle text-neutral-100'>
-            <Avatar src='/images/project/avatar1.svg' className='mr-5' />
+            <Avatar
+              size={'small'}
+              src='/images/project/avatar1.svg'
+              className='mr-5'
+            />
             <p>차윤정</p>
           </div>
         </div>
@@ -109,7 +113,7 @@ const Comments = () => {
         <div key={index} className='flex flex-col items-start gap-[25px]'>
           <div className='flex w-full justify-between items-center'>
             <div className='flex justify-center items-center gap-5'>
-              <Avatar src='/images/project/avatar1.svg' />
+              <Avatar size={'small'} src='/images/project/avatar1.svg' />
               <p className='text-subtitle text-neutral-100'>
                 {comment.user.name}
               </p>
@@ -174,7 +178,7 @@ const Comments = () => {
             comment.subComments.map((subComment, subIndex) => (
               <div key={subIndex} className='ml-5'>
                 <div className='flex items-center gap-5 mb-5'>
-                  <Avatar src={subComment.user.avatar} />
+                  <Avatar size={'small'} src={subComment.user.avatar} />
                   <p className='text-subtitle text-neutral-100'>
                     {subComment.user.name}
                   </p>

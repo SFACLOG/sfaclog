@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-const fs = require("fs");
+const fs = require('fs');
 
 const commitMessagePattern =
-  /^(Feat|Update|Fix|!BREAKING CHANGE|!HOTFIX|Style|Refactor|Comment|Chore|Docs|Test|Rename|Remove): .{1,50}$/;
+  /^(Feat|Update|Fix|!BREAKING CHANGE|!HOTFIX|Style|Refactor|Comment|Chore|Docs|Test|Rename|Remove): .{1,100}$/;
 
 const commitMessageFilePath = process.argv[2];
 
-const commitMessage = fs.readFileSync(commitMessageFilePath, "utf-8").trim();
+const commitMessage = fs.readFileSync(commitMessageFilePath, 'utf-8').trim();
 
 if (!commitMessagePattern.test(commitMessage)) {
   console.error(`

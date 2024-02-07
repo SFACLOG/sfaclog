@@ -1,9 +1,10 @@
 'use client';
 
+import { getUser } from '@/api/user';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Children, useRef, useState } from 'react';
+import { Children, useMemo, useRef, useState } from 'react';
 import { Avatar, Input, Modal, SquareButton } from 'sfac-design-kit';
 
 const POSITIONS = [
@@ -22,7 +23,7 @@ const PROPOSALS = [
   { icon: 'machinelearning', name: '의견 제안' },
 ];
 
-const MyPageEdit = () => {
+const ProfileEdit = () => {
   const router = useRouter();
   const nameRef = useRef<HTMLInputElement>(null);
   const nicknameRef = useRef<HTMLInputElement>(null);
@@ -30,10 +31,13 @@ const MyPageEdit = () => {
   const sfacURLRef = useRef<HTMLInputElement>(null);
   const sfacTitleRef = useRef<HTMLInputElement>(null);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const userId = useMemo(() => getUser()?.id, [getUser]);
 
   const handleClickSubmit = () => {
     setIsOpenModal(prev => !prev);
   };
+
+  if (!userId) return;
 
   return (
     <main className='relative max-w-[700px] mx-auto bg-white rounded-[40px]'>
@@ -111,7 +115,7 @@ const MyPageEdit = () => {
           )}
         </section>
         <section className='flex flex-col gap-5 w-full text-caption1 text-neutral-40'>
-          <Link className='relative' href='/mypage/policy'>
+          <Link className='relative' href='./policy'>
             이용약관&개인정보처리방침
             <Image
               className='absolute top-0 right-0'
@@ -121,7 +125,7 @@ const MyPageEdit = () => {
               alt='right arrow'
             />
           </Link>
-          <Link className='relative' href='/mypage/withdraw'>
+          <Link className='relative' href='./withdraw'>
             회원탈퇴
             <Image
               className='absolute top-0 right-0'
@@ -145,11 +149,11 @@ const MyPageEdit = () => {
           setOpen={setIsOpenModal}
           title='저장 완료'
           content='해당 정보가 저장되었습니다.'
-          onClickConfirm={() => router.push('/mypage/12')}
+          onClickConfirm={() => router.push(`./${userId}`)}
         />
       </div>
     </main>
   );
 };
 
-export default MyPageEdit;
+export default ProfileEdit;

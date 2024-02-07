@@ -114,7 +114,7 @@ const Profile = ({}: MyPageProps) => {
                     )}
                   >
                     <Link
-                      href={`./${pathname.split('/')[2]}/${link}`}
+                      href={`/profile/${pathname.split('/')[2]}/${link}`}
                       onClick={() => setActiveBtn(i)}
                     >
                       {tab}

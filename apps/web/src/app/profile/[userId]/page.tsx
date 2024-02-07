@@ -3,7 +3,12 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Children, useMemo, useState } from 'react';
-import { ProfileCard, SelectBox, SquareButton } from 'sfac-design-kit';
+import {
+  ProfileCard,
+  RoundButton,
+  SelectBox,
+  SquareButton,
+} from 'sfac-design-kit';
 import { cn } from 'sfac-design-kit/src/utils';
 import { useGetUserById } from '@/hooks/useUserData';
 import { getUser, login, logout } from '@/api/user';
@@ -88,9 +93,7 @@ const Profile = ({}: MyPageProps) => {
           following={user.following}
           follower={user.follower}
           isMine={isMyProfile}
-          onClickEdit={
-            isMyProfile ? () => router.push('/mypage/edit') : () => {}
-          }
+          onClickEdit={isMyProfile ? () => router.push('./edit') : () => {}}
         />
         <div className='h-[1px] my-[30px] bg-neutral-10'></div>
         <nav className='relative flex justify-between h-[38px]'>
@@ -111,7 +114,7 @@ const Profile = ({}: MyPageProps) => {
                     )}
                   >
                     <Link
-                      href={`/mypage/${pathname.split('/')[2]}/${link}`}
+                      href={`./${pathname.split('/')[2]}/${link}`}
                       onClick={() => setActiveBtn(i)}
                     >
                       {tab}

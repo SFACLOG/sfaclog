@@ -93,7 +93,9 @@ const Profile = ({}: MyPageProps) => {
           following={user.following}
           follower={user.follower}
           isMine={isMyProfile}
-          onClickEdit={isMyProfile ? () => router.push('./edit') : () => {}}
+          onClickEdit={
+            isMyProfile ? () => router.push('/profile/edit') : () => {}
+          }
         />
         <div className='h-[1px] my-[30px] bg-neutral-10'></div>
         <nav className='relative flex justify-between h-[38px]'>

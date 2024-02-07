@@ -4,7 +4,7 @@ import { intersts, proposals } from '@images/interest';
 import InterestAndProposalButton from '@/components/InterestAndProposalButton';
 import { SquareButton } from 'sfac-design-kit';
 import { useEffect, useState } from 'react';
-import { useUserContext } from '@/app/context/UserContext';
+import { useUserContext } from '@/context/UserContext';
 import { signup } from '@/api/user';
 import Link from 'next/link';
 

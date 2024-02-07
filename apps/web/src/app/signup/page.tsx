@@ -5,7 +5,7 @@ import generateRandomNumber from '../../components/RandomNumber';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Checkbox, Input, SquareButton } from 'sfac-design-kit';
-import { useUserContext } from '../context/UserContext';
+import { useUserContext } from '@/context/UserContext';
 
 // const crypto = new Crypto();
 

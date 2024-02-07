@@ -3,12 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Children, useMemo, useState } from 'react';
-import {
-  ProfileCard,
-  RoundButton,
-  SelectBox,
-  SquareButton,
-} from 'sfac-design-kit';
+import { ProfileCard, SelectBox, SquareButton } from 'sfac-design-kit';
 import { cn } from 'sfac-design-kit/src/utils';
 import { useGetUserById } from '@/hooks/useUserData';
 import { getUser, login, logout } from '@/api/user';
@@ -71,7 +66,7 @@ const Profile = ({}: MyPageProps) => {
   );
 
   // 임의 로그인/로그아웃
-  // login('imsi@google.com', 'imsi1234');
+  login('imsi@google.com', '123456789!');
   // logout();
 
   if (!user) return;
@@ -79,12 +74,16 @@ const Profile = ({}: MyPageProps) => {
   return (
     <>
       <header className='flex justify-between items-center py-[25px] border-b border-neutral-20'>
-        <h2 className='text-title1'>log title</h2>
+        <h2 className='text-title1'>{user.sfaclog_title}</h2>
         {isMyProfile && <SquareButton>+ 로그 작성</SquareButton>}
       </header>
       <div className='mt-10 max-w-[780px] mx-auto'>
         <ProfileCard
-          avatar='/images/avatar.svg'
+          avatar={
+            user.profile_image
+              ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${user.id}/${user.profile_image}`
+              : '/images/avatar.svg'
+          }
           name={user.nickname}
           description={user.description}
           github={user.sns?.github}
@@ -93,7 +92,9 @@ const Profile = ({}: MyPageProps) => {
           following={user.following}
           follower={user.follower}
           isMine={isMyProfile}
-          onClickEdit={isMyProfile ? () => router.push('./edit') : () => {}}
+          onClickEdit={
+            isMyProfile ? () => router.push('/profile/edit') : () => {}
+          }
         />
         <div className='h-[1px] my-[30px] bg-neutral-10'></div>
         <nav className='relative flex justify-between h-[38px]'>

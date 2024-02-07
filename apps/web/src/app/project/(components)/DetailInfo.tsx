@@ -7,7 +7,7 @@ const DetailInfo = () => {
     <div className='mb-10'>
       <div className='flex justify-between mb-[15px]'>
         <div className='w-[671px]'>
-          <RoundButton className='mb-[25px] w-[153px] h-[47px] bg-system-success'>
+          <RoundButton className='mb-[25px] bg-system-success'>
             스펙폴리오 프로젝트
           </RoundButton>
           <p className=' text-title1 mb-5'>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { RoundButton, SquareButton } from 'sfac-design-kit';
+import { RoundButton } from 'sfac-design-kit';
 
 interface DetailContentsProps {
   isPlanner: boolean;
@@ -9,7 +9,7 @@ interface DetailContentsProps {
 
 const DetailContents = ({ isPlanner, isDesigner }: DetailContentsProps) => {
   return (
-    <div className='border-b'>
+    <div className='border-b border-neutral-10 mb-[57px]'>
       <div className='mb-[60px]'>
         <div className='flex gap-[2px] mb-5'>
           <Image
@@ -38,7 +38,7 @@ const DetailContents = ({ isPlanner, isDesigner }: DetailContentsProps) => {
           />
           <p className='text-h2'>프로젝트 소개</p>
         </div>
-        <p className=' text-body2 whitespace-pre-line leading-relaxed'>
+        <p className=' text-body2 whitespace-pre-line leading-relaxed mb-[30px]'>
           {`할수있당은 직관적이고 사용자 친화적인 UI를 통해 쉬운 혈당 기록과 시각적 분석을 제공합니다. 
           개인 맞춤형 리마인더와 의료 전문가와의 연결 기능으로 사용자들은 더 나은 건강 습관을 형성할 수 있습니다.
           시각적 효과와 사용의 간편성을 강조하여 사용자 경험을 최적화하였습니다.`}
@@ -52,7 +52,7 @@ const DetailContents = ({ isPlanner, isDesigner }: DetailContentsProps) => {
             className='mb-[30px]'
           />
 
-          <RoundButton className='w-[116px] h-10'>프로젝트 지원</RoundButton>
+          <RoundButton>프로젝트 지원</RoundButton>
         </div>
       </div>
     </div>

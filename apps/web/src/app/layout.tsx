@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Provider from './Provider';
 import Header from '../components/Header';
-// import 'sfac-design-kit/dist/style.css';
+import 'sfac-design-kit/dist/style.css';
 import './globals.css';
 
 export const metadata: Metadata = {

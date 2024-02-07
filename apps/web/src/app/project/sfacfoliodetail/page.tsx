@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Avatar, RoundButton } from 'sfac-design-kit';
 import DetailInfo from '../(components)/DetailInfo';
 import DetailContents from '../(components)/DetailContents';
+import Comments from '../(components)/Comments';
 const SfacFolioDetail = () => {
   const router = useRouter();
 
@@ -22,7 +23,8 @@ const SfacFolioDetail = () => {
         onClick={handleGoBack}
       />
       <DetailInfo />
-      <DetailContents isPlanner={true} isDesigner={true}></DetailContents>
+      <DetailContents isPlanner={true} isDesigner={true} />
+      <Comments />
     </div>
   );
 };

@@ -3,27 +3,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Children, useMemo, useRef, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Avatar, Input, Modal, SquareButton } from 'sfac-design-kit';
-import { cn } from 'sfac-design-kit/src/utils';
-import { useGetUserById } from '@/hooks/useUserData';
+import { useGetUserById, usePatchUser } from '@/hooks/useUserData';
 import { getUser } from '@/api/user';
-
-const POSITIONS = [
-  { icon: 'frontend', name: '프론트엔드' },
-  { icon: 'backend', name: '백엔드' },
-  { icon: 'machinelearning', name: '머신러닝' },
-  { icon: 'cloudcomputing', name: '클라우드컴퓨팅' },
-  { icon: 'database', name: '데이터베이스' },
-  { icon: 'container', name: '컨테이너화' },
-  { icon: 'serverless', name: '서버리스' },
-  { icon: 'mobile', name: '모바일' },
-];
-const PROPOSALS = [
-  { icon: 'project', name: '프로젝트 제안' },
-  { icon: 'recruit', name: '채용 제안' },
-  { icon: 'opinion', name: '의견 제안' },
-];
+import InterestAndProposalButton from '@/components/InterestAndProposalButton';
+import {
+  intersts as interestList,
+  proposals as proposalList,
+} from '@images/interest';
+import { Interest, Proposal } from '@/types/user';
 
 const ProfileEdit = () => {
   const router = useRouter();
@@ -34,18 +30,61 @@ const ProfileEdit = () => {
   const nameRef = useRef<HTMLInputElement>(null);
   const nicknameRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
-  const sfacURLRef = useRef<HTMLInputElement>(null);
   const sfacTitleRef = useRef<HTMLInputElement>(null);
+  const [interests, setInterests] = useState<Interest>({});
+  const [proposals, setProposals] = useState<Proposal>({});
   const [isOpenModal, setIsOpenModal] = useState(false);
   const { data: user } = useGetUserById(userId);
+  const { mutate, isSuccess } = usePatchUser();
 
-  const handleClickSubmit = () => {
+  useEffect(() => {
     setIsOpenModal(prev => !prev);
+  }, [isSuccess]);
+
+  useEffect(() => {
+    setInterests(() => user?.interests);
+    setProposals(() => user?.proposals);
+  }, [user]);
+
+  const handleClickIcon = (
+    icon: keyof Interest,
+    iconGetter: Interest,
+    iconSetter: Dispatch<SetStateAction<Interest>>,
+  ) => {
+    iconSetter(prev => {
+      const data = { ...prev };
+      data[icon] = !iconGetter[icon as keyof Interest];
+
+      return data;
+    });
+  };
+
+  const handleClickProposal = (
+    icon: keyof Proposal,
+    iconGetter: Proposal,
+    iconSetter: Dispatch<SetStateAction<Proposal>>,
+  ) => {
+    iconSetter(prev => {
+      const data = { ...prev };
+      data[icon] = !iconGetter[icon as keyof Proposal];
+
+      return data;
+    });
+  };
+
+  const handleClickSubmit = async () => {
+    const submitData = {
+      nickname: nicknameRef.current?.value,
+      description: descriptionRef.current?.value,
+      sfaclog_title: sfacTitleRef.current?.value,
+      interests,
+      proposals,
+    };
+
+    mutate(submitData);
   };
 
   if (!user) return;
-
-  // console.log(user);
 
   return (
     <main className='relative max-w-[700px] mx-auto bg-white rounded-[40px]'>
@@ -105,7 +144,6 @@ const ProfileEdit = () => {
             label='내 스팩로그 URL'
             defaultValue={`localhost:3000/${user.id}`}
             disabled
-            ref={sfacURLRef}
           />
           <Input
             label='스팩로그 제목'
@@ -116,41 +154,41 @@ const ProfileEdit = () => {
         </section>
         <h2 className='text-h2'>관심 분야</h2>
         <section className='grid grid-flow-row grid-cols-4 gap-5 w-full'>
-          {Children.toArray(
-            POSITIONS.map(({ icon, name }) => (
-              <button className='flex flex-col items-center gap-[14px]'>
-                <Image
-                  className={cn(
-                    Object.keys(user.interests).includes(icon) || 'grayscale',
-                  )}
-                  src={`/images/interest/${icon}.svg`}
-                  width={80}
-                  height={80}
-                  alt={name}
-                />
-                <span className='text-caption2_bold'>{name}</span>
-              </button>
-            )),
-          )}
+          {interestList.map(interest => (
+            <InterestAndProposalButton
+              key={interest}
+              category='interest'
+              size='lg'
+              type={interest}
+              selected={interests && interests[interest as keyof Interest]}
+              onClick={() =>
+                handleClickIcon(
+                  interest as keyof Interest,
+                  interests,
+                  setInterests,
+                )
+              }
+            />
+          ))}
         </section>
         <h2 className='text-h2'>제안 허용</h2>
         <section className='grid grid-flow-row grid-cols-3 gap-5 w-full'>
-          {Children.toArray(
-            PROPOSALS.map(({ icon, name }) => (
-              <button className='flex flex-col items-center gap-[14px]'>
-                <Image
-                  className={cn(
-                    Object.keys(user.proposals).includes(icon) || 'grayscale',
-                  )}
-                  src={`/images/proposal/${icon}.svg`}
-                  width={110}
-                  height={110}
-                  alt={name}
-                />
-                <span className='text-caption2_bold'>{name}</span>
-              </button>
-            )),
-          )}
+          {proposalList.map(proposal => (
+            <InterestAndProposalButton
+              key={proposal}
+              category='proposal'
+              size='lg'
+              type={proposal}
+              selected={proposals && proposals[proposal as keyof Proposal]}
+              onClick={() =>
+                handleClickProposal(
+                  proposal as keyof Proposal,
+                  proposals,
+                  setProposals,
+                )
+              }
+            />
+          ))}
         </section>
         <section className='flex flex-col gap-5 w-full text-caption1 text-neutral-40'>
           <Link className='relative' href='./policy'>
@@ -182,13 +220,15 @@ const ProfileEdit = () => {
         >
           변경사항 적용하기
         </SquareButton>
-        <Modal
-          isOpen={isOpenModal}
-          setOpen={setIsOpenModal}
-          title='저장 완료'
-          content='해당 정보가 저장되었습니다.'
-          onClickConfirm={() => router.push(`./${userId}`)}
-        />
+        {isSuccess && (
+          <Modal
+            isOpen={isOpenModal}
+            setOpen={setIsOpenModal}
+            title='저장 완료'
+            content='해당 정보가 저장되었습니다.'
+            onClickConfirm={() => router.push(`./${userId}`)}
+          />
+        )}
       </div>
     </main>
   );

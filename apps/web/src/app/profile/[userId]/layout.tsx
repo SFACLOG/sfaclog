@@ -1,17 +1,17 @@
 import { Metadata } from 'next';
 import { ReactNode } from 'react';
 
-interface MyPageLayout {
+interface ProfileLayoutProps {
   children: ReactNode;
   tabs: ReactNode;
 }
 
 export const metadata: Metadata = {
-  title: '마이페이지',
-  description: '마이페이지',
+  title: '회원 프로필',
+  description: '회원 프로필 입니다.',
 };
 
-const MyPageLayout = ({ children, tabs }: MyPageLayout) => {
+const ProfileLayout = ({ children, tabs }: ProfileLayoutProps) => {
   return (
     <main className='mx-auto container mb-[200px]'>
       {children}
@@ -20,4 +20,4 @@ const MyPageLayout = ({ children, tabs }: MyPageLayout) => {
   );
 };
 
-export default MyPageLayout;
+export default ProfileLayout;

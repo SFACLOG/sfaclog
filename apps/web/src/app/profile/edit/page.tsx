@@ -36,6 +36,7 @@ const ProfileEdit = () => {
   const [interests, setInterests] = useState<Interest>({});
   const [proposals, setProposals] = useState<Proposal>({});
   const [uploadedImg, setUploadedImg] = useState<string>('');
+  const [isDeleteProfile, setIsDeleteProfile] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const { data: user } = useGetUserById(userId);
   const { mutate, isSuccess } = usePatchUser();
@@ -57,8 +58,18 @@ const ProfileEdit = () => {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setUploadedImg(String(reader.result));
+
       formData.set('profile', file);
     };
+
+    setIsDeleteProfile(false);
+  };
+
+  const handleDeleteProfile = () => {
+    formData.delete('profile');
+
+    setUploadedImg('/images/avatar.svg');
+    setIsDeleteProfile(true);
   };
 
   const handleClickInterest = (
@@ -68,13 +79,12 @@ const ProfileEdit = () => {
   ) => {
     iconSetter(prev => {
       const data = { ...prev };
+
       data[icon] = !iconGetter[icon as keyof Interest];
 
       return data;
     });
   };
-
-  const handleDeleteProfile = () => {};
 
   const handleClickProposal = (
     icon: keyof Proposal,
@@ -83,6 +93,7 @@ const ProfileEdit = () => {
   ) => {
     iconSetter(prev => {
       const data = { ...prev };
+
       data[icon] = !iconGetter[icon as keyof Proposal];
 
       return data;
@@ -100,6 +111,10 @@ const ProfileEdit = () => {
 
     if (formData.get('profile')) {
       submitData.profile_image = formData.get('profile');
+    }
+
+    if (isDeleteProfile) {
+      submitData.profile_image = null;
     }
 
     mutate(submitData);
@@ -126,7 +141,8 @@ const ProfileEdit = () => {
           <Avatar
             src={
               uploadedImg ||
-              `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${user.id}/${user.profile_image}`
+              (user.profile_image &&
+                `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${user.id}/${user.profile_image}`)
             }
             size='large'
           />
@@ -147,7 +163,7 @@ const ProfileEdit = () => {
             <SquareButton
               className='w-[140px] h-[30px]'
               theme='disable'
-              onChange={handleDeleteProfile}
+              onClick={handleDeleteProfile}
             >
               프로필 사진 삭제
             </SquareButton>

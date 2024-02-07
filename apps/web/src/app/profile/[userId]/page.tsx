@@ -80,8 +80,9 @@ const Profile = ({}: MyPageProps) => {
       <div className='mt-10 max-w-[780px] mx-auto'>
         <ProfileCard
           avatar={
-            `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${user.id}/${user.profile_image}` ||
-            '/images/avatar.svg'
+            user.profile_image
+              ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${user.id}/${user.profile_image}`
+              : '/images/avatar.svg'
           }
           name={user.nickname}
           description={user.description}

@@ -1,3 +1,4 @@
+'use client';
 import { HTMLAttributes, ReactNode, useState } from 'react';
 import { cn } from '../../../utils';
 import ImageWrapper from '../../common/ImageWrapper';

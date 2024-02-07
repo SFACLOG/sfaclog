@@ -2,7 +2,7 @@
 import { signOut, useSession } from 'next-auth/react';
 import Test from '../components/Test';
 import { SquareButton } from 'sfac-design-kit';
-import { isValidUser, logout } from '@/api/user';
+import { isValidUser, login, logout } from '@/api/user';
 import { useUserContext } from './context/UserContext';
 
 function Gradient({
@@ -54,6 +54,8 @@ export default function Page(): JSX.Element {
 
   console.log(data);
   console.log(isLogiin);
+
+  login('imsi@google.com', '123456789!');
 
   return (
     <main className='flex flex-col items-center justify-between min-h-screen p-24'>

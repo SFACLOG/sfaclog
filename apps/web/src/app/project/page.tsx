@@ -1,6 +1,3 @@
-'use client';
-import Image from 'next/image';
-import { useState } from 'react';
 import HotCard from './(components)/HotCard';
 import {
   ProjectCard,
@@ -8,7 +5,6 @@ import {
   SelectBox,
   SelectChipBox,
   SfacfolioCard,
-  UserCard,
 } from 'sfac-design-kit';
 import Carousel from '@/components/Carousel';
 
@@ -28,22 +24,6 @@ const projects = [
 ];
 
 const Project = () => {
-  const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
-
-  const handlePrev = () => {
-    setCurrentProjectIndex(prevIndex =>
-      prevIndex === 0 ? projects.length - 1 : prevIndex - 1,
-    );
-  };
-
-  const handleNext = () => {
-    setCurrentProjectIndex(prevIndex =>
-      prevIndex === projects.length - 1 ? 0 : prevIndex + 1,
-    );
-  };
-
-  const currentProject = projects[currentProjectIndex];
-
   const options = [
     { value: 'Option 1', label: 'Option 1' },
     { value: '데이터', label: '데이터' },

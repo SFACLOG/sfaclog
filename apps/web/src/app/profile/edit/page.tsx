@@ -1,11 +1,13 @@
 'use client';
 
-import { getUser } from '@/api/user';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Children, useMemo, useRef, useState } from 'react';
 import { Avatar, Input, Modal, SquareButton } from 'sfac-design-kit';
+import { cn } from 'sfac-design-kit/src/utils';
+import { useGetUserById } from '@/hooks/useUserData';
+import { getUser } from '@/api/user';
 
 const POSITIONS = [
   { icon: 'frontend', name: '프론트엔드' },
@@ -18,26 +20,32 @@ const POSITIONS = [
   { icon: 'mobile', name: '모바일' },
 ];
 const PROPOSALS = [
-  { icon: 'frontend', name: '프로젝트 제안' },
-  { icon: 'backend', name: '채용 제안' },
-  { icon: 'machinelearning', name: '의견 제안' },
+  { icon: 'project', name: '프로젝트 제안' },
+  { icon: 'recruit', name: '채용 제안' },
+  { icon: 'opinion', name: '의견 제안' },
 ];
 
 const ProfileEdit = () => {
   const router = useRouter();
+  const userId = useMemo(() => getUser()?.id, [getUser]);
+
+  if (!userId) return router.replace('/login');
+
   const nameRef = useRef<HTMLInputElement>(null);
   const nicknameRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const sfacURLRef = useRef<HTMLInputElement>(null);
   const sfacTitleRef = useRef<HTMLInputElement>(null);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const userId = useMemo(() => getUser()?.id, [getUser]);
+  const { data: user } = useGetUserById(userId);
 
   const handleClickSubmit = () => {
     setIsOpenModal(prev => !prev);
   };
 
-  if (!userId) return;
+  if (!user) return;
+
+  // console.log(user);
 
   return (
     <main className='relative max-w-[700px] mx-auto bg-white rounded-[40px]'>
@@ -55,7 +63,10 @@ const ProfileEdit = () => {
         </button>
         <h2 className='text-h2'>내 정보 수정</h2>
         <section className='flex gap-[30px] w-full'>
-          <Avatar src='/images/avatar.svg' size='large' />
+          <Avatar
+            src={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${user.id}/${user.profile_image}`}
+            size='large'
+          />
           <div className='flex flex-col gap-[10px] mt-[26px]'>
             <SquareButton className='w-[140px] h-[30px]' theme='disable'>
               업로드 하기
@@ -69,16 +80,37 @@ const ProfileEdit = () => {
           </div>
         </section>
         <section className='flex flex-col gap-[15px] w-full'>
-          <Input label='이름' required ref={nameRef} />
-          <Input label='닉네임' description='최대 8자' ref={nicknameRef} />
-          <Input label='소개' description='최대 400자' ref={descriptionRef} />
+          <Input
+            label='이름'
+            required
+            defaultValue={user.username}
+            ref={nameRef}
+          />
+          <Input
+            label='닉네임'
+            description='최대 8자'
+            defaultValue={user.nickname}
+            ref={nicknameRef}
+          />
+          <Input
+            label='소개'
+            description='최대 400자'
+            defaultValue={user.description}
+            ref={descriptionRef}
+          />
         </section>
         <h2 className='text-h2'>내 스팩로그</h2>
         <section className='flex flex-col gap-[15px] w-full'>
-          <Input label='내 스팩로그 URL' ref={sfacURLRef} />
+          <Input
+            label='내 스팩로그 URL'
+            defaultValue={`localhost:3000/${user.id}`}
+            disabled
+            ref={sfacURLRef}
+          />
           <Input
             label='스팩로그 제목'
             description='최대 8자'
+            defaultValue={user.sfaclog_title}
             ref={sfacTitleRef}
           />
         </section>
@@ -88,6 +120,9 @@ const ProfileEdit = () => {
             POSITIONS.map(({ icon, name }) => (
               <button className='flex flex-col items-center gap-[14px]'>
                 <Image
+                  className={cn(
+                    Object.keys(user.interests).includes(icon) || 'grayscale',
+                  )}
                   src={`/images/interest/${icon}.svg`}
                   width={80}
                   height={80}
@@ -104,7 +139,10 @@ const ProfileEdit = () => {
             PROPOSALS.map(({ icon, name }) => (
               <button className='flex flex-col items-center gap-[14px]'>
                 <Image
-                  src={`/images/interest/${icon}.svg`}
+                  className={cn(
+                    Object.keys(user.proposals).includes(icon) || 'grayscale',
+                  )}
+                  src={`/images/proposal/${icon}.svg`}
                   width={110}
                   height={110}
                   alt={name}

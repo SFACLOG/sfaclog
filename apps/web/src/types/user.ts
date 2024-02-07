@@ -2,10 +2,9 @@ export interface User {
   id: string;
   username: string;
   email: string;
-  profileImage?: string;
+  profile_image?: FormDataEntryValue | null;
   description?: string;
-  sfaclogUrl?: string;
-  sfaclogTitle?: string;
+  sfaclog_title?: string;
   interest?: Interest;
   proposal?: Proposal;
   sns?: Sns;

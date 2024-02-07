@@ -19,7 +19,7 @@ import {
   intersts as interestList,
   proposals as proposalList,
 } from '@images/interest';
-import { Interest, Proposal } from '@/types/user';
+import { Interest, Proposal, User } from '@/types/user';
 
 const formData = new FormData();
 
@@ -74,6 +74,8 @@ const ProfileEdit = () => {
     });
   };
 
+  const handleDeleteProfile = () => {};
+
   const handleClickProposal = (
     icon: keyof Proposal,
     iconGetter: Proposal,
@@ -89,13 +91,16 @@ const ProfileEdit = () => {
 
   const handleClickSubmit = async () => {
     const submitData = {
-      profile_image: formData.get('profile'),
       nickname: nicknameRef.current?.value,
       description: descriptionRef.current?.value,
       sfaclog_title: sfacTitleRef.current?.value,
       interests,
       proposals,
-    };
+    } as Partial<User>;
+
+    if (formData.get('profile')) {
+      submitData.profile_image = formData.get('profile');
+    }
 
     mutate(submitData);
   };
@@ -139,7 +144,11 @@ const ProfileEdit = () => {
                 onChange={handleUploadProfile}
               />
             </SquareButton>
-            <SquareButton className='w-[140px] h-[30px]' theme='disable'>
+            <SquareButton
+              className='w-[140px] h-[30px]'
+              theme='disable'
+              onChange={handleDeleteProfile}
+            >
               프로필 사진 삭제
             </SquareButton>
             <p className='text-caption3 text-neutral-50'>

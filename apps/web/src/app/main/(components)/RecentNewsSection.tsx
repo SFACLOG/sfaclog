@@ -32,8 +32,8 @@ const recentNewsDummy = Array.from({ length: 6 }, (_, idx) => {
       'https://plus.unsplash.com/premium_photo-1678565869434-c81195861939?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     icons: ['/images/chipIcon/figma.svg'],
     title: 'ChatGPT 서비스로 월 4천만원 버는 베트남 개발자 이야기',
-    time: '2024-02-04 08:10:05.589Z',
-    likes: 6 * idx,
+    time: '2023-03-04 08:10:05.589Z',
+    likes: 100 * idx,
     avatar:
       'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     name: '김스팩',
@@ -62,7 +62,6 @@ const RecentNewsSection = () => {
             thumbnail={news.thumbnail}
             icons={news.icons}
             title={news.title}
-            time={convertTime(news.time)}
             likes={news.likes.toString()}
             avatar={news.avatar}
             name={news.name}

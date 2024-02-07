@@ -4,6 +4,7 @@ import NewLogSection from './(components)/NewLogSection';
 import SfacProgramSection from './(components)/SfacProgramSection';
 import FollowSection from './(components)/FollowSection';
 import RecentNewsSection from './(components)/RecentNewsSection';
+import MainBanner from './(components)/MainBanner';
 
 export const logDummy = Array.from({ length: 4 }, (_, idx) => {
   return {
@@ -22,12 +23,15 @@ export const logDummy = Array.from({ length: 4 }, (_, idx) => {
 
 const MainPage = () => {
   return (
-    <div className='flex flex-col gap-[90px] container mx-auto'>
-      <PopularLogSection />
-      <NewLogSection />
-      <SfacProgramSection />
-      <FollowSection />
-      <RecentNewsSection />
+    <div className='w-full'>
+      <MainBanner />
+      <div className='flex flex-col gap-[90px] container mx-auto mb-[200px]'>
+        <PopularLogSection />
+        <NewLogSection />
+        <SfacProgramSection />
+        <FollowSection />
+        <RecentNewsSection />
+      </div>
     </div>
   );
 };

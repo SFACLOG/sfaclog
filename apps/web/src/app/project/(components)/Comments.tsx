@@ -52,7 +52,7 @@ const Comments = () => {
       const subComment: SubComment = {
         text: subCommentText,
         user: {
-          name: '차윤정',
+          name: '파란고양이',
           avatar: '/images/project/avatar1.svg',
         },
         date: new Date().toLocaleDateString(),
@@ -66,7 +66,6 @@ const Comments = () => {
           : comment,
       );
       setComments(updatedComments);
-      // Clear sub-comment input
       setSubComments({ ...subComments, [commentId]: '' });
     }
   };

@@ -8,7 +8,6 @@ import {
   resultList,
   resultx,
   signup,
-  view,
   withdrawal,
 } from '../../api/user';
 

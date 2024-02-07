@@ -1,10 +1,10 @@
 'use client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Avatar, RoundButton } from 'sfac-design-kit';
-import DetailInfo from '../(components)/DetailInfo';
-import DetailContents from '../(components)/DetailContents';
-import Comments from '../(components)/Comments';
+import Comments from '../../(components)/Comments';
+import DetailContents from '../../(components)/DetailContents';
+import DetailInfo from '../../(components)/DetailInfo';
+
 const SfacFolioDetail = () => {
   const router = useRouter();
 
@@ -22,8 +22,8 @@ const SfacFolioDetail = () => {
         className='w-8 h-8 cursor-pointer mb-5'
         onClick={handleGoBack}
       />
-      <DetailInfo />
-      <DetailContents isPlanner={true} isDesigner={true} />
+      <DetailInfo islog={false} />
+      <DetailContents isPlanner={true} isDesigner={true} islog={false} />
       <Comments />
     </div>
   );

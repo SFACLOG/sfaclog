@@ -1,0 +1,67 @@
+'use client';
+
+import { useGetBookmarkPostsByUserId } from '@/hooks/usePostData';
+import { Children, useCallback, useEffect, useRef } from 'react';
+import { LargeLogCard } from 'sfac-design-kit';
+import { Post } from '@/types/post';
+import { usePathname } from 'next/navigation';
+
+const bookmarkLogSection = () => {
+  const observerRef = useRef(null);
+  const pathname = usePathname();
+  const {
+    data: posts,
+    hasNextPage,
+    fetchNextPage,
+  } = useGetBookmarkPostsByUserId(pathname.split('/')[2]);
+
+  const handleObserver = useCallback(
+    ([entries]: IntersectionObserverEntry[]) => {
+      if (entries.isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    },
+    [fetchNextPage, hasNextPage],
+  );
+
+  useEffect(() => {
+    if (!observerRef.current) return;
+
+    const observer = new IntersectionObserver(handleObserver);
+
+    observer.observe(observerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [fetchNextPage, hasNextPage, handleObserver]);
+
+  if (!posts) return;
+
+  return (
+    <div className='flex flex-col gap-[60px] mt-10'>
+      {posts &&
+        Children.toArray(
+          posts.pages.map((group: any) =>
+            group.items.map((item: { expand: { post_id: Post } }) => {
+              const post = item.expand.post_id;
+
+              return (
+                <LargeLogCard
+                  thumbnail={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/post/${post.id}/${post.thumbnail}`}
+                  title={post.title}
+                  summary={post.content}
+                  comments={post.comments}
+                  likes={post.likes}
+                  tags={post.tag && Object.keys(post.tag)}
+                />
+              );
+            }),
+          ),
+        )}
+      <div ref={observerRef}></div>
+    </div>
+  );
+};
+
+export default bookmarkLogSection;

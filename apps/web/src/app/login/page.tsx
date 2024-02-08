@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Input, SquareButton, Checkbox } from 'sfac-design-kit';
 import { signIn, useSession } from 'next-auth/react';
-import { useUserContext } from '../context/UserContext';
+import { useUserContext } from '@/context/UserContext';
 
 const Login = () => {
   const router = useRouter();

@@ -3,7 +3,7 @@ import { signOut, useSession } from 'next-auth/react';
 import Test from '../components/Test';
 import { SquareButton } from 'sfac-design-kit';
 import { isValidUser, logout } from '@/api/user';
-import { useUserContext } from './context/UserContext';
+import { useUserContext } from '@/context/UserContext';
 
 function Gradient({
   conic,

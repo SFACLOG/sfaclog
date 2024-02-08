@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Input, SquareButton } from 'sfac-design-kit';
 import LoginLayout from '../../../components/LoginLayout';
 import { getUserByEmail, resetPassword } from '@/api/user';
-import { useUserContext } from '@/app/context/UserContext';
+import { useUserContext } from '@/context/UserContext';
 
 const page = () => {
   const [email, setEmail] = useState<string>('');

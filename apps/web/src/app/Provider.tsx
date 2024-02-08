@@ -3,7 +3,7 @@
 import { ReactNode, Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { UserProvider } from './context/UserContext';
+import { UserProvider } from '@/context/UserContext';
 import { SessionProvider } from 'next-auth/react';
 
 interface ProviderProps {

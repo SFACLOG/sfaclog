@@ -1,8 +1,6 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../utils';
-import { Button as RDButton } from '@radix-ui/themes';
-
 export interface SquareButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof SquareButtonVariants> {
@@ -22,6 +20,7 @@ const SquareButtonVariants = cva(
       },
       theme: {
         primary: 'text-white bg-primary-100',
+        secondary: 'text-neutral-50 bg-neutral-10',
         disable: 'text-neutral-40 bg-neutral-10',
       },
     },
@@ -44,9 +43,8 @@ const SquareButton = ({
   return (
     <button
       className={cn(
-        SquareButtonVariants({ size, theme }),
+        SquareButtonVariants({ size, theme, className }),
         fullWidth && 'w-full',
-        className,
       )}
       onClick={onClick}
     >

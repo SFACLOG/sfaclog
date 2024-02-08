@@ -3,7 +3,7 @@ import { Input, SquareButton } from 'sfac-design-kit';
 import LoginLayout from '../../../../components/LoginLayout';
 import Image from 'next/image';
 import { useState } from 'react';
-import { useUserContext } from '@/app/context/UserContext';
+import { useUserContext } from '@/context/UserContext';
 import { getUserByEmail, updateUser } from '@/api/user';
 
 const page = () => {

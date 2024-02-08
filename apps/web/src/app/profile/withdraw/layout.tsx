@@ -7,7 +7,7 @@ interface MyPageWithdrawLayoutProps {
 
 export const metadata: Metadata = {
   title: '회원 탈퇴',
-  description: '회원 탈퇴페이지 입니다.',
+  description: '회원 탈퇴페이지입니다.',
 };
 
 const MyPageWithdrawLayout = ({ children }: MyPageWithdrawLayoutProps) => {

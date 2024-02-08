@@ -12,7 +12,7 @@ interface MyPageProps {}
 
 const NAV_LINK = [
   { link: 'log', tab: '나의 로그' },
-  { link: 'log', tab: '관심 로그' },
+  { link: 'bookmark-log', tab: '관심 로그' },
   { link: 'log', tab: '최근 본 로그' },
   { link: 'notification', tab: '나의 알림' },
 ];
@@ -56,9 +56,16 @@ const FILTER_OPTIONS = [
 const Profile = ({}: MyPageProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [activeBtn, setActiveBtn] = useState(
-    pathname.split('/').at(-1) === 'notification' ? 3 : 0,
-  );
+  const [activeBtn, setActiveBtn] = useState(() => {
+    switch (pathname.split('/').at(-1)) {
+      case 'bookmark-log':
+        return 1;
+      case 'notification':
+        return 3;
+      default:
+        return 0;
+    }
+  });
   const { data: user } = useGetUserById(pathname.split('/')[2]);
   const isMyProfile = useMemo(
     () => pathname.split('/')[2] === getUser()?.id,

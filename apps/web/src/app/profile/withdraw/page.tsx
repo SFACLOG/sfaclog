@@ -37,7 +37,7 @@ const Withdraw = () => {
   const [isErrorPassword, setIsErrorPassword] = useState(false);
   const user = useMemo(() => getUser(), [getUser]);
 
-  if (!user?.id) return;
+  if (!user?.id) return router.replace('/login');
 
   const handleConfirmWithdraw = async () => {
     if (!passwordRef.current) return;

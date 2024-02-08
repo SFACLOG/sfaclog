@@ -2,8 +2,9 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Input, Modal, SelectBox, SquareButton } from 'sfac-design-kit';
+import { getUser, login, withdrawal } from '@/api/user';
 
 const SORT_OPTIONS = [
   {
@@ -30,12 +31,34 @@ const SORT_OPTIONS = [
 
 const Withdraw = () => {
   const router = useRouter();
+  const passwordRef = useRef<HTMLInputElement>(null);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenAlert, setIsOpenAlert] = useState(false);
+  const [isErrorPassword, setIsErrorPassword] = useState(false);
+  const user = useMemo(() => getUser(), [getUser]);
 
-  const handleConfirmWithdraw = () => {
-    setIsOpenModal(prev => !prev);
+  if (!user?.id) return router.replace('/login');
+
+  const handleConfirmWithdraw = async () => {
+    if (!passwordRef.current) return;
+
+    try {
+      await login(user.email, passwordRef.current.value);
+      await withdrawal(user.id);
+    } catch (e) {
+      setIsErrorPassword(true);
+    } finally {
+      setIsOpenAlert(prev => !prev);
+      setIsOpenModal(prev => !prev);
+    }
+  };
+
+  const handleConfirmAlert = () => {
     setIsOpenAlert(prev => !prev);
+
+    if (isErrorPassword) return;
+
+    return router.replace('/');
   };
 
   return (
@@ -71,8 +94,15 @@ const Withdraw = () => {
         </div>
         <Input
           className='mt-[50px]'
+          type='password'
           label='비밀번호 입력'
           placeholder='현재 비밀번호를 입력해주세요.'
+          required
+          status={isErrorPassword ? 'error' : 'normal'}
+          description={
+            isErrorPassword ? '비밀번호를 재입력 해주세요.' : undefined
+          }
+          ref={passwordRef}
         />
         <SquareButton
           theme='primary'
@@ -92,8 +122,13 @@ const Withdraw = () => {
         <Modal
           isOpen={isOpenAlert}
           setOpen={setIsOpenAlert}
-          title='회원 탈퇴'
-          content='회원 탈퇴가 완료되었습니다.'
+          title={isErrorPassword ? '회원 탈퇴 ❌' : '회원 탈퇴 ✅'}
+          content={
+            isErrorPassword
+              ? '비밀번호가 일치하지 않습니다.'
+              : '회원 탈퇴가 완료되었습니다.'
+          }
+          onClickConfirm={handleConfirmAlert}
         />
       </div>
     </main>

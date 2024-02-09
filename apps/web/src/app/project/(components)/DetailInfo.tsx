@@ -1,12 +1,14 @@
+'use client';
 import React, { useState } from 'react';
 import { Avatar, RoundButton } from 'sfac-design-kit';
 import Image from 'next/image';
 
 interface DetailProps {
   islog: boolean;
+  isOwner: boolean;
 }
 
-const DetailInfo = ({ islog }: DetailProps) => {
+const DetailInfo = ({ islog, isOwner }: DetailProps) => {
   const [editButtonTheme, setEditButtonTheme] = useState<
     'secondary' | 'primary'
   >('secondary');
@@ -45,29 +47,31 @@ const DetailInfo = ({ islog }: DetailProps) => {
             >
               {islog ? '스펙로그 프로젝트' : '스펙폴리오 프로젝트'}
             </RoundButton>
-            <div className='flex gap-[15px] flex-shrink-0'>
-              <RoundButton
-                theme={editButtonTheme}
-                className='py-[10px] border'
-                onClick={handleEditButtonClick}
-              >
-                수정하기
-              </RoundButton>
-              <RoundButton
-                theme={deleteButtonTheme}
-                className='py-[10px] border'
-                onClick={handleDeleteButtonClick}
-              >
-                삭제하기
-              </RoundButton>
-              <RoundButton
-                theme={closeButtonTheme}
-                className='py-[10px] border'
-                onClick={handleCloseButtonClick}
-              >
-                모집마감
-              </RoundButton>
-            </div>
+            {isOwner && (
+              <div className='flex gap-[15px] flex-shrink-0'>
+                <RoundButton
+                  theme={editButtonTheme}
+                  className='py-[10px] border'
+                  onClick={handleEditButtonClick}
+                >
+                  수정하기
+                </RoundButton>
+                <RoundButton
+                  theme={deleteButtonTheme}
+                  className='py-[10px] border'
+                  onClick={handleDeleteButtonClick}
+                >
+                  삭제하기
+                </RoundButton>
+                <RoundButton
+                  theme={closeButtonTheme}
+                  className='py-[10px] border'
+                  onClick={handleCloseButtonClick}
+                >
+                  모집마감
+                </RoundButton>
+              </div>
+            )}
           </div>
           <p className=' text-title1 mb-5'>
             하나부터 열까지 관리하자! - 헬스 케어 서비스 할 수 있당

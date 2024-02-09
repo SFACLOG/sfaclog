@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import { Avatar, SquareButton } from 'sfac-design-kit';
 import Image from 'next/image';
@@ -94,7 +95,7 @@ const Comments = () => {
         <div className='flex flex-col items-end gap-[15px]'>
           <textarea
             placeholder='댓글을 작성하세요'
-            className='bg-neutral-5 w-full h-[120px] p-[15px] max-h-[120px] overflow-y-auto text-body1 rounded-[10px]'
+            className='bg-neutral-5 w-full h-[120px] p-[15px] max-h-[120px] overflow-y-auto text-body1 rounded-[10px] placeholder:text-neutral-100 '
             value={newComment}
             onChange={e => setNewComment(e.target.value)}
           />

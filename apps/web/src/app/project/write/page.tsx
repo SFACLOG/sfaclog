@@ -2,10 +2,18 @@
 import { RoundButton, SelectBox, SelectChipBox } from 'sfac-design-kit';
 import GoBack from '../(components)/GoBack';
 import Calendar from '../(components)/Calendar';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
 
 const page = () => {
+  const textRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleResizeHeight = useCallback(() => {
+    if (textRef.current) {
+      textRef.current.style.height = textRef.current.scrollHeight + 'px';
+    }
+  }, []);
+
   const process = [
     { label: '온라인', value: 'online' },
     { label: '오프라인', value: 'offline' },
@@ -64,6 +72,15 @@ const page = () => {
       }
     }
     setImages(newImages);
+  };
+
+  const handleDeletePreview = (index: number) => {
+    const newImages = [...images];
+    const newPreviews = [...previews];
+    newImages.splice(index, 1);
+    newPreviews.splice(index, 1);
+    setImages(newImages);
+    setPreviews(newPreviews);
   };
 
   return (
@@ -130,14 +147,16 @@ const page = () => {
             className=' text-h1 border-none placeholder:text-neutral-20 w-full'
           />
           <div className=' border border-neutral-10 my-5 '></div>
-          <input
-            type='text'
+          <textarea
+            ref={textRef}
+            onInput={handleResizeHeight}
             placeholder='어떤 프로젝트인가요? 설명해주세요!'
-            className='placeholder:text-neutral-20 w-full mb-[70px]'
+            className='placeholder:text-neutral-20 w-full mb-[70px] p-5 border-none resize-none overflow-hidden'
           />
+
           <div>
             {previews?.map((preview, index) => (
-              <div key={index} className='mb-5 rounded-[20px]'>
+              <div key={index} className='mb-5 rounded-[20px] relative'>
                 <Image
                   src={preview}
                   width={645}
@@ -145,6 +164,12 @@ const page = () => {
                   alt={`${preview}-${index}`}
                   className=' max-w-[645px] max-h-[226px]  rounded-[20px]'
                 />
+                <button
+                  onClick={() => handleDeletePreview(index)}
+                  className='absolute top-0 right-0 m-2 px-3 py-1 text-neutral-40'
+                >
+                  X
+                </button>
               </div>
             ))}
           </div>
@@ -178,8 +203,10 @@ const page = () => {
         <div className=' border border-neutral-10 mt-5 mb-[50px]'></div>
         <div className=' flex flex-col items-center justify-center '>
           <textarea
+            ref={textRef}
+            onInput={handleResizeHeight}
             placeholder='우리 팀에는 어떤 팀원이 필요한가요?'
-            className=' w-[580px] h-[346px] px-[51px] py-11 placeholder:text-neutral-50 text-body1  bg-neutral-10 mb-[70px] rounded-[5px]'
+            className=' w-[580px] h-[346px] px-[51px] py-11 placeholder:text-neutral-50 text-body1  bg-neutral-10 mb-[70px] rounded-[5px] resize-none'
           />
           <RoundButton>프로젝트 업로드</RoundButton>
         </div>

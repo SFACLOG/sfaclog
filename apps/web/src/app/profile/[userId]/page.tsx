@@ -13,7 +13,7 @@ interface MyPageProps {}
 const NAV_LINK = [
   { link: 'log', tab: '나의 로그' },
   { link: 'bookmark-log', tab: '관심 로그' },
-  { link: 'log', tab: '최근 본 로그' },
+  { link: 'recent-view-log', tab: '최근 본 로그' },
   { link: 'notification', tab: '나의 알림' },
 ];
 const SORT_OPTIONS = [
@@ -60,6 +60,8 @@ const Profile = ({}: MyPageProps) => {
     switch (pathname.split('/').at(-1)) {
       case 'bookmark-log':
         return 1;
+      case 'recent-view-log':
+        return 2;
       case 'notification':
         return 3;
       default:
@@ -73,7 +75,7 @@ const Profile = ({}: MyPageProps) => {
   );
 
   // 임의 로그인/로그아웃
-  login('imsi@google.com', '123456789!');
+  // login('imsi@google.com', '123456789!');
   // logout();
 
   if (!user) return;

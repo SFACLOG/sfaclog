@@ -1,9 +1,9 @@
 'use client';
 
-import { useGetPostsByUserId } from '@/hooks/usePostData';
 import { usePathname } from 'next/navigation';
 import { Children, useCallback, useEffect, useRef } from 'react';
 import { LargeLogCard } from 'sfac-design-kit';
+import { useGetPostsByUserId } from '@/hooks/usePostData';
 import { Post } from '@/types/post';
 
 const LogSection = () => {

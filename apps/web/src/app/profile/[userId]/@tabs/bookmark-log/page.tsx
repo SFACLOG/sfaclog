@@ -1,10 +1,10 @@
 'use client';
 
-import { useGetBookmarkPostsByUserId } from '@/hooks/usePostData';
+import { usePathname } from 'next/navigation';
 import { Children, useCallback, useEffect, useRef } from 'react';
+import { useGetBookmarkPostsByUserId } from '@/hooks/usePostData';
 import { LargeLogCard } from 'sfac-design-kit';
 import { Post } from '@/types/post';
-import { usePathname } from 'next/navigation';
 
 const bookmarkLogSection = () => {
   const observerRef = useRef(null);

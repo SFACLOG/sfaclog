@@ -60,6 +60,8 @@ const Profile = ({}: MyPageProps) => {
     switch (pathname.split('/').at(-1)) {
       case 'bookmark-log':
         return 1;
+      case 'recent-view-log':
+        return 2;
       case 'notification':
         return 3;
       default:

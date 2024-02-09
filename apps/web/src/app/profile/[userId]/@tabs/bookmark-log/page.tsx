@@ -2,8 +2,8 @@
 
 import { usePathname } from 'next/navigation';
 import { Children, useCallback, useEffect, useRef } from 'react';
-import { useGetBookmarkPostsByUserId } from '@/hooks/usePostData';
 import { LargeLogCard } from 'sfac-design-kit';
+import { useGetBookmarkPostsByUserId } from '@/hooks/usePostData';
 import { Post } from '@/types/post';
 
 const bookmarkLogSection = () => {
@@ -40,25 +40,24 @@ const bookmarkLogSection = () => {
 
   return (
     <div className='flex flex-col gap-[60px] mt-10'>
-      {posts &&
-        Children.toArray(
-          posts.pages.map((group: any) =>
-            group.items.map((item: { expand: { post_id: Post } }) => {
-              const post = item.expand.post_id;
+      {Children.toArray(
+        posts.pages.map((group: any) =>
+          group.items.map((item: { expand: { post_id: Post } }) => {
+            const post = item.expand.post_id;
 
-              return (
-                <LargeLogCard
-                  thumbnail={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/post/${post.id}/${post.thumbnail}`}
-                  title={post.title}
-                  summary={post.content}
-                  comments={post.comments}
-                  likes={post.likes}
-                  tags={post.tag && Object.keys(post.tag)}
-                />
-              );
-            }),
-          ),
-        )}
+            return (
+              <LargeLogCard
+                thumbnail={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/post/${post.id}/${post.thumbnail}`}
+                title={post.title}
+                summary={post.content}
+                comments={post.comments}
+                likes={post.likes}
+                tags={post.tag && Object.keys(post.tag)}
+              />
+            );
+          }),
+        ),
+      )}
       <div ref={observerRef}></div>
     </div>
   );

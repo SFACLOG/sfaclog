@@ -75,7 +75,7 @@ const Profile = ({}: MyPageProps) => {
   );
 
   // 임의 로그인/로그아웃
-  login('imsi@google.com', '123456789!');
+  // login('imsi@google.com', '123456789!');
   // logout();
 
   if (!user) return;

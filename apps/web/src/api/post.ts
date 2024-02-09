@@ -9,7 +9,7 @@ export const getPostsbyUserId = async (user_id: string, page: number) => {
   return records;
 };
 
-export const getRelatedPostsByUserId = async (
+export const getUserRelatedPostsByUserId = async (
   collection: string,
   user_id: string,
   page: number,
@@ -20,21 +20,6 @@ export const getRelatedPostsByUserId = async (
     expand: 'post_id',
     sort: '-created',
   });
-
-  return records;
-};
-
-export const getRecentViewPostByUserId = async (
-  user_id: string,
-  page: number,
-) => {
-  const perPage = 2;
-  const records = await pb
-    .collection('post_recent_view')
-    .getList(page, perPage, {
-      filter: `user_id = "${user_id}"`,
-      expand: 'post_id',
-    });
 
   return records;
 };

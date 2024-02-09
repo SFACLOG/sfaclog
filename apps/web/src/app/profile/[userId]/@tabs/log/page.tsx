@@ -40,21 +40,20 @@ const LogSection = () => {
 
   return (
     <div className='flex flex-col gap-[60px] mt-10'>
-      {posts &&
-        Children.toArray(
-          posts.pages.map((group: any) =>
-            group.items.map((item: Post) => (
-              <LargeLogCard
-                thumbnail={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/post/${item.id}/${item.thumbnail}`}
-                title={item.title}
-                summary={item.content}
-                comments={item.comments}
-                likes={item.likes}
-                tags={item.tag && Object.keys(item.tag)}
-              />
-            )),
-          ),
-        )}
+      {Children.toArray(
+        posts.pages.map((group: any) =>
+          group.items.map((item: Post) => (
+            <LargeLogCard
+              thumbnail={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/post/${item.id}/${item.thumbnail}`}
+              title={item.title}
+              summary={item.content}
+              comments={item.comments}
+              likes={item.likes}
+              tags={item.tag && Object.keys(item.tag)}
+            />
+          )),
+        ),
+      )}
       <div ref={observerRef}></div>
     </div>
   );

@@ -3,6 +3,7 @@ import { RoundButton, SelectBox, SelectChipBox } from 'sfac-design-kit';
 import GoBack from '../(components)/GoBack';
 import Calendar from '../(components)/Calendar';
 import { useState } from 'react';
+import Image from 'next/image';
 
 const page = () => {
   const process = [
@@ -36,6 +37,34 @@ const page = () => {
     { label: '9명', value: '9' },
     { label: '10명 이상', value: '10up' },
   ];
+
+  const [images, setImages] = useState<File[]>([]); // 이미지 파일을 저장할 상태
+  const [previews, setPreviews] = useState<string[]>([]); // 이미지 파일의 프리뷰를 저장할 상태
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newImages: File[] = [...images];
+    const newPreviews: string[] = [...previews];
+
+    for (let i = 0; i < e.target.files!.length; i++) {
+      const file: File = e.target.files![i];
+      // 이미지 파일 3개로 제한
+      if (newImages.length < 3) {
+        // 이벤트객체의 파일을 newImages에 담기
+        newImages.push(file);
+        // 파일리더 객체 생성
+        const reader: FileReader = new FileReader();
+        // 파일 읽어온 후 실행되는 콜백함수
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          // 읽어온 값을 갱신하기
+          newPreviews.push(e.target!.result as string);
+          setPreviews(newPreviews);
+        };
+        // 파일 객체를 읽어 base64 형태의 문자열로 변환
+        reader.readAsDataURL(file);
+      }
+    }
+    setImages(newImages);
+  };
 
   return (
     <div className='mt-[50px] max-w-[780px] mx-auto'>
@@ -106,8 +135,36 @@ const page = () => {
             placeholder='어떤 프로젝트인가요? 설명해주세요!'
             className='placeholder:text-neutral-20 w-full mb-[70px]'
           />
-          <div className='h-[226px] rounded-[20px] w-full border'>
-            이미지 업로드
+          <div>
+            {previews?.map((preview, index) => (
+              <div key={index} className='mb-5 rounded-[20px]'>
+                <Image
+                  src={preview}
+                  width={645}
+                  height={226}
+                  alt={`${preview}-${index}`}
+                  className=' max-w-[645px] max-h-[226px]  rounded-[20px]'
+                />
+              </div>
+            ))}
+          </div>
+          <div className='relative'>
+            <input
+              type='file'
+              id='inputFile'
+              accept='image/*'
+              multiple
+              onChange={handleImageChange}
+              className='hidden'
+            />
+            <label
+              htmlFor='inputFile'
+              className=' w-full flex bg-neutral-5 hover:bg-neutral-20 rounded-[20px]'
+            >
+              <span className='h-[226px] rounded-[20px] w-full flex justify-center items-center text-[30px] text-neutral-40'>
+                +
+              </span>
+            </label>
           </div>
         </div>
       </div>

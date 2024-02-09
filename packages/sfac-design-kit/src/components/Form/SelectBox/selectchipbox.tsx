@@ -73,7 +73,7 @@ export const SelectChipBox: React.FC<SelectChipBoxProps> = ({
   return (
     <div
       className={cn(
-        `inline-flex flex-col items-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-netural-10 rounded-md text-center ${selectedOptions.length > 0 && 'border-primary-100'} ${isOpen && 'h-[320px] px-[52px]'}`,
+        `inline-flex flex-col items-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-neutral-40 rounded-md text-center ${selectedOptions.length > 0 && 'border-primary-100'} ${isOpen && 'h-[320px] px-[52px]'}`,
         className,
       )}
     >
@@ -84,7 +84,7 @@ export const SelectChipBox: React.FC<SelectChipBoxProps> = ({
           selectedOptions.length > 0 && ' text-primary-100',
         )}
       >
-        <div className='mr-[15px] '>
+        <div className='mr-[5px] '>
           {isOpen
             ? selectedOptions.length > 0
               ? selectedOptions.map(option => option.label).join(', ')

@@ -20,6 +20,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
   className,
   options,
   title,
+  ...rest
 }: SelectBoxProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<SelectBoxOption | null>(
@@ -38,15 +39,17 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
   return (
     <div
       className={cn(
-        `inline-flex flex-col items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-netural-10 rounded-md text-center ${selectedOption && 'border-primary-100'} relative`,
+        `inline-flex flex-col items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-neutral-40  rounded-md text-center ${selectedOption && 'border-primary-100'} relative`,
         className,
       )}
+      {...rest}
     >
       <div
         onClick={toggleDropdown}
         className={cn(
           'flex justify-center items-center py-[10.5px] w-full',
           selectedOption && ' text-primary-100',
+          className,
         )}
       >
         <div className='mr-[5px]'>
@@ -59,12 +62,12 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
         )}
       </div>
       {isOpen && (
-        <div className='w-full absolute top-[103%] left-0 z-50 bg-white border '>
+        <div className='w-full absolute top-[103%] left-0 z-50 bg-white border  border-netural-40'>
           {options.map((option, index) => (
             <div
               key={index}
               onClick={() => handleOptionClick(option)}
-              className={cn('py-[10.5px] border-t-[1px]', {
+              className={cn('py-[10.5px] border border-netural-40', {
                 ' text-primary-100': selectedOption === option,
               })}
             >

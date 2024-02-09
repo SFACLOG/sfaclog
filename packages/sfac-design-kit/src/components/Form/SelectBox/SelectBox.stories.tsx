@@ -1,5 +1,4 @@
 import { SelectBox } from '.';
-import { IconChip } from '../../Chip';
 import { SelectChipBox } from './selectchipbox';
 import { SelectSeriesBox } from './series';
 

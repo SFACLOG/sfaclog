@@ -29,7 +29,6 @@ export const useGetPostsByUserId = (user_id: string) => {
     getNextPageParam: (_lastPage, allPages) => {
       return allPages.length + 1;
     },
-    staleTime: 0,
   });
 };
 
@@ -42,6 +41,5 @@ export const useGetBookmarkPostsByUserId = (user_id: string) => {
     getNextPageParam: (_lastPage, allPages) => {
       return allPages.length + 1;
     },
-    staleTime: 0,
   });
 };

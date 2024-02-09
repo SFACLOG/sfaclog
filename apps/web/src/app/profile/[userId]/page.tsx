@@ -13,7 +13,7 @@ interface MyPageProps {}
 const NAV_LINK = [
   { link: 'log', tab: '나의 로그' },
   { link: 'bookmark-log', tab: '관심 로그' },
-  { link: 'log', tab: '최근 본 로그' },
+  { link: 'recent-view-log', tab: '최근 본 로그' },
   { link: 'notification', tab: '나의 알림' },
 ];
 const SORT_OPTIONS = [

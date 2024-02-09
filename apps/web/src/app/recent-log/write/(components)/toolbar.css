@@ -1,0 +1,27 @@
+.w-md-editor-toolbar > ul {
+  padding: 13.5px 40px;
+
+  display: flex;
+  align-items: center;
+}
+
+.w-md-editor-input {
+  position: relative;
+}
+
+.w-md-editor-text {
+  position: absolute;
+  width: 648px;
+  left: 36px;
+  top: 91px;
+  padding: 10px;
+}
+
+.w-md-editor-toolbar > :nth-child(2) {
+  display: none;
+}
+
+.w-md-editor-toolbar-divider {
+  height: 16px;
+  border-right: 1.5px solid #999999;
+}

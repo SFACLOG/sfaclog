@@ -2,14 +2,22 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Children, useMemo, useState } from 'react';
-import { ProfileCard, SelectBox, SquareButton } from 'sfac-design-kit';
+import {
+  Children,
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { Avatar, ProfileCard, SelectBox, SquareButton } from 'sfac-design-kit';
 import { cn } from 'sfac-design-kit/src/utils';
 import { useGetUserById } from '@/hooks/useUserData';
 import { getUser, login, logout } from '@/api/user';
 import { Modal } from '@/components/Modal';
-
-interface MyPageProps {}
+import { useGetFollowersByUserId } from '@/hooks/useFollowData';
+import { User } from '@/types/user';
 
 const NAV_LINK = [
   { link: 'log', tab: '나의 로그' },
@@ -54,7 +62,8 @@ const FILTER_OPTIONS = [
   },
 ];
 
-const Profile = ({}: MyPageProps) => {
+const Profile = () => {
+  const observerRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -71,6 +80,12 @@ const Profile = ({}: MyPageProps) => {
     }
   });
   const { data: user } = useGetUserById(pathname.split('/')[2]);
+  const {
+    data: followers,
+    hasNextPage,
+    fetchNextPage,
+  } = useGetFollowersByUserId(pathname.split('/')[2]);
+
   const isMyProfile = useMemo(
     () => pathname.split('/')[2] === getUser()?.id,
     [pathname, getUser()],
@@ -79,10 +94,16 @@ const Profile = ({}: MyPageProps) => {
   const handleClickFollowList = () => {
     setIsOpenModal(prev => !prev);
   };
+
   const handleClickFollowingList = () => {
     setIsOpenModal(prev => !prev);
   };
 
+  const handleFetchFollower = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
   // 임의 로그인/로그아웃
   // login('imsi@google.com', '123456789!');
   // logout();
@@ -156,14 +177,38 @@ const Profile = ({}: MyPageProps) => {
         </nav>
       </div>
       <Modal isOpen={isOpenModal} setOpen={setIsOpenModal}>
-        <header className='text-title2'>팔로우</header>
-        <section>
-          <ul>
-            {Array.from({ length: 10 }).map(() => (
-              <li>유저</li>
-            ))}
-          </ul>
-        </section>
+        <header className='sticky top-0 w-full py-4 text-subtitle bg-white text-center'>
+          팔로우
+        </header>
+        <ul className='self-start flex flex-col gap-4 ml-8 my-4 '>
+          {Children.toArray(
+            followers?.pages.map((page: any) =>
+              page.items.map((item: { expand: { follower: User } }) => {
+                const follower = item.expand.follower;
+
+                return (
+                  <li className='flex items-center gap-4 '>
+                    <Avatar
+                      src={
+                        follower.profile_image
+                          ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${follower.id}/${follower.profile_image}`
+                          : '/images/avatar.svg'
+                      }
+                      size='small'
+                    />
+                    <span className=' text-body2'>{follower.nickname}</span>
+                  </li>
+                );
+              }),
+            ),
+          )}
+        </ul>
+        <button
+          className='fixed bottom-0 w-full px-auto py-4 hover:bg-neutral-5'
+          onClick={handleFetchFollower}
+        >
+          더보기
+        </button>
       </Modal>
     </>
   );

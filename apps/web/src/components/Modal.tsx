@@ -29,7 +29,7 @@ const ModalUI = ({ setOpen, children }: ModalUIProps) => {
     >
       <main
         className={
-          'sticky top-[50vh] -translate-y-[50%] flex flex-col items-center justify-center min-w-[40dvw] bg-white rounded-[5px] shadow-lg'
+          'sticky top-[50vh] -translate-y-[50%] flex flex-col items-center min-w-[40dvw] bg-white rounded-[5px] shadow-lg h-[70dvh] overflow-scroll'
         }
         onClick={e => e.stopPropagation()}
       >

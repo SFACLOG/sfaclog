@@ -7,6 +7,7 @@ import { ProfileCard, SelectBox, SquareButton } from 'sfac-design-kit';
 import { cn } from 'sfac-design-kit/src/utils';
 import { useGetUserById } from '@/hooks/useUserData';
 import { getUser, login, logout } from '@/api/user';
+import { Modal } from '@/components/Modal';
 
 interface MyPageProps {}
 
@@ -56,6 +57,7 @@ const FILTER_OPTIONS = [
 const Profile = ({}: MyPageProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const [activeBtn, setActiveBtn] = useState(() => {
     switch (pathname.split('/').at(-1)) {
       case 'bookmark-log':
@@ -73,6 +75,13 @@ const Profile = ({}: MyPageProps) => {
     () => pathname.split('/')[2] === getUser()?.id,
     [pathname, getUser()],
   );
+
+  const handleClickFollowList = () => {
+    setIsOpenModal(prev => !prev);
+  };
+  const handleClickFollowingList = () => {
+    setIsOpenModal(prev => !prev);
+  };
 
   // 임의 로그인/로그아웃
   // login('imsi@google.com', '123456789!');
@@ -104,6 +113,8 @@ const Profile = ({}: MyPageProps) => {
           onClickEdit={
             isMyProfile ? () => router.push('/profile/edit') : () => {}
           }
+          onClickFollowList={handleClickFollowList}
+          onClickFollowingList={handleClickFollowingList}
         />
         <div className='h-[1px] my-[30px] bg-neutral-10'></div>
         <nav className='relative flex justify-between h-[38px]'>
@@ -144,6 +155,16 @@ const Profile = ({}: MyPageProps) => {
           </div>
         </nav>
       </div>
+      <Modal isOpen={isOpenModal} setOpen={setIsOpenModal}>
+        <header className='text-title2'>팔로우</header>
+        <section>
+          <ul>
+            {Array.from({ length: 10 }).map(() => (
+              <li>유저</li>
+            ))}
+          </ul>
+        </section>
+      </Modal>
     </>
   );
 };

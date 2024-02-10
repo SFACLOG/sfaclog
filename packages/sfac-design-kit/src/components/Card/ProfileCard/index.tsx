@@ -19,6 +19,8 @@ export interface ProfileCardProps extends HTMLAttributes<HTMLDivElement> {
   facebook?: string;
   isMine?: boolean;
   onClickFollow?: MouseEventHandler<HTMLButtonElement>;
+  onClickFollowList?: MouseEventHandler<HTMLButtonElement>;
+  onClickFollowingList?: MouseEventHandler<HTMLButtonElement>;
   onClickEdit?: MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -35,6 +37,8 @@ export const ProfileCard = ({
   facebook,
   isMine,
   onClickFollow,
+  onClickFollowList,
+  onClickFollowingList,
   onClickEdit,
 }: ProfileCardProps) => {
   return (
@@ -81,14 +85,20 @@ export const ProfileCard = ({
           )}
         </div>
         <div className='flex gap-[30px]'>
-          <div className='flex flex-col items-center gap-[5px]'>
+          <button
+            className='flex flex-col items-center gap-[5px] hover:text-neutral-60'
+            onClick={onClickFollowList}
+          >
             <p className='text-body2'>팔로워</p>
             <span className='text-body1_bold'>{follower}</span>
-          </div>
-          <div className='flex flex-col items-center gap-[5px]'>
+          </button>
+          <button
+            className='flex flex-col items-center gap-[5px] hover:text-neutral-60'
+            onClick={onClickFollowingList}
+          >
             <p className='text-body2'>팔로잉</p>
             <span className='text-body1_bold'>{following}</span>
-          </div>
+          </button>
         </div>
         <SquareButton
           className='w-full border border-neutral-10 bg-white text-primary-100'

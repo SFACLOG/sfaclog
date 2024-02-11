@@ -16,7 +16,10 @@ import { cn } from 'sfac-design-kit/src/utils';
 import { useGetUserById } from '@/hooks/useUserData';
 import { getUser, login, logout } from '@/api/user';
 import { Modal } from '@/components/Modal';
-import { useGetFollowersByUserId } from '@/hooks/useFollowData';
+import {
+  useGetFollowersByUserId,
+  useGetFollowingsByUserId,
+} from '@/hooks/useFollowData';
 import { User } from '@/types/user';
 
 const NAV_LINK = [
@@ -63,10 +66,11 @@ const FILTER_OPTIONS = [
 ];
 
 const Profile = () => {
-  const observerRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const userId = useMemo(() => pathname.split('/')[2], [pathname]);
+  const [isOpenFollowerModal, setIsOpenFollowerModal] = useState(false);
+  const [isOpenFollowingModal, setIsOpenFollowingModal] = useState(false);
   const [activeBtn, setActiveBtn] = useState(() => {
     switch (pathname.split('/').at(-1)) {
       case 'bookmark-log':
@@ -79,31 +83,35 @@ const Profile = () => {
         return 0;
     }
   });
-  const { data: user } = useGetUserById(pathname.split('/')[2]);
+  const { data: user } = useGetUserById(userId);
   const {
     data: followers,
-    hasNextPage,
-    fetchNextPage,
-  } = useGetFollowersByUserId(pathname.split('/')[2]);
+    hasNextPage: hasNextFollowerPage,
+    fetchNextPage: fetchNextFollowerPage,
+  } = useGetFollowersByUserId(userId);
+  const {
+    data: followings,
+    hasNextPage: hasNextFollowingPage,
+    fetchNextPage: fetchNextFollowingPage,
+  } = useGetFollowingsByUserId(userId);
 
   const isMyProfile = useMemo(
-    () => pathname.split('/')[2] === getUser()?.id,
-    [pathname, getUser()],
+    () => userId === getUser()?.id,
+    [userId, getUser()],
   );
 
-  const handleClickFollowList = () => {
-    setIsOpenModal(prev => !prev);
-  };
-
-  const handleClickFollowingList = () => {
-    setIsOpenModal(prev => !prev);
-  };
-
   const handleFetchFollower = () => {
-    if (hasNextPage) {
-      fetchNextPage();
+    if (hasNextFollowerPage) {
+      fetchNextFollowerPage();
     }
   };
+
+  const handleFetchFollowing = () => {
+    if (hasNextFollowingPage) {
+      fetchNextFollowingPage();
+    }
+  };
+
   // 임의 로그인/로그아웃
   // login('imsi@google.com', '123456789!');
   // logout();
@@ -134,8 +142,8 @@ const Profile = () => {
           onClickEdit={
             isMyProfile ? () => router.push('/profile/edit') : () => {}
           }
-          onClickFollowList={handleClickFollowList}
-          onClickFollowingList={handleClickFollowingList}
+          onClickFollowList={() => setIsOpenFollowerModal(prev => !prev)}
+          onClickFollowingList={() => setIsOpenFollowingModal(prev => !prev)}
         />
         <div className='h-[1px] my-[30px] bg-neutral-10'></div>
         <nav className='relative flex justify-between h-[38px]'>
@@ -156,7 +164,7 @@ const Profile = () => {
                     )}
                   >
                     <Link
-                      href={`/profile/${pathname.split('/')[2]}/${link}`}
+                      href={`/profile/${userId}/${link}`}
                       onClick={() => setActiveBtn(i)}
                     >
                       {tab}
@@ -176,40 +184,78 @@ const Profile = () => {
           </div>
         </nav>
       </div>
-      <Modal isOpen={isOpenModal} setOpen={setIsOpenModal}>
-        <header className='sticky top-0 w-full py-4 text-subtitle bg-white text-center'>
-          팔로우
-        </header>
-        <ul className='self-start flex flex-col gap-4 ml-8 my-4 '>
-          {Children.toArray(
-            followers?.pages.map((page: any) =>
-              page.items.map((item: { expand: { follower: User } }) => {
-                const follower = item.expand.follower;
+      {followers && (
+        <Modal isOpen={isOpenFollowerModal} setOpen={setIsOpenFollowerModal}>
+          <header className='sticky top-0 w-full py-4 border-b border-neutral-10 text-subtitle bg-white text-center'>
+            팔로우
+          </header>
+          <ul className='self-start flex flex-col gap-4 pl-8 my-4 w-full overflow-auto'>
+            {Children.toArray(
+              followers.pages.map((page: any) =>
+                page.items.map((item: { expand: { follower: User } }) => {
+                  const follower = item.expand.follower;
 
-                return (
-                  <li className='flex items-center gap-4 '>
-                    <Avatar
-                      src={
-                        follower.profile_image
-                          ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${follower.id}/${follower.profile_image}`
-                          : '/images/avatar.svg'
-                      }
-                      size='small'
-                    />
-                    <span className=' text-body2'>{follower.nickname}</span>
-                  </li>
-                );
-              }),
-            ),
-          )}
-        </ul>
-        <button
-          className='fixed bottom-0 w-full px-auto py-4 hover:bg-neutral-5'
-          onClick={handleFetchFollower}
-        >
-          더보기
-        </button>
-      </Modal>
+                  return (
+                    <li className='flex items-center gap-4'>
+                      <Avatar
+                        src={
+                          follower.profile_image
+                            ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${follower.id}/${follower.profile_image}`
+                            : '/images/avatar.svg'
+                        }
+                        size='small'
+                      />
+                      <span className=' text-body2'>{follower.nickname}</span>
+                    </li>
+                  );
+                }),
+              ),
+            )}
+          </ul>
+          <button
+            className='fixed bottom-[-45px] w-full px-auto py-4 bg-white hover:bg-neutral-5'
+            onClick={handleFetchFollower}
+          >
+            더보기
+          </button>
+        </Modal>
+      )}
+      {followings && (
+        <Modal isOpen={isOpenFollowingModal} setOpen={setIsOpenFollowingModal}>
+          <header className='sticky top-0 w-full py-4 border-b border-neutral-10 text-subtitle bg-white text-center'>
+            팔로잉
+          </header>
+          <ul className='self-start flex flex-col gap-4 pl-8 my-4 w-full overflow-auto'>
+            {Children.toArray(
+              followings.pages.map((page: any) =>
+                page.items.map((item: { expand: { followee: User } }) => {
+                  const followee = item.expand.followee;
+
+                  return (
+                    <li className='flex items-center gap-4'>
+                      <Avatar
+                        src={
+                          followee.profile_image
+                            ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${followee.id}/${followee.profile_image}`
+                            : '/images/avatar.svg'
+                        }
+                        size='small'
+                      />
+                      <span className=' text-body2'>{followee.nickname}</span>
+                    </li>
+                  );
+                }),
+              ),
+            )}
+          </ul>
+          <button
+            className='fixed bottom-[-45px] w-full px-auto py-4 bg-white hover:bg-neutral-5'
+            onClick={handleFetchFollowing}
+          >
+            더보기
+          </button>
+        </Modal>
+      )}
     </>
   );
 };

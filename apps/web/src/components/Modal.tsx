@@ -1,4 +1,4 @@
-import { Dispatch, MouseEventHandler, ReactNode, SetStateAction } from 'react';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createPortal } from 'react-dom';
 
 export interface ModalProps {
@@ -29,7 +29,7 @@ const ModalUI = ({ setOpen, children }: ModalUIProps) => {
     >
       <main
         className={
-          'sticky top-[50vh] -translate-y-[50%] flex flex-col items-center min-w-[40dvw] bg-white rounded-[5px] shadow-lg h-[70dvh] overflow-scroll'
+          'sticky top-[50vh] -translate-y-[50%] flex flex-col items-center min-w-[40dvw] bg-white shadow-lg h-[50dvh] '
         }
         onClick={e => e.stopPropagation()}
       >

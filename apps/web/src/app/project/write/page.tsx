@@ -1,11 +1,101 @@
 'use client';
-import { RoundButton, SelectBox, SelectChipBox } from 'sfac-design-kit';
+import {
+  RoundButton,
+  SelectBox,
+  SelectBoxOption,
+  SelectBoxPosition,
+  SelectChipBox,
+} from 'sfac-design-kit';
 import GoBack from '../(components)/GoBack';
 import Calendar from '../(components)/Calendar';
 import { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
+import { getUser, isValidUser } from '@/api/user';
+import { getLatestProjectById, postProject } from '@/api/project';
+import { getMeeting, postMeeting } from '@/api/meeting';
+import { getPositionByName, postPosition } from '@/api/position';
+import { getSkillByName, postSkill } from '@/api/skill';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
+  const [selectedProcess, setSelectedProcess] = useState<string>('');
+  const [selectedPosition, setSelectedPosition] = useState<string[]>([]);
+  const [selectedSkill, setSelectedSkill] = useState<string[]>([]);
+  const [selectedSize, setSelectedSize] = useState<string>('');
+  const [selectedStatus, setSelectedStatus] = useState<string>('');
+  const [selectedDeadline, setSelectedDeadline] = useState<string>('');
+
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [images, setImages] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
+  const [preference, setPreference] = useState<string>('');
+
+  const router = useRouter();
+
+  const getUserId = getUser();
+  const userId = getUserId ? getUserId.id : null;
+
+  const isAnyFieldEmpty =
+    !selectedProcess ||
+    selectedPosition.length === 0 ||
+    selectedSkill.length === 0 ||
+    !selectedSize ||
+    !selectedStatus ||
+    !selectedDeadline ||
+    !title ||
+    !content ||
+    images.length === 0;
+
+  console.log(isAnyFieldEmpty);
+
+  const handleProcessChange = (selectedOption: SelectBoxOption) => {
+    setSelectedProcess(selectedOption.value);
+    console.log(selectedProcess);
+  };
+
+  const handlePositionChange = (selectedOptions: SelectBoxOption[]) => {
+    const selectedPosition = selectedOptions.map(option => option.value);
+    setSelectedPosition(selectedPosition);
+    console.log(selectedPosition);
+  };
+
+  const handleSkillChange = (selectedOptions: SelectBoxOption[]) => {
+    const selectedSkills = selectedOptions.map(option => option.label);
+    setSelectedSkill(selectedSkills);
+  };
+
+  const handleSizeChange = (selectedOption: SelectBoxOption) => {
+    setSelectedSize(selectedOption.value);
+  };
+
+  const handleStatusChange = (selectedOption: SelectBoxOption) => {
+    setSelectedStatus(selectedOption.value);
+  };
+
+  const handleDeadlineChange = (date: string) => {
+    if (date) {
+      const formattedDate = date.slice(0, 19).replace('T', ' ') + '.000Z';
+      setSelectedDeadline(formattedDate);
+    } else {
+      setSelectedDeadline('');
+    }
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
+  };
+
+  const handlePreferenceChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    setPreference(e.target.value);
+  };
+
   const textRef = useRef<HTMLTextAreaElement>(null);
 
   const handleResizeHeight = useCallback(() => {
@@ -13,41 +103,6 @@ const page = () => {
       textRef.current.style.height = textRef.current.scrollHeight + 'px';
     }
   }, []);
-
-  const process = [
-    { label: '온라인', value: 'online' },
-    { label: '오프라인', value: 'offline' },
-    { label: '온라인/오프라인', value: 'online-offline' },
-  ];
-  const position = [
-    { label: '프론트엔드', value: 'frontend' },
-    { label: '백엔드', value: 'backend' },
-    { label: '디자이너', value: 'designer' },
-    { label: 'IOS', value: 'IOS' },
-    { label: 'Android', value: 'Android' },
-    { label: '데브옵스', value: 'devops' },
-  ];
-  const projectstatus = [
-    { label: '기획', value: 'plan' },
-    { label: '디자인', value: 'design' },
-    { label: '기획/디자인', value: 'plan/design' },
-  ];
-
-  const recruit = [
-    { label: '1명', value: '1' },
-    { label: '2명', value: '2' },
-    { label: '3명', value: '3' },
-    { label: '4명', value: '4' },
-    { label: '5명', value: '5' },
-    { label: '6명', value: '6' },
-    { label: '7명', value: '7' },
-    { label: '8명', value: '8' },
-    { label: '9명', value: '9' },
-    { label: '10명 이상', value: '10up' },
-  ];
-
-  const [images, setImages] = useState<File[]>([]); // 이미지 파일을 저장할 상태
-  const [previews, setPreviews] = useState<string[]>([]); // 이미지 파일의 프리뷰를 저장할 상태
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newImages: File[] = [...images];
@@ -83,6 +138,87 @@ const page = () => {
     setPreviews(newPreviews);
   };
 
+  const handleProjectUpload = async () => {
+    if (isAnyFieldEmpty) {
+      return;
+    }
+    try {
+      const projectData = {
+        id: '',
+        size: selectedSize,
+        status: selectedStatus,
+        deadline: selectedDeadline ? selectedDeadline : null,
+        title,
+        content,
+        images,
+        user_id: userId,
+        preference,
+      };
+
+      console.log(selectedSkill);
+      console.log(selectedPosition);
+
+      await postProject(projectData);
+      const projectId = await getLatestProjectById(userId);
+      const meetingId = await getMeeting(selectedProcess);
+      const positionId = await getPositionByName(selectedPosition);
+      const skillId = await getSkillByName(selectedSkill);
+      await postMeeting({
+        project_id: projectId.id,
+        meeting_id: meetingId.id,
+      });
+      for (const position of positionId) {
+        await postPosition({
+          project_id: projectId.id,
+          position_id: position.id,
+        });
+      }
+
+      for (const skill of skillId) {
+        await postSkill({
+          project_id: projectId.id,
+          skill_id: skill.id,
+        });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+    router.push('/project');
+  };
+
+  const process = [
+    { label: '온라인', value: '온라인' },
+    { label: '오프라인', value: '오프라인' },
+    { label: '온라인/오프라인', value: '온라인/오프라인' },
+  ];
+  const position = [
+    { label: '프론트엔드', value: '프론트엔드' },
+    { label: '백엔드', value: '백엔드' },
+    { label: '디자이너', value: '디자이너' },
+    { label: 'IOS', value: 'IOS' },
+    { label: 'Android', value: 'Android' },
+    { label: '데브옵스', value: '데브옵스' },
+  ];
+  const projectstatus = [
+    { label: '기획', value: '기획' },
+    { label: '디자인', value: '디자인' },
+    { label: '기획/디자인', value: '기획/디자인' },
+  ];
+
+  const recruit = [
+    { label: '1명', value: '1명' },
+    { label: '2명', value: '2명' },
+    { label: '3명', value: '3명' },
+    { label: '4명', value: '4명' },
+    { label: '5명', value: '5명' },
+    { label: '6명', value: '6명' },
+    { label: '7명', value: '7명' },
+    { label: '8명', value: '8명' },
+    { label: '9명', value: '9명' },
+    { label: '10명 이상', value: '10명 이상' },
+  ];
+
   return (
     <div className='mt-[50px] max-w-[780px] mx-auto'>
       <GoBack />
@@ -103,32 +239,48 @@ const page = () => {
             <SelectBox
               title='전체'
               options={process}
-              className=' border-neutral-40 text-neutral-100 text-btn'
+              className='border-neutral-40 text-neutral-100 text-btn'
+              onChange={handleProcessChange}
             />
           </div>
           <div className='flex flex-col w-full  gap-[10px]'>
             <label className=' text-title4'>모집 포지션</label>
-            <SelectBox title='전체' options={position} />
+            <SelectBoxPosition
+              title='전체'
+              options={position}
+              className='border-neutral-40 text-neutral-100 text-btn'
+              onChange={handlePositionChange}
+            />
           </div>
         </div>
         <div className='flex gap-[20px] w-full mb-[30px]'>
           <div className='flex flex-col w-full  gap-[10px]'>
             <label className=' text-title4'>기술 스택</label>
-            <SelectChipBox title='제목' />
+            <SelectChipBox title='제목' onChange={handleSkillChange} />
           </div>
           <div className='flex flex-col w-full  gap-[10px]'>
             <label className=' text-title4'>모집 인원</label>
-            <SelectBox title='인원미정' options={recruit} />
+            <SelectBox
+              title='인원미정'
+              options={recruit}
+              className='border-neutral-40 text-neutral-100 text-btn'
+              onChange={handleSizeChange}
+            />
           </div>
         </div>
         <div className='flex gap-[20px] w-full'>
           <div className='flex flex-col w-full  gap-[10px]'>
             <label className=' text-title4'>프로젝트 상태</label>
-            <SelectBox title='프로젝트 상태' options={projectstatus} />
+            <SelectBox
+              title='프로젝트 상태'
+              options={projectstatus}
+              className='border-neutral-40 text-neutral-100 text-btn'
+              onChange={handleStatusChange}
+            />
           </div>
           <div className='flex flex-col w-full  gap-[10px]'>
             <label className=' text-title4'>모집 마감일</label>
-            <Calendar />
+            <Calendar onChange={handleDeadlineChange} />
           </div>
         </div>
       </div>
@@ -145,6 +297,7 @@ const page = () => {
             type='text'
             placeholder='제목을 입력하세요'
             className=' text-h1 border-none placeholder:text-neutral-20 w-full'
+            onChange={handleTitleChange}
           />
           <div className=' border border-neutral-10 my-5 '></div>
           <textarea
@@ -152,6 +305,7 @@ const page = () => {
             onInput={handleResizeHeight}
             placeholder='어떤 프로젝트인가요? 설명해주세요!'
             className='placeholder:text-neutral-20 w-full mb-[70px] p-5 border-none resize-none overflow-hidden'
+            onChange={handleContentChange}
           />
 
           <div>
@@ -207,8 +361,15 @@ const page = () => {
             onInput={handleResizeHeight}
             placeholder='우리 팀에는 어떤 팀원이 필요한가요?'
             className=' w-[580px] h-[346px] px-[51px] py-11 placeholder:text-neutral-50 text-body1  bg-neutral-10 mb-[70px] rounded-[5px] resize-none'
+            onChange={handlePreferenceChange}
           />
-          <RoundButton>프로젝트 업로드</RoundButton>
+          <RoundButton
+            disabled={isAnyFieldEmpty}
+            theme={`${isAnyFieldEmpty ? 'disable' : 'primary'}`}
+            onClick={handleProjectUpload}
+          >
+            프로젝트 업로드
+          </RoundButton>
         </div>
       </div>
     </div>

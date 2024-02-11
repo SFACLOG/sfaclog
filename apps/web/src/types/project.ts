@@ -4,13 +4,15 @@ export interface Project {
   id: string;
   title: string;
   content: string;
-  deadline: string;
-  preference: string;
-  images: string;
-  size: number;
-  likes: number;
-  view: number;
-  userId: Pick<User, 'id'>;
+  deadline: string | null;
+  status: string;
+  size: string;
+  isend?: boolean;
+  preference?: string;
+  images?: File[];
+  likes?: number;
+  view?: number;
+  user_id: Pick<User, 'id'>;
 }
 
 export interface ProjectLike {

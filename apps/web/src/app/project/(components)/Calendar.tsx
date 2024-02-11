@@ -7,7 +7,11 @@ import Image from 'next/image';
 
 import './style.css';
 
-const Calendar = () => {
+export interface CalendarProps {
+  onChange: (date: string) => void;
+}
+
+const Calendar = ({ onChange }: CalendarProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   const currentYear = new Date().getFullYear();
@@ -33,10 +37,17 @@ const Calendar = () => {
   const oneYearLater = new Date(currentDate);
   oneYearLater.setFullYear(currentDate.getFullYear() + 10);
 
+  const handleChange = (date: Date) => {
+    setSelectedDate(date);
+    if (onChange) {
+      onChange(date.toISOString());
+    }
+  };
+
   return (
     <div className='relative w-full'>
       <DatePicker
-        dateFormat='yyyy.MM.dd'
+        dateFormat='yyyy-MM-dd'
         formatWeekDay={nameOfDay => nameOfDay.substring(0, 1)}
         showYearDropdown
         scrollableYearDropdown
@@ -51,7 +62,7 @@ const Calendar = () => {
             ? 'selectedDay'
             : ' rounded-full'
         }
-        onChange={date => setSelectedDate(date)}
+        onChange={handleChange}
         className='flex items-center border border-neutral-40 rounded bg-white box-border w-full   text-center  text-btn text-neutral-100 h-[45px] '
         renderCustomHeader={({
           date,

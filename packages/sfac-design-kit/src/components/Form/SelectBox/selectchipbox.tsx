@@ -1,5 +1,5 @@
 'use client';
-import { HTMLAttributes, ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { cn } from '../../../utils';
 import ImageWrapper from '../../common/ImageWrapper';
 import UP_ARROW_ICON from '../../../../public/images/ic_up_arrow.svg';
@@ -11,20 +11,41 @@ export interface SelectChipBoxOption {
   label: string;
 }
 
-export interface SelectChipBoxProps extends HTMLAttributes<HTMLDivElement> {
+export interface SelectChipBoxProps {
   children?: ReactNode;
   title: string;
+  className?: string;
+  onChange?: (selectedOption: SelectChipBoxOption[]) => void;
 }
 
-export const SelectChipBox: React.FC<SelectChipBoxProps> = ({
+export const SelectChipBox = ({
   className,
   title,
+  onChange,
 }: SelectChipBoxProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<SelectChipBoxOption[]>(
     [],
   );
   const [clickedChipIndexes, setClickedChipIndexes] = useState<number[]>([]);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -34,18 +55,42 @@ export const SelectChipBox: React.FC<SelectChipBoxProps> = ({
     const selectedIndex = selectedOptions.findIndex(
       selectedOption => selectedOption.value === option.value,
     );
+
+    let updatedOptions: SelectChipBoxOption[];
+
     if (selectedIndex === -1) {
-      setSelectedOptions([...selectedOptions, option]);
+      updatedOptions = [...selectedOptions, option];
     } else {
-      const updatedOptions = [...selectedOptions];
-      updatedOptions.splice(selectedIndex, 1);
-      setSelectedOptions(updatedOptions);
+      updatedOptions = selectedOptions.filter(
+        selectedOption => selectedOption.value !== option.value,
+      );
     }
+
+    setSelectedOptions(updatedOptions);
+
     const isClicked = clickedChipIndexes.includes(index);
     const updatedClickedChipIndexes = isClicked
       ? clickedChipIndexes.filter(clickedIndex => clickedIndex !== index)
       : [...clickedChipIndexes, index];
     setClickedChipIndexes(updatedClickedChipIndexes);
+
+    if (onChange) {
+      onChange(updatedOptions);
+    }
+  };
+
+  const handleDeleteOption = (index: number) => {
+    const updatedOptions = [...selectedOptions];
+    updatedOptions.splice(index, 1);
+    setSelectedOptions(updatedOptions);
+
+    const updatedClickedChipIndexes = [...clickedChipIndexes];
+    updatedClickedChipIndexes.splice(index, 1);
+    setClickedChipIndexes(updatedClickedChipIndexes);
+
+    if (onChange) {
+      onChange(updatedOptions);
+    }
   };
 
   const chipoptions = [
@@ -72,26 +117,55 @@ export const SelectChipBox: React.FC<SelectChipBoxProps> = ({
 
   return (
     <div
+      ref={dropdownRef}
       className={cn(
-        `inline-flex flex-col items-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-neutral-40 rounded-md text-center ${selectedOptions.length > 0 && 'border-primary-100'} ${isOpen && 'h-[320px] px-[52px]'}`,
+        `inline-flex flex-col items-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-neutral-40 rounded-md text-center  ${isOpen && 'h-[320px] px-[52px]'}`,
         className,
       )}
     >
       <div
         onClick={toggleDropdown}
-        className={cn(
-          `flex justify-center ${isOpen && 'justify-between'} items-center  py-[10.5px] w-full`,
-          selectedOptions.length > 0 && ' text-primary-100',
-        )}
+        className={cn(`flex justify-between  items-center  p-[10px] w-full`)}
       >
-        <div className='mr-[5px] '>
+        <div className={`text-center ${!isOpen && 'mx-auto'}`}>
           {isOpen
             ? selectedOptions.length > 0
-              ? selectedOptions.map(option => option.label).join(', ')
+              ? selectedOptions.map((option, index) => (
+                  <span
+                    key={index}
+                    className=' inline-flex items-center mr-2 mb-2 bg-neutral-20 p-1'
+                  >
+                    {option.label}
+                    <button
+                      className='h-[14px] w-[14px] text-[12px] flex items-center justify-center ml-2'
+                      onClick={e => {
+                        e.stopPropagation();
+                        handleDeleteOption(index);
+                      }}
+                    >
+                      X
+                    </button>
+                  </span>
+                ))
               : title
             : selectedOptions.length > 0
-              ? selectedOptions[0].label +
-                (selectedOptions.length > 1 ? ', ...' : '')
+              ? selectedOptions.map((option, index) => (
+                  <span
+                    key={index}
+                    className=' inline-flex items-center mr-2 mb-2 bg-neutral-20 p-1'
+                  >
+                    {option.label}
+                    <button
+                      className='h-[14px] w-[14px] text-[12px] flex items-center justify-center ml-2'
+                      onClick={e => {
+                        e.stopPropagation();
+                        handleDeleteOption(index);
+                      }}
+                    >
+                      X
+                    </button>
+                  </span>
+                ))
               : title}
         </div>
 

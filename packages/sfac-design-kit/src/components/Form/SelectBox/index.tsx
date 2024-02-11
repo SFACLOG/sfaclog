@@ -1,5 +1,5 @@
 'use client';
-import { HTMLAttributes, ReactNode, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cn } from '../../../utils';
 import ImageWrapper from '../../common/ImageWrapper';
 import UP_ARROW_ICON from '../../../../public/images/ic_up_arrow.svg';
@@ -10,22 +10,41 @@ export interface SelectBoxOption {
   label: string;
 }
 
-export interface SelectBoxProps extends HTMLAttributes<HTMLDivElement> {
-  children?: ReactNode;
-  title: string;
+export interface SelectBoxProps {
   options: SelectBoxOption[];
+  title: string;
+  className?: string;
+  onChange?: (selectedOption: SelectBoxOption) => void;
 }
 
-export const SelectBox: React.FC<SelectBoxProps> = ({
+export const SelectBox = ({
   className,
   options,
   title,
-  ...rest
+  onChange,
 }: SelectBoxProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<SelectBoxOption | null>(
     null,
   );
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -34,25 +53,28 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
   const handleOptionClick = (option: SelectBoxOption) => {
     setSelectedOption(option);
     setIsOpen(false);
+    if (onChange) {
+      onChange(option);
+    }
   };
 
   return (
     <div
+      ref={dropdownRef}
       className={cn(
-        `inline-flex flex-col items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-neutral-40  rounded-md text-center ${selectedOption && 'border-primary-100'} relative`,
+        ` inline-flex items-center justify-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-neutral-40  rounded-md text-center ${selectedOption && 'border-primary-100'} relative`,
         className,
       )}
-      {...rest}
     >
       <div
         onClick={toggleDropdown}
         className={cn(
-          'flex justify-center items-center py-[10.5px] w-full',
+          'flex justify-between items-center p-[10px] w-full',
           selectedOption && ' text-primary-100',
           className,
         )}
       >
-        <div className='mr-[5px]'>
+        <div className=' text-center mx-auto'>
           {selectedOption ? selectedOption.label : title}
         </div>
         {!isOpen ? (
@@ -79,3 +101,5 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
     </div>
   );
 };
+
+export default SelectBox;

@@ -1,3 +1,4 @@
+import { getSkillByName } from '@/api/skill';
 import {
   getToken,
   getUser,
@@ -10,8 +11,20 @@ import {
   signup,
   withdrawal,
 } from '../../api/user';
+import { getLatestProjectById, getProjectById } from '@/api/project';
+import { getMeeting } from '@/api/meeting';
+import { getPositionByName } from '@/api/position';
 
-const AuthTest = () => {
+const AuthTest = async () => {
+  try {
+    // Call resultList using await to wait for the result
+
+    const users = await getPositionByName(['프론트엔드', '백엔드']);
+
+    console.log(users);
+  } catch (error) {
+    console.error('Error in AuthTest:', error);
+  }
   // try {
   //   // Call resultList using await to wait for the result
   //   const users = await resultList('you@naver.com');

@@ -63,7 +63,7 @@ const postFollowData = async (data: Follow) => {
 
 export const useGetFollowersByUserId = (userId: string) => {
   return useInfiniteQuery({
-    queryKey: ['followers'],
+    queryKey: ['followers', userId],
     queryFn: ({ pageParam }) => getFollowersDataByUserId(userId, pageParam),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, allPages) => {
@@ -74,7 +74,7 @@ export const useGetFollowersByUserId = (userId: string) => {
 
 export const useGetFollowingsByUserId = (userId: string) => {
   return useInfiniteQuery({
-    queryKey: ['followees'],
+    queryKey: ['followees', userId],
     queryFn: ({ pageParam }) => getFollowingsDataByUserId(userId, pageParam),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, allPages) => {
@@ -85,7 +85,7 @@ export const useGetFollowingsByUserId = (userId: string) => {
 
 export const useGetIsFollowingUser = (userId: string) => {
   return useQuery({
-    queryKey: ['isFollowing'],
+    queryKey: ['isFollowing', userId],
     queryFn: () => getIsFollowingUserData(userId),
   });
 };

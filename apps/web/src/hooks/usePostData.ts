@@ -27,7 +27,7 @@ const getUserRelatedPostDataByUserId = async (
 
 export const useGetPostsByUserId = (userId: string) => {
   return useInfiniteQuery({
-    queryKey: ['posts'],
+    queryKey: ['posts', userId],
     queryFn: ({ pageParam }) => getPostsDataByUserId(userId, pageParam),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, allPages) => {
@@ -38,7 +38,7 @@ export const useGetPostsByUserId = (userId: string) => {
 
 export const useGetBookmarkPostsByUserId = (userId: string) => {
   return useInfiniteQuery({
-    queryKey: ['posts', 'bookmark'],
+    queryKey: ['posts', 'bookmark', userId],
     queryFn: ({ pageParam }) =>
       getUserRelatedPostDataByUserId('post_bookmark', userId, pageParam),
     initialPageParam: 1,
@@ -50,7 +50,7 @@ export const useGetBookmarkPostsByUserId = (userId: string) => {
 
 export const useGetRecentViewPostsByUserId = (userId: string) => {
   return useInfiniteQuery({
-    queryKey: ['posts', 'recent'],
+    queryKey: ['posts', 'recent', userId],
     queryFn: ({ pageParam }) =>
       getUserRelatedPostDataByUserId('post_recent_view', userId, pageParam),
     initialPageParam: 1,

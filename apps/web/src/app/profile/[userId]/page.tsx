@@ -196,23 +196,28 @@ const Profile = () => {
           <header className='sticky top-0 w-full py-4 border-b border-neutral-10 text-subtitle bg-white text-center'>
             팔로우
           </header>
-          <ul className='self-start flex flex-col gap-4 pl-8 my-4 w-full overflow-auto'>
+          <ul className='self-start flex flex-col w-full overflow-auto'>
             {Children.toArray(
               followers.pages.map((page: any) =>
                 page.items.map((item: { expand: { follower: User } }) => {
                   const follower = item.expand.follower;
 
                   return (
-                    <li className='flex items-center gap-4'>
-                      <Avatar
-                        src={
-                          follower.profile_image
-                            ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${follower.id}/${follower.profile_image}`
-                            : '/images/avatar.svg'
-                        }
-                        size='small'
-                      />
-                      <span className=' text-body2'>{follower.nickname}</span>
+                    <li>
+                      <Link
+                        className='flex items-center gap-4 pl-4 py-2 hover:bg-neutral-5'
+                        href={`/profile/${follower.id}`}
+                      >
+                        <Avatar
+                          src={
+                            follower.profile_image
+                              ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${follower.id}/${follower.profile_image}`
+                              : '/images/avatar.svg'
+                          }
+                          size='small'
+                        />
+                        <span className=' text-body2'>{follower.nickname}</span>
+                      </Link>
                     </li>
                   );
                 }),
@@ -232,23 +237,28 @@ const Profile = () => {
           <header className='sticky top-0 w-full py-4 border-b border-neutral-10 text-subtitle bg-white text-center'>
             팔로잉
           </header>
-          <ul className='self-start flex flex-col gap-4 pl-8 my-4 w-full overflow-auto'>
+          <ul className='self-start flex flex-col w-full overflow-auto'>
             {Children.toArray(
               followings.pages.map((page: any) =>
                 page.items.map((item: { expand: { followee: User } }) => {
                   const followee = item.expand.followee;
 
                   return (
-                    <li className='flex items-center gap-4'>
-                      <Avatar
-                        src={
-                          followee.profile_image
-                            ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${followee.id}/${followee.profile_image}`
-                            : '/images/avatar.svg'
-                        }
-                        size='small'
-                      />
-                      <span className=' text-body2'>{followee.nickname}</span>
+                    <li>
+                      <Link
+                        className='flex items-center gap-4 pl-4 py-2 hover:bg-neutral-5'
+                        href={`/profile/${followee.id}`}
+                      >
+                        <Avatar
+                          src={
+                            followee.profile_image
+                              ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${followee.id}/${followee.profile_image}`
+                              : '/images/avatar.svg'
+                          }
+                          size='small'
+                        />
+                        <span className=' text-body2'>{followee.nickname}</span>
+                      </Link>
                     </li>
                   );
                 }),

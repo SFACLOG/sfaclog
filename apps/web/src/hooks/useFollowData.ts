@@ -1,5 +1,11 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { getFollowersByUserId, getFollowingsByUserId } from '@/api/follow';
+import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import {
+  getFollowersByUserId,
+  getFollowingsByUserId,
+  postFollow,
+} from '@/api/follow';
+import { Follow } from '@/types/user';
+import { getUserById, updateUser } from '@/api/user';
 
 const getFollowersDataByUserId = async (user_id: string, page: number) => {
   try {
@@ -16,6 +22,21 @@ const getFollowingsDataByUserId = async (user_id: string, page: number) => {
     const followers = await getFollowingsByUserId(user_id, page);
 
     return followers;
+  } catch (e) {
+    return console.error(e);
+  }
+};
+
+const postFollowData = async (data: Follow) => {
+  try {
+    const { followee: followeeId, follower: followerId } = data;
+
+    const { follower } = await getUserById(followeeId);
+    const { following } = await getUserById(followerId);
+
+    await updateUser(followeeId, { follower: follower + 1 });
+    await updateUser(followerId, { following: following + 1 });
+    await postFollow(data);
   } catch (e) {
     return console.error(e);
   }
@@ -40,5 +61,11 @@ export const useGetFollowingsByUserId = (user_id: string) => {
     getNextPageParam: (_lastPage, allPages) => {
       return allPages.length + 1;
     },
+  });
+};
+
+export const usePostFollow = () => {
+  return useMutation({
+    mutationFn: (data: Follow) => postFollowData(data),
   });
 };

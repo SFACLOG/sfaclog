@@ -1,3 +1,4 @@
+import { Follow } from '@/types/user';
 import pb from '.';
 
 export const getFollowersByUserId = async (user_id: string, page: number) => {
@@ -18,4 +19,8 @@ export const getFollowingsByUserId = async (user_id: string, page: number) => {
   });
 
   return records;
+};
+
+export const postFollow = async (data: Follow) => {
+  await pb.collection('follow').create(data);
 };

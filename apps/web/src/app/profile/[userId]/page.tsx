@@ -2,15 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import {
-  Children,
-  createContext,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { Children, useMemo, useState } from 'react';
 import { Avatar, ProfileCard, SelectBox, SquareButton } from 'sfac-design-kit';
 import { cn } from 'sfac-design-kit/src/utils';
 import { useGetUserById } from '@/hooks/useUserData';
@@ -19,6 +11,7 @@ import { Modal } from '@/components/Modal';
 import {
   useGetFollowersByUserId,
   useGetFollowingsByUserId,
+  usePostFollow,
 } from '@/hooks/useFollowData';
 import { User } from '@/types/user';
 
@@ -83,6 +76,10 @@ const Profile = () => {
         return 0;
     }
   });
+  const isMyProfile = useMemo(
+    () => userId === getUser()?.id,
+    [userId, getUser()],
+  );
   const { data: user } = useGetUserById(userId);
   const {
     data: followers,
@@ -94,18 +91,24 @@ const Profile = () => {
     hasNextPage: hasNextFollowingPage,
     fetchNextPage: fetchNextFollowingPage,
   } = useGetFollowingsByUserId(userId);
+  const { mutate, isSuccess } = usePostFollow();
 
-  const isMyProfile = useMemo(
-    () => userId === getUser()?.id,
-    [userId, getUser()],
-  );
+  const handleClickFollow = () => {
+    console.log(11);
+    const followerId = getUser()?.id;
+
+    if (!followerId) return router.replace('/login');
+
+    const submitData = { followee: userId, follower: followerId };
+
+    mutate(submitData);
+  };
 
   const handleFetchFollower = () => {
     if (hasNextFollowerPage) {
       fetchNextFollowerPage();
     }
   };
-
   const handleFetchFollowing = () => {
     if (hasNextFollowingPage) {
       fetchNextFollowingPage();
@@ -115,6 +118,8 @@ const Profile = () => {
   // 임의 로그인/로그아웃
   // login('imsi@google.com', '123456789!');
   // logout();
+  // c7mgibzaz1qzvj4
+  // 63uiryfe1e1gdmy
 
   if (!user) return;
 
@@ -139,6 +144,7 @@ const Profile = () => {
           following={user.following}
           follower={user.follower}
           isMine={isMyProfile}
+          onClickFollow={handleClickFollow}
           onClickEdit={
             isMyProfile ? () => router.push('/profile/edit') : () => {}
           }

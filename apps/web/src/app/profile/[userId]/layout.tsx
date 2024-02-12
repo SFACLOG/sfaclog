@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const ProfileLayout = ({ children, tabs }: ProfileLayoutProps) => {
   return (
-    <main className='mx-auto container mb-[200px]'>
+    <main className='mx-auto container pb-[200px]'>
       {children}
       <section className='max-w-[780px] mx-auto'>{tabs}</section>
     </main>

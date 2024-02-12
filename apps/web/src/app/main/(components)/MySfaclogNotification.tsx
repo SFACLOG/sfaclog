@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { convertTimeFormat } from 'utils/convertTimeFormat';
+import { convertTimeFormat } from '@/utils/convertTimeFormat';
 
 const notificationDummy = [
   {
@@ -40,7 +40,9 @@ const MySfaclogNotification = ({ userId }: { userId: string }) => {
       <div className='flex flex-col gap-[15px]'>
         {notificationDummy.map(noti => (
           <div
-            className={`w-full flex justify-between items-center ${noti.isRead ? 'text-neutral-20' : 'text-neutral-80'}`}
+            className={`w-full flex justify-between items-center ${
+              noti.isRead ? 'text-neutral-20' : 'text-neutral-80'
+            }`}
             key={noti.message}
           >
             <span className='text-caption1'>{noti.message}</span>

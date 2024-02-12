@@ -18,6 +18,7 @@ export interface ProfileCardProps extends HTMLAttributes<HTMLDivElement> {
   instgram?: string;
   facebook?: string;
   isMine?: boolean;
+  isShowFollowingBtn?: boolean;
   onClickFollow?: MouseEventHandler<HTMLButtonElement>;
   onClickFollowList?: MouseEventHandler<HTMLButtonElement>;
   onClickFollowingList?: MouseEventHandler<HTMLButtonElement>;
@@ -36,6 +37,7 @@ export const ProfileCard = ({
   instgram,
   facebook,
   isMine,
+  isShowFollowingBtn,
   onClickFollow,
   onClickFollowList,
   onClickFollowingList,
@@ -50,7 +52,7 @@ export const ProfileCard = ({
       <div className='flex flex-col gap-[15px] w-full h-full whitespace-pre-wrap'>
         <div className='flex items-center gap-3 overflow-hidden'>
           <p className='text-h2 line-clamp-1'>{name}</p>
-          {isMine || (
+          {isShowFollowingBtn && (
             <RoundButton
               className='min-w-[67px]'
               size='xs'

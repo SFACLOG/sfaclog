@@ -1,15 +1,16 @@
-import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import {
   getFollowersByUserId,
   getFollowingsByUserId,
+  getIsFollowingUser,
   postFollow,
 } from '@/api/follow';
 import { Follow } from '@/types/user';
-import { getUserById, updateUser } from '@/api/user';
+import { getUser, getUserById, updateUser } from '@/api/user';
 
-const getFollowersDataByUserId = async (user_id: string, page: number) => {
+const getFollowersDataByUserId = async (userId: string, page: number) => {
   try {
-    const followers = await getFollowersByUserId(user_id, page);
+    const followers = await getFollowersByUserId(userId, page);
 
     return followers;
   } catch (e) {
@@ -17,13 +18,26 @@ const getFollowersDataByUserId = async (user_id: string, page: number) => {
   }
 };
 
-const getFollowingsDataByUserId = async (user_id: string, page: number) => {
+const getFollowingsDataByUserId = async (userId: string, page: number) => {
   try {
-    const followers = await getFollowingsByUserId(user_id, page);
+    const followers = await getFollowingsByUserId(userId, page);
 
     return followers;
   } catch (e) {
     return console.error(e);
+  }
+};
+
+const getIsFollowingUserData = async (followeeId: string) => {
+  try {
+    const followerId = getUser()?.id;
+    const result = await getIsFollowingUser(followeeId, followerId);
+
+    if (result.id) return true;
+
+    return false;
+  } catch {
+    return false;
   }
 };
 
@@ -42,10 +56,10 @@ const postFollowData = async (data: Follow) => {
   }
 };
 
-export const useGetFollowersByUserId = (user_id: string) => {
+export const useGetFollowersByUserId = (userId: string) => {
   return useInfiniteQuery({
-    queryKey: ['followers', user_id],
-    queryFn: ({ pageParam }) => getFollowersDataByUserId(user_id, pageParam),
+    queryKey: ['followers', userId],
+    queryFn: ({ pageParam }) => getFollowersDataByUserId(userId, pageParam),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, allPages) => {
       return allPages.length + 1;
@@ -53,14 +67,21 @@ export const useGetFollowersByUserId = (user_id: string) => {
   });
 };
 
-export const useGetFollowingsByUserId = (user_id: string) => {
+export const useGetFollowingsByUserId = (userId: string) => {
   return useInfiniteQuery({
-    queryKey: ['followees', user_id],
-    queryFn: ({ pageParam }) => getFollowingsDataByUserId(user_id, pageParam),
+    queryKey: ['followees', userId],
+    queryFn: ({ pageParam }) => getFollowingsDataByUserId(userId, pageParam),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, allPages) => {
       return allPages.length + 1;
     },
+  });
+};
+
+export const useGetIsFollowingUser = (userId: string) => {
+  return useQuery({
+    queryKey: ['isFollowing', userId],
+    queryFn: () => getIsFollowingUserData(userId),
   });
 };
 

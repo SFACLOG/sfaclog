@@ -11,6 +11,7 @@ import { Modal } from '@/components/Modal';
 import {
   useGetFollowersByUserId,
   useGetFollowingsByUserId,
+  useGetIsFollowingUser,
   usePostFollow,
 } from '@/hooks/useFollowData';
 import { User } from '@/types/user';
@@ -81,6 +82,7 @@ const Profile = () => {
     [userId, getUser()],
   );
   const { data: user } = useGetUserById(userId);
+  const { data: isFollowing } = useGetIsFollowingUser(userId);
   const {
     data: followers,
     hasNextPage: hasNextFollowerPage,
@@ -91,10 +93,9 @@ const Profile = () => {
     hasNextPage: hasNextFollowingPage,
     fetchNextPage: fetchNextFollowingPage,
   } = useGetFollowingsByUserId(userId);
-  const { mutate, isSuccess } = usePostFollow();
+  const { mutate } = usePostFollow();
 
   const handleClickFollow = () => {
-    console.log(11);
     const followerId = getUser()?.id;
 
     if (!followerId) return router.replace('/login');
@@ -103,7 +104,6 @@ const Profile = () => {
 
     mutate(submitData);
   };
-
   const handleFetchFollower = () => {
     if (hasNextFollowerPage) {
       fetchNextFollowerPage();
@@ -143,6 +143,7 @@ const Profile = () => {
           facebook={user.sns?.facebook}
           following={user.following}
           follower={user.follower}
+          isShowFollowingBtn={!isMyProfile && !isFollowing}
           isMine={isMyProfile}
           onClickFollow={handleClickFollow}
           onClickEdit={

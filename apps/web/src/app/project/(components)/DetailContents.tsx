@@ -27,7 +27,7 @@ interface DetailContentsProps {
   projectInfo: Project;
 }
 
-const DetailContents = ({ projectInfo, islog }: DetailContentsProps) => {
+const DetailContents = ({ projectInfo }: DetailContentsProps) => {
   const { data: projectImage } = useGetProjectImageByProjectId(projectInfo.id);
   if (!projectImage) {
     return;

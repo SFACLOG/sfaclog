@@ -16,19 +16,71 @@ import {
 import { useGetSkillData } from '@/hooks/useSkillData';
 
 import Link from 'next/link';
+import { useState } from 'react';
 
 const projects = [
   {
-    title: '프로젝트 1',
-    description: '나를 찾아가는 한 문장 글쓰기 앱',
-    statuses: ['기획 ✅', '디자인 ❌'],
-    imageUrl: '/images/gray_box.svg',
+    title: '나를 찾아가는 한 문장 글쓰기 앱',
+    statuses: ['기획 ✅', '디자인 ✅'],
+    imageUrl: '/images/project/thumb2.svg',
   },
   {
-    title: '프로젝트 2',
-    description: '두 번째 프로젝트 설명',
+    title: '하나부터 열까지 관리하자! - 헬스 케어 서비스 할수있당',
     statuses: ['기획 ✅', '디자인 ✅'],
-    imageUrl: '/images/gray_box.svg',
+    imageUrl: '/images/project/thumb4.svg',
+  },
+  {
+    title: '가사 기반 음악 공유 플랫폼 앱',
+    statuses: ['기획 ✅', '디자인 ❌'],
+    imageUrl: '/images/project/thumb3.svg',
+  },
+  {
+    title: 'AI 데이팅 어시스턴트 앱 디자인',
+    statuses: ['기획 ✅', '디자인 ✅'],
+    imageUrl: '/images/project/thumb1.svg',
+  },
+];
+
+const sfacProjects = [
+  {
+    title: 'AI 데이팅 어시스턴트 앱 디자인 길어지면 이렇게 ~~~~~~~~~~~~~~~~',
+    thumbnail: '/images/project/thumb1.svg',
+    likes: 10,
+    isPlanner: true,
+    isDesigner: true,
+    avatar: '/images/project/avatar5.svg',
+    name: '민들레',
+    position: '디자이너',
+  },
+  {
+    title: '나를 찾아가는 한 문장 글쓰기 앱',
+    thumbnail: '/images/project/thumb2.svg',
+    likes: 32,
+    isPlanner: true,
+    isDesigner: true,
+    avatar: '/images/project/avatar1.svg',
+    name: '크림이',
+    position: '기획자',
+  },
+  {
+    title: '가사 기반 음악 공유 플랫폼 앱',
+    thumbnail: '/images/project/thumb3.svg',
+    likes: 10,
+    isPlanner: true,
+    isDesigner: false,
+    avatar: '/images/project/avatar2.svg',
+    name: '룰루',
+    position: '디자이너',
+  },
+  {
+    title: '하나부터 열까지 관리하자! - 헬스 케어 서비스 할수있당',
+    thumbnail: '/images/project/thumb4.svg',
+    likes: 17,
+    isPlanner: true,
+    isDesigner: true,
+    avatar: '/images/project/avatar3.svg',
+    name: '김민준',
+    position: '기획자',
   },
 ];
 
@@ -95,6 +147,10 @@ const Project = () => {
     }),
   );
 
+  const [isRecruit, setIsRecruit] = useState<boolean>(false);
+  const recruitButtonClick = () => {
+    setIsRecruit(prev => !prev);
+  };
   return (
     <div className='mb-[200px] '>
       <Carousel
@@ -110,10 +166,9 @@ const Project = () => {
         {projects.map((project, index) => (
           <div key={index}>
             <HotCard
-              description={project.description}
+              title={project.title}
               statuses={project.statuses}
               imageUrl={project.imageUrl}
-              title={project.title}
             />
           </div>
         ))}
@@ -125,46 +180,21 @@ const Project = () => {
             스팩폴리오 프로젝트
           </p>
           <div className='flex gap-5'>
-            <SfacfolioCard
-              title='AI 데이팅 어시스턴트 앱 디자인 길어지면 이렇게 ~~~~~~~~~~~~~~~~'
-              thumbnail='/images/gray_box.svg'
-              likes={10}
-              isPlanner={true}
-              isDesigner={true}
-              avatar='/images/avatar.svg'
-              name='민들레'
-              position='디자이너'
-            />
-            <SfacfolioCard
-              title='AI 데이팅 어시스턴트 앱 디자인 길어지면 이렇게 ~~~~~~~~~~~~~~~~'
-              thumbnail='/images/gray_box.svg'
-              likes={7}
-              isPlanner={false}
-              isDesigner={false}
-              avatar='/images/avatar.svg'
-              name='민들레'
-              position='기획자'
-            />
-            <SfacfolioCard
-              title='AI 데이팅 어시스턴트 앱 디자인 길어지면 이렇게 ~~~~~~~~~~~~~~~~'
-              thumbnail='/images/gray_box.svg'
-              likes={10}
-              isPlanner={true}
-              isDesigner={true}
-              avatar='/images/avatar.svg'
-              name='민들레'
-              position='디자이너'
-            />
-            <SfacfolioCard
-              title='AI 데이팅 어시스턴트 앱 디자인 길어지면 이렇게 ~~~~~~~~~~~~~~~~'
-              thumbnail='/images/gray_box.svg'
-              likes={7}
-              isPlanner={false}
-              isDesigner={false}
-              avatar='/images/avatar.svg'
-              name='민들레'
-              position='기획자'
-            />
+            {sfacProjects.map((project, index) => (
+              <Link href={`/project/sfacfoliodetail/${index}`}>
+                <SfacfolioCard
+                  key={index}
+                  title={project.title}
+                  thumbnail={project.thumbnail}
+                  likes={project.likes}
+                  isPlanner={project.isPlanner}
+                  isDesigner={project.isDesigner}
+                  avatar={project.avatar}
+                  name={project.name}
+                  position={project.position}
+                />
+              </Link>
+            ))}
           </div>
         </section>
         <section>
@@ -176,7 +206,8 @@ const Project = () => {
               <RoundButton
                 headIcon='https://cdn.icon-icons.com/icons2/1639/PNG/512/12123eyes_109574.png'
                 theme={'secondary'}
-                className='mr-[14px]'
+                className={`mr-[14px] border-neutral-10 text-neutral-60 ${isRecruit && 'border-primary-100 text-primary-100'}`}
+                onClick={recruitButtonClick}
               >
                 모집 중만 보기
               </RoundButton>
@@ -196,32 +227,37 @@ const Project = () => {
             <SelectBox title='진행방식' options={process}></SelectBox>
           </div>
           <div className='grid grid-cols-4 gap-10'>
-            {allProject?.map((project, index) => (
-              <Link
-                href={`/project/sfaclogdetail/${project.id}`}
-                key={project.id}
-              >
-                <ProjectCard
-                  key={project.id}
-                  title={project.title}
-                  icons={
-                    allSkillValues && allSkillValues[index]
-                      ? allSkillValues[index]
-                      : []
-                  }
-                  isRecruit={project.is_end}
-                  deadline={project.deadline.split(' ')[0]}
-                  avatar={
-                    allUserProfile && allUserProfile[index]
-                      ? allUserProfile[index]
-                      : []
-                  }
-                  name='asdf'
-                  likes={project.likes}
-                  comments={7}
-                />
-              </Link>
-            ))}
+            {allProject?.map((project, index) => {
+              if ((isRecruit && !project.is_end) || !isRecruit) {
+                return (
+                  <Link
+                    href={`/project/sfaclogdetail/${project.id}`}
+                    key={project.id}
+                  >
+                    <ProjectCard
+                      key={project.id}
+                      title={project.title}
+                      icons={
+                        allSkillValues && allSkillValues[index]
+                          ? allSkillValues[index]
+                          : []
+                      }
+                      isRecruit={project.is_end}
+                      deadline={project.deadline.split(' ')[0]}
+                      avatar={
+                        allUserProfile && allUserProfile[index]
+                          ? allUserProfile[index]
+                          : []
+                      }
+                      name='asdf'
+                      likes={project.likes}
+                      comments={7}
+                    />
+                  </Link>
+                );
+              }
+              return null;
+            })}
           </div>
         </section>
       </div>

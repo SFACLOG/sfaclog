@@ -34,7 +34,6 @@ const page = () => {
   const router = useRouter();
 
   const getUserId = getUser();
-  const userId = getUserId ? getUserId.id : null;
 
   const isAnyFieldEmpty =
     !selectedProcess ||
@@ -47,7 +46,7 @@ const page = () => {
     !content ||
     images.length === 0;
 
-  console.log(isAnyFieldEmpty);
+  console.log(getUserId);
 
   const handleProcessChange = (selectedOption: SelectBoxOption) => {
     setSelectedProcess(selectedOption.value);
@@ -151,15 +150,12 @@ const page = () => {
         title,
         content,
         images,
-        user_id: userId,
+        user_id: getUserId,
         preference,
       };
 
-      console.log(selectedSkill);
-      console.log(selectedPosition);
-
       await postProject(projectData);
-      const projectId = await getLatestProjectById(userId);
+      const projectId = await getLatestProjectById(getUserId);
       const meetingId = await getMeeting(selectedProcess);
       const positionId = await getPositionByName(selectedPosition);
       const skillId = await getSkillByName(selectedSkill);

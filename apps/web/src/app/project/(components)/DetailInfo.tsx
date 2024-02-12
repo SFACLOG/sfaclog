@@ -1,40 +1,110 @@
 'use client';
-import React, { useState } from 'react';
-import { Avatar, RoundButton } from 'sfac-design-kit';
+import React, { useState, MouseEventHandler, useEffect } from 'react';
+import { Avatar, Modal, RoundButton } from 'sfac-design-kit';
 import Image from 'next/image';
+import {
+  useGetUserById,
+  useGetUserDataWithPropsById,
+} from '@/hooks/useUserData';
+import {
+  useDeleteProjectByProjectId,
+  useGetAllUserProfileById,
+  useGetUserProfileById,
+} from '@/hooks/useProjectData';
+import { useGetSkillData } from '@/hooks/useSkillData';
+import { chipoptions, process, position } from '../page';
+import { useGetMeetingData } from '@/hooks/useMeetingData';
+import { useGetPositionData } from '@/hooks/usePositionData';
+import { deleteProject, updateProjectIsEnd } from '@/api/project';
+import { useRouter } from 'next/navigation';
+
+interface Project {
+  collectionId: string;
+  collectionName: string;
+  content: string;
+  created: string;
+  deadline: string;
+  id: string;
+  images: string[];
+  is_end: boolean;
+  likes: number;
+  preference: string;
+  size: string;
+  status: string;
+  title: string;
+  updated: string;
+  user_id: string;
+  views: number;
+}
 
 interface DetailProps {
   islog: boolean;
   isOwner: boolean;
+  projectInfo: Project;
 }
 
-const DetailInfo = ({ islog, isOwner }: DetailProps) => {
-  const [editButtonTheme, setEditButtonTheme] = useState<
-    'secondary' | 'primary'
-  >('secondary');
-  const [deleteButtonTheme, setDeleteButtonTheme] = useState<
-    'secondary' | 'primary'
-  >('secondary');
-  const [closeButtonTheme, setCloseButtonTheme] = useState<
-    'secondary' | 'primary'
-  >('secondary');
+const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
+  const router = useRouter();
+  const [editButtonTheme, setEditButtonTheme] = useState<boolean>(false);
+  const [deleteButtonTheme, setDeleteButtonTheme] = useState<boolean>(false);
+  const [isEnd, setIsEnd] = useState<boolean>(projectInfo.is_end);
+
+  // useEffect(() => {
+  //   setIsEnd(projectInfo.is_end);
+  // }, [projectInfo.is_end]);
 
   const handleEditButtonClick = () => {
-    setEditButtonTheme(prevTheme =>
-      prevTheme === 'primary' ? 'secondary' : 'primary',
-    );
+    setEditButtonTheme(prevTheme => !prevTheme);
   };
 
   const handleDeleteButtonClick = () => {
-    setDeleteButtonTheme(prevTheme =>
-      prevTheme === 'primary' ? 'secondary' : 'primary',
-    );
+    setDeleteButtonTheme(prevTheme => !prevTheme);
   };
 
-  const handleCloseButtonClick = () => {
-    setCloseButtonTheme(prevTheme =>
-      prevTheme === 'primary' ? 'secondary' : 'primary',
-    );
+  const handleCloseButtonClick = async () => {
+    const updatedProjectInfo = { ...projectInfo, is_end: !projectInfo.is_end };
+    await updateProjectIsEnd(projectInfo.id, updatedProjectInfo);
+    setIsEnd(!isEnd);
+  };
+
+  const { data: user } = useGetUserDataWithPropsById(projectInfo.user_id);
+  const { data: userProfile } = useGetUserProfileById(projectInfo.user_id);
+  const { data: allSkill } = useGetSkillData([projectInfo.id]);
+  const { data: allMeeting } = useGetMeetingData([projectInfo.id]);
+  const { data: allPosition } = useGetPositionData([projectInfo.id]);
+
+  if (!user || !userProfile || !allSkill || !allMeeting || !allPosition) {
+    return;
+  }
+  const allSkillValues = allSkill?.map(projectSkills =>
+    projectSkills.map((skill: any) => {
+      const foundOption = chipoptions.find(
+        option => option.label === skill.skill_id,
+      );
+      return foundOption ? foundOption.value : '';
+    }),
+  );
+
+  const allMeetingValues = allMeeting?.map(projectMeetings =>
+    projectMeetings.map((meeting: any) => {
+      const foundOption = process.find(
+        option => option.value === meeting.meeting_id,
+      );
+      return foundOption ? foundOption.label : '';
+    }),
+  );
+  const allPositionValues = allPosition?.map(projectPositions =>
+    projectPositions.map((projectposition: any) => {
+      const foundOption = position.find(
+        option => option.value === projectposition.position_id,
+      );
+      return foundOption ? foundOption.label : '';
+    }),
+  );
+
+  const handleDeleteConfirm: MouseEventHandler<HTMLButtonElement> = event => {
+    deleteProject(projectInfo.id);
+    router.push('/project');
   };
 
   return (
@@ -50,21 +120,28 @@ const DetailInfo = ({ islog, isOwner }: DetailProps) => {
             {isOwner && (
               <div className='flex gap-[15px] flex-shrink-0'>
                 <RoundButton
-                  theme={editButtonTheme}
+                  theme={editButtonTheme ? 'primary' : 'secondary'}
                   className='py-[10px] border'
                   onClick={handleEditButtonClick}
                 >
                   수정하기
                 </RoundButton>
                 <RoundButton
-                  theme={deleteButtonTheme}
+                  theme={deleteButtonTheme ? 'primary' : 'secondary'}
                   className='py-[10px] border'
                   onClick={handleDeleteButtonClick}
                 >
                   삭제하기
                 </RoundButton>
+                <Modal
+                  isOpen={deleteButtonTheme}
+                  setOpen={setDeleteButtonTheme}
+                  title='해당 게시글을 삭제하시겠습니까?'
+                  isCancleBtn={true}
+                  onClickConfirm={handleDeleteConfirm}
+                />
                 <RoundButton
-                  theme={closeButtonTheme}
+                  theme={isEnd ? 'primary' : 'secondary'}
                   className='py-[10px] border'
                   onClick={handleCloseButtonClick}
                 >
@@ -73,18 +150,15 @@ const DetailInfo = ({ islog, isOwner }: DetailProps) => {
               </div>
             )}
           </div>
-          <p className=' text-title1 mb-5'>
-            하나부터 열까지 관리하자! - 헬스 케어 서비스 할 수 있당
-          </p>
+          <p className=' text-title1 mb-5'>{projectInfo.title}</p>
           <div className='flex items-center text-neutral-80'>
-            <Avatar
-              src='/images/project/avatar.svg'
-              size={'tiny'}
-              className='mr-2'
-            />
-            <p className=' text-caption2_bold'>차윤정(디자이너)</p>
+            <Avatar src={userProfile} size={'tiny'} className='mr-2' />
+            <p className=' text-caption2_bold'>{user.nickname}(디자이너)</p>
             <p className='mx-2'>|</p>
-            <p className=' text-caption2'>2024.01.15</p>
+            <p className=' text-caption2'>
+              {/*@ts-ignore */}
+              {projectInfo.created.split(' ')[0]}
+            </p>
           </div>
         </div>
         <div>
@@ -110,48 +184,50 @@ const DetailInfo = ({ islog, isOwner }: DetailProps) => {
       <div className='border-t border-neutral-20'></div>
       {islog && (
         <div className='flex gap-[174px] mt-[30px]'>
-          <div className='flex flex-col gap-[25px]'>
+          <div className='flex flex-col gap-[25px] min-w-[225px]'>
             <div className='flex gap-[33px]'>
               <p className=' text-caption2'>진행 방식</p>
-              <p className=' text-caption2_bold'>온라인</p>
+              <p className=' text-caption2_bold'>{allMeetingValues[0]}</p>
             </div>
             <div className='flex gap-[33px] items-center'>
               <p className=' text-caption2'>기술 스택</p>
               <div className='flex gap-[10px]'>
-                <Image
-                  src='/images/chipIcon/nextjs.svg'
-                  alt='nextjs'
-                  width={40}
-                  height={40}
-                />
-                <Image
-                  src='/images/chipIcon/nodejs.svg'
-                  alt='nodejs'
-                  width={40}
-                  height={40}
-                />
-                <Image
-                  src='/images/chipIcon/react.svg'
-                  alt='react'
-                  width={40}
-                  height={40}
-                />
+                {allSkillValues[0]?.map((el: string, index: number) => (
+                  <Image
+                    src={el}
+                    alt={`Skill ${index}`}
+                    width={40}
+                    height={40}
+                    key={index}
+                  />
+                ))}
               </div>
             </div>
           </div>
 
           <div className='flex flex-col gap-[25px]'>
-            <div className='flex justify-between w-[212px] gap-[33px]'>
+            <div className='flex justify-between   gap-[33px]'>
               <p className=' text-caption2'>모집 포지션</p>
-              <p className=' text-caption2_bold'>프론트엔드,백엔드</p>
+              <div className=' flex'>
+                {allPositionValues[0]?.map(
+                  (el: string, index: number, array: string[]) => (
+                    <p key={index} className='text-caption2_bold'>
+                      {el}
+                      {index !== array.length - 1 && <span>, </span>}
+                    </p>
+                  ),
+                )}
+              </div>
             </div>
-            <div className='flex justify-between w-[212px] gap-[33px]'>
+            <div className='flex justify-between  gap-[33px]'>
               <p className=' text-caption2'>모집 인원</p>
-              <p className=' text-caption2_bold'>2명</p>
+              <p className=' text-caption2_bold'>{projectInfo.size}</p>
             </div>
-            <div className='flex justify-between w-[212px] gap-[33px]'>
+            <div className='flex justify-between gap-[33px]'>
               <p className=' text-caption2'>모집 마감일</p>
-              <p className=' text-caption2_bold'>2024-02-01</p>
+              <p className=' text-caption2_bold'>
+                {projectInfo.deadline.split(' ')[0]}
+              </p>
             </div>
           </div>
         </div>

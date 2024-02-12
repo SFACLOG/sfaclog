@@ -22,3 +22,14 @@ export const getSkillByName = async (names: string[]) => {
   console.log(records);
   return records;
 };
+
+export const getAllSkills = async (ids: string[]) => {
+  const records: any[] = [];
+  for (const id of ids) {
+    const record = await pb.collection('project_skill').getFullList({
+      filter: `project_id = "${id}"`,
+    });
+    records.push(record);
+  }
+  return records;
+};

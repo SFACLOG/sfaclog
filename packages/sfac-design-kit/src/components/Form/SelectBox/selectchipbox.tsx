@@ -5,6 +5,7 @@ import ImageWrapper from '../../common/ImageWrapper';
 import UP_ARROW_ICON from '../../../../public/images/ic_up_arrow.svg';
 import DOWN_ARROW_ICON from '../../../../public/images/ic_down_arrow.svg';
 import { IconChip } from '../../Chip';
+import { usePathname } from 'next/navigation';
 
 export interface SelectChipBoxOption {
   value: string;
@@ -30,6 +31,8 @@ export const SelectChipBox = ({
   const [clickedChipIndexes, setClickedChipIndexes] = useState<number[]>([]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -123,58 +126,85 @@ export const SelectChipBox = ({
         className,
       )}
     >
-      <div
-        onClick={toggleDropdown}
-        className={cn(`flex justify-between  items-center  p-[10px] w-full`)}
-      >
-        <div className={`text-center ${!isOpen && 'mx-auto'}`}>
-          {isOpen
-            ? selectedOptions.length > 0
-              ? selectedOptions.map((option, index) => (
-                  <span
-                    key={index}
-                    className=' inline-flex items-center mr-2 mb-2 bg-neutral-20 p-1'
-                  >
-                    {option.label}
-                    <button
-                      className='h-[14px] w-[14px] text-[12px] flex items-center justify-center ml-2'
-                      onClick={e => {
-                        e.stopPropagation();
-                        handleDeleteOption(index);
-                      }}
+      {pathname !== '/project' ? (
+        <div
+          onClick={toggleDropdown}
+          className={cn(`flex justify-between  items-center  p-[10px] w-full`)}
+        >
+          <div className={`text-center ${!isOpen && 'mx-auto'}`}>
+            {isOpen
+              ? selectedOptions.length > 0
+                ? selectedOptions.map((option, index) => (
+                    <span
+                      key={index}
+                      className=' inline-flex items-center mr-2 mb-2 bg-neutral-20 p-1'
                     >
-                      X
-                    </button>
-                  </span>
-                ))
-              : title
-            : selectedOptions.length > 0
-              ? selectedOptions.map((option, index) => (
-                  <span
-                    key={index}
-                    className=' inline-flex items-center mr-2 mb-2 bg-neutral-20 p-1'
-                  >
-                    {option.label}
-                    <button
-                      className='h-[14px] w-[14px] text-[12px] flex items-center justify-center ml-2'
-                      onClick={e => {
-                        e.stopPropagation();
-                        handleDeleteOption(index);
-                      }}
+                      {option.label}
+                      <button
+                        className='h-[14px] w-[14px] text-[12px] flex items-center justify-center ml-2'
+                        onClick={e => {
+                          e.stopPropagation();
+                          handleDeleteOption(index);
+                        }}
+                      >
+                        X
+                      </button>
+                    </span>
+                  ))
+                : title
+              : selectedOptions.length > 0
+                ? selectedOptions.map((option, index) => (
+                    <span
+                      key={index}
+                      className=' inline-flex items-center mr-2 mb-2 bg-neutral-20 p-1'
                     >
-                      X
-                    </button>
-                  </span>
-                ))
-              : title}
-        </div>
+                      {option.label}
+                      <button
+                        className='h-[14px] w-[14px] text-[12px] flex items-center justify-center ml-2'
+                        onClick={e => {
+                          e.stopPropagation();
+                          handleDeleteOption(index);
+                        }}
+                      >
+                        X
+                      </button>
+                    </span>
+                  ))
+                : title}
+          </div>
 
-        {!isOpen ? (
-          <ImageWrapper path={UP_ARROW_ICON} alt='Dropdown Icon' />
-        ) : (
-          <ImageWrapper path={DOWN_ARROW_ICON} alt='Dropdown Icon' />
-        )}
-      </div>
+          {!isOpen ? (
+            <ImageWrapper path={UP_ARROW_ICON} alt='Dropdown Icon' />
+          ) : (
+            <ImageWrapper path={DOWN_ARROW_ICON} alt='Dropdown Icon' />
+          )}
+        </div>
+      ) : (
+        <div
+          onClick={toggleDropdown}
+          className={cn(
+            `flex justify-center ${isOpen && 'justify-between'} items-center  py-[10.5px] w-full`,
+            selectedOptions.length > 0 && ' text-primary-100',
+          )}
+        >
+          <div className='mr-[15px] '>
+            {isOpen
+              ? selectedOptions.length > 0
+                ? selectedOptions.map(option => option.label).join(', ')
+                : title
+              : selectedOptions.length > 0
+                ? selectedOptions[0].label +
+                  (selectedOptions.length > 1 ? ', ...' : '')
+                : title}
+          </div>
+
+          {!isOpen ? (
+            <ImageWrapper path={UP_ARROW_ICON} alt='Dropdown Icon' />
+          ) : (
+            <ImageWrapper path={DOWN_ARROW_ICON} alt='Dropdown Icon' />
+          )}
+        </div>
+      )}
       {isOpen && (
         <div className='w-[665px] h-[225px] rounded-[5px]'>
           <div className='border border-b-1 border-neutral-50 mb-[15px] '></div>

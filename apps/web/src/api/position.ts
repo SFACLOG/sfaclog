@@ -22,3 +22,14 @@ export const getPositionByName = async (names: string[]) => {
   console.log(records);
   return records;
 };
+
+export const getAllPositions = async (ids: string[]) => {
+  const records: any[] = [];
+  for (const id of ids) {
+    const record = await pb.collection('project_position').getFullList({
+      filter: `project_id = "${id}"`,
+    });
+    records.push(record);
+  }
+  return records;
+};

@@ -41,3 +41,41 @@ export interface Follow {
   followee: Pick<User, 'id'>;
   follwer: Pick<User, 'id'>;
 }
+
+export interface UserInfo {
+  collectionId: string;
+  collectionName: string;
+  created: string;
+  description: string;
+  email: string;
+  emailVisibility: boolean;
+  follower: number;
+  following: number;
+  id: string;
+  interests: {
+    backend: boolean;
+    cloudComputing: boolean;
+    container: boolean;
+    database: boolean;
+    frontend: boolean;
+    machineLearning: boolean;
+    mobile: boolean;
+    serverless: boolean;
+  };
+  nickname: string;
+  profile_image: string;
+  proposals: {
+    opinion: boolean;
+    project: boolean;
+    recruit: boolean;
+  };
+  sfaclog_title: string;
+  sns: {
+    facebook: string;
+    github: string;
+    instagram: string;
+  };
+  updated: string;
+  username: string;
+  verified: boolean;
+}

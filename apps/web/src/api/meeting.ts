@@ -18,3 +18,14 @@ export const getMeeting = async (type: string) => {
   console.log(records);
   return records;
 };
+
+export const getAllMeetings = async (ids: string[]) => {
+  const records: any[] = [];
+  for (const id of ids) {
+    const record = await pb.collection('project_meeting').getFullList({
+      filter: `project_id = "${id}"`,
+    });
+    records.push(record);
+  }
+  return records;
+};

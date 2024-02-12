@@ -12,7 +12,7 @@ export interface Project {
   images?: File[];
   likes?: number;
   view?: number;
-  user_id: Pick<User, 'id'>;
+  user_id: string;
 }
 
 export interface ProjectLike {
@@ -67,4 +67,23 @@ export interface ProjectMeeting {
   id: string;
   projectId: Pick<Project, 'id'>;
   meetingId: Pick<Meeting, 'id'>;
+}
+
+export interface ProjectInfo {
+  collectionId: string;
+  collectionName: string;
+  content: string;
+  created: string;
+  deadline: string;
+  id: string;
+  images: string[];
+  is_end: boolean;
+  likes: number;
+  preference: string;
+  size: string;
+  status: string;
+  title: string;
+  updated: string;
+  user_id: string;
+  views: number;
 }

@@ -1,5 +1,5 @@
 import pb from '.';
-import { Interest, Proposal } from '@/types/user';
+import { Interest, Proposal, UserInfo } from '@/types/user';
 
 export const login = async (id: string, password: string) => {
   await pb.collection('user').authWithPassword(id, password);
@@ -56,6 +56,42 @@ export const getUserById = async (id: string) => {
   return user;
 };
 
+export const getUserWithPropsById = async (id: string) => {
+  const user: UserInfo = await pb.collection('user').getOne(id);
+
+  return user;
+};
+
+export const getAllUsersById = async (ids: string[]) => {
+  const records: any[] = [];
+  for (const id of ids) {
+    const record = await pb.collection('user').getFullList({
+      filter: `id = "${id}"`,
+    });
+    records.push(record);
+  }
+  return records;
+};
+
+export const getUserAllProfileById = async (ids: string[]) => {
+  const records: any[] = [];
+  for (const id of ids) {
+    const record = await pb.collection('user').getOne(id);
+    const firstFilename = record.profile_image;
+    const url = pb.files.getUrl(record, firstFilename, { thumb: '100x250' });
+    records.push(url);
+  }
+  return records;
+};
+
+export const getUserProfileById = async (id: string) => {
+  const record = await pb.collection('user').getOne(id);
+  const firstFilename = record.profile_image;
+  const url = pb.files.getUrl(record, firstFilename, { thumb: '100x250' });
+
+  return url;
+};
+
 export const updateUser = async (id: string, data: any) => {
   await pb.collection('user').update(id, data);
 };
@@ -70,7 +106,7 @@ export const withdrawal = async (id: string) => {
 };
 
 export const getUser = () => {
-  return pb.authStore.model;
+  return pb.authStore.model?.id ?? '';
 };
 
 export const isValidUser = () => {
@@ -79,4 +115,8 @@ export const isValidUser = () => {
 
 export const getToken = () => {
   return pb.authStore.token;
+};
+
+export const getUserId = () => {
+  return pb.authStore.model?.id ?? '';
 };

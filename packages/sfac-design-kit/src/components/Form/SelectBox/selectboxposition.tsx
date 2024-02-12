@@ -152,5 +152,3 @@ export const SelectBoxPosition = ({
     </div>
   );
 };
-
-export default SelectBoxPosition;

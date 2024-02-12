@@ -1,3 +1,4 @@
+'use client';
 import HotCard from './(components)/HotCard';
 import {
   ProjectCard,
@@ -7,6 +8,14 @@ import {
   SfacfolioCard,
 } from 'sfac-design-kit';
 import Carousel from '@/components/Carousel';
+import {
+  useGetAllUserProfileById,
+  useGetProjectData,
+} from '@/hooks/useProjectData';
+
+import { useGetSkillData } from '@/hooks/useSkillData';
+
+import Link from 'next/link';
 
 const projects = [
   {
@@ -23,12 +32,68 @@ const projects = [
   },
 ];
 
+export const chipoptions = [
+  { value: '/images/chipIcon/javascript.svg', label: 'qz6b1owj3uqn9r5' },
+  { value: '/images/chipIcon/django.svg', label: 'no35jb96c0a99fu' },
+  { value: '/images/chipIcon/figma.svg', label: 'zzdgc96zp62tq72' },
+  { value: '/images/chipIcon/flutter.svg', label: 'ybxro0obp96yi9x' },
+  { value: '/images/chipIcon/git.svg', label: 'vhz6lpjibg6ndx5' },
+  { value: '/images/chipIcon/java.svg', label: 'hsjq2afn492t44f' },
+  { value: '/images/chipIcon/kotlin.svg', label: 'gg48yhn1z33idm5' },
+  { value: '/images/chipIcon/mongodb.svg', label: 'nxffwhetf5t3c3e' },
+  { value: '/images/chipIcon/mysql.svg', label: 'ibzw6kigzgvyqyg' },
+  { value: '/images/chipIcon/nestjs.svg', label: '0yy6wcdiqqna9tr' },
+  { value: '/images/chipIcon/nextjs.svg', label: '418yr32qvzzrg3t' },
+  { value: '/images/chipIcon/nodejs.svg', label: '6swuug4hf2tu6eo' },
+  { value: '/images/chipIcon/react.svg', label: '8cdighbw042w21w' },
+  { value: '/images/chipIcon/reactnative.svg', label: 'm80bxz9ezgr7wlm' },
+  { value: '/images/chipIcon/spring.svg', label: 'rdns4hj6q1gcno8' },
+  { value: '/images/chipIcon/swift.svg', label: 'pepzp0p6ab9vu7u' },
+  { value: '/images/chipIcon/typescript.svg', label: 'qpw5ll9u7hikykd' },
+  { value: '/images/chipIcon/vue.svg', label: 'h7wvfrlbtc7xjq7' },
+  { value: '', label: 'yel9r3y1shjyg8q' },
+];
+
+export const process = [
+  { label: '온라인', value: 'xgo777ttkdayqfl' },
+  { label: '오프라인', value: '81s1l9sgxgg9z2r' },
+  { label: '온라인/오프라인', value: '4lcuq9joet135hk' },
+];
+
+export const position = [
+  { label: '프론트엔드', value: '9f9exe2kmzcoxe6' },
+  { label: '백엔드', value: 'p8wp6pnahmb6wvj' },
+  { label: '디자이너', value: 'zk0e140xr6ly0p1' },
+  { label: 'IOS', value: 'qhxnu0nk8bvakze' },
+  { label: 'Android', value: 'es4fkkoxcmz7zoi' },
+  { label: '데브옵스', value: 's0c856g8pymem77' },
+];
 const Project = () => {
-  const options = [
-    { value: 'Option 1', label: 'Option 1' },
-    { value: '데이터', label: '데이터' },
-    { value: '부트캠프', label: '부트캠프' },
-  ];
+  const { data: allProject } = useGetProjectData();
+
+  const allProjectId =
+    allProject?.map(proejct => {
+      return proejct.id;
+    }) || [];
+
+  const allUserId =
+    allProject?.map(proejct => {
+      return proejct.user_id;
+    }) || [];
+
+  // const { data: allUser } = useGetAllUserById(allUserId);
+
+  const { data: allUserProfile } = useGetAllUserProfileById(allUserId);
+
+  const { data: allSkill } = useGetSkillData(allProjectId);
+  const allSkillValues = allSkill?.map(projectSkills =>
+    projectSkills.map((skill: any) => {
+      const foundOption = chipoptions.find(
+        option => option.label === skill.skill_id,
+      );
+      return foundOption ? foundOption.value : '';
+    }),
+  );
 
   return (
     <div className='mb-[200px] '>
@@ -115,7 +180,9 @@ const Project = () => {
               >
                 모집 중만 보기
               </RoundButton>
-              <RoundButton theme={'secondary'}>모집 글쓰기</RoundButton>
+              <Link href={'/project/write'}>
+                <RoundButton theme={'secondary'}>모집 글쓰기</RoundButton>
+              </Link>
             </div>
           </div>
           <div className='mb-[35px]'>
@@ -123,102 +190,38 @@ const Project = () => {
 
             <SelectBox
               title='모집 포지션'
-              options={options}
+              options={position}
               className='mr-[10px]'
             ></SelectBox>
-            <SelectBox title='진행방식' options={options}></SelectBox>
+            <SelectBox title='진행방식' options={process}></SelectBox>
           </div>
           <div className='grid grid-cols-4 gap-10'>
-            <ProjectCard
-              title='책 취향 기반 매칭 서비스, 사이드 프로젝트 팀원 모집합니다'
-              icons={[
-                'images/chipIcon/figma.svg',
-                'images/chipIcon/react.svg',
-                'images/chipIcon/nodejs.svg',
-                'images/chipIcon/mysql.svg',
-              ]}
-              isRecruit={true}
-              deadline='2024.01.31'
-              avatar='images/avatar.svg'
-              name='asdf'
-              likes={77}
-              comments={7}
-            />
-            <ProjectCard
-              title='책 취향 기반 매칭 서비스, 사이드 프로젝트 팀원 모집합니다'
-              icons={[
-                'images/chipIcon/figma.svg',
-                'images/chipIcon/react.svg',
-                'images/chipIcon/nodejs.svg',
-                'images/chipIcon/mysql.svg',
-              ]}
-              isRecruit={false}
-              deadline='2024.01.31'
-              avatar='images/avatar.svg'
-              name='asdf'
-              likes={77}
-              comments={7}
-            />
-            <ProjectCard
-              title='책 취향 기반 매칭 서비스, 사이드 프로젝트 팀원 모집합니다'
-              icons={[
-                'images/chipIcon/figma.svg',
-                'images/chipIcon/react.svg',
-                'images/chipIcon/nodejs.svg',
-                'images/chipIcon/mysql.svg',
-              ]}
-              isRecruit={true}
-              deadline='2024.01.31'
-              avatar='images/avatar.svg'
-              name='asdf'
-              likes={77}
-              comments={7}
-            />
-            <ProjectCard
-              title='책 취향 기반 매칭 서비스, 사이드 프로젝트 팀원 모집합니다'
-              icons={[
-                'images/chipIcon/figma.svg',
-                'images/chipIcon/react.svg',
-                'images/chipIcon/nodejs.svg',
-                'images/chipIcon/mysql.svg',
-              ]}
-              isRecruit={false}
-              deadline='2024.01.31'
-              avatar='images/avatar.svg'
-              name='asdf'
-              likes={77}
-              comments={7}
-            />
-            <ProjectCard
-              title='책 취향 기반 매칭 서비스, 사이드 프로젝트 팀원 모집합니다'
-              icons={[
-                'images/chipIcon/figma.svg',
-                'images/chipIcon/react.svg',
-                'images/chipIcon/nodejs.svg',
-                'images/chipIcon/mysql.svg',
-              ]}
-              isRecruit={true}
-              deadline='2024.01.31'
-              avatar='images/avatar.svg'
-              name='asdf'
-              likes={77}
-              comments={7}
-            />
-            <ProjectCard
-              title='책 취향 기반 매칭 서비스, 사이드 프로젝트 팀원 모집합니다'
-              icons={[
-                'images/chipIcon/figma.svg',
-                'images/chipIcon/react.svg',
-                'images/chipIcon/nodejs.svg',
-                'images/chipIcon/mysql.svg',
-              ]}
-              isRecruit={false}
-              deadline='2024.01.31'
-              avatar='images/avatar.svg'
-              name='asdf'
-              likes={77}
-              comments={7}
-            />
+            {allProject?.map((project, index) => (
+              <Link
+                href={`/project/sfaclogdetail/${project.id}`}
+                key={project.id}
+              >
+                <ProjectCard
+                  key={project.id}
+                  title={project.title}
+                  icons={
+                    allSkillValues && allSkillValues[index]
+                      ? allSkillValues[index]
+                      : []
+                  }
+                  isRecruit={project.is_end}
+                  deadline={project.deadline.split(' ')[0]}
+                  avatar={
+                    allUserProfile && allUserProfile[index]
+                      ? allUserProfile[index]
+                      : []
+                  }
+                  name='asdf'
+                  likes={project.likes}
+                  comments={7}
+                />
+              </Link>
+            ))}
           </div>
         </section>
       </div>

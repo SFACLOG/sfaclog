@@ -1,8 +1,9 @@
-import { getSkillByName } from '@/api/skill';
+import { getAllSkills, getSkillByName } from '@/api/skill';
 import {
   getToken,
   getUser,
   getUserByEmail,
+  getUserProfileById,
   isValidUser,
   login,
   logout,
@@ -11,17 +12,23 @@ import {
   signup,
   withdrawal,
 } from '../../api/user';
-import { getLatestProjectById, getProjectById } from '@/api/project';
+import {
+  getAllProjectImageById,
+  getAllProjects,
+  getLatestProjectById,
+  getProjectById,
+} from '@/api/project';
 import { getMeeting } from '@/api/meeting';
 import { getPositionByName } from '@/api/position';
 
 const AuthTest = async () => {
   try {
     // Call resultList using await to wait for the result
-
-    const users = await getPositionByName(['프론트엔드', '백엔드']);
-
-    console.log(users);
+    // const users = await getPositionByName(['프론트엔드', '백엔드']);
+    // const a = await getAllSkills('cm62ocju80lts54');
+    // console.log(users);
+    // const a = await deleteProejectMeeting('1lzus16fk2q2awa');
+    // console.log(a);
   } catch (error) {
     console.error('Error in AuthTest:', error);
   }

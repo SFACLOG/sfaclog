@@ -1,9 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getPostsbyUserId, getUserRelatedPostsByUserId } from '@/api/post';
 
-const getPostsDataByUserId = async (user_id: string, page: number) => {
+const getPostsDataByUserId = async (userId: string, page: number) => {
   try {
-    const posts = await getPostsbyUserId(user_id, page);
+    const posts = await getPostsbyUserId(userId, page);
 
     return posts;
   } catch (e) {
@@ -13,11 +13,11 @@ const getPostsDataByUserId = async (user_id: string, page: number) => {
 
 const getUserRelatedPostDataByUserId = async (
   collection: string,
-  user_id: string,
+  userId: string,
   page: number,
 ) => {
   try {
-    const posts = await getUserRelatedPostsByUserId(collection, user_id, page);
+    const posts = await getUserRelatedPostsByUserId(collection, userId, page);
 
     return posts;
   } catch (e) {
@@ -25,10 +25,10 @@ const getUserRelatedPostDataByUserId = async (
   }
 };
 
-export const useGetPostsByUserId = (user_id: string) => {
+export const useGetPostsByUserId = (userId: string) => {
   return useInfiniteQuery({
-    queryKey: ['posts', user_id],
-    queryFn: ({ pageParam }) => getPostsDataByUserId(user_id, pageParam),
+    queryKey: ['posts'],
+    queryFn: ({ pageParam }) => getPostsDataByUserId(userId, pageParam),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, allPages) => {
       return allPages.length + 1;
@@ -36,11 +36,11 @@ export const useGetPostsByUserId = (user_id: string) => {
   });
 };
 
-export const useGetBookmarkPostsByUserId = (user_id: string) => {
+export const useGetBookmarkPostsByUserId = (userId: string) => {
   return useInfiniteQuery({
-    queryKey: ['posts', 'bookmark', user_id],
+    queryKey: ['posts', 'bookmark'],
     queryFn: ({ pageParam }) =>
-      getUserRelatedPostDataByUserId('post_bookmark', user_id, pageParam),
+      getUserRelatedPostDataByUserId('post_bookmark', userId, pageParam),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, allPages) => {
       return allPages.length + 1;
@@ -48,11 +48,11 @@ export const useGetBookmarkPostsByUserId = (user_id: string) => {
   });
 };
 
-export const useGetRecentViewPostsByUserId = (user_id: string) => {
+export const useGetRecentViewPostsByUserId = (userId: string) => {
   return useInfiniteQuery({
-    queryKey: ['posts', 'recent', user_id],
+    queryKey: ['posts', 'recent'],
     queryFn: ({ pageParam }) =>
-      getUserRelatedPostDataByUserId('post_recent_view', user_id, pageParam),
+      getUserRelatedPostDataByUserId('post_recent_view', userId, pageParam),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, allPages) => {
       return allPages.length + 1;

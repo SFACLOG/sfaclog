@@ -24,7 +24,7 @@ const patchUser = async (id: string, data: Partial<User>) => {
 
 export const useGetUserById = (id: string) => {
   return useQuery({
-    queryKey: ['user', id],
+    queryKey: ['user'],
     queryFn: () => getUserDataById(id),
   });
 };

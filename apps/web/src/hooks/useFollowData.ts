@@ -1,4 +1,9 @@
-import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import {
   getFollowersByUserId,
   getFollowingsByUserId,
@@ -58,7 +63,7 @@ const postFollowData = async (data: Follow) => {
 
 export const useGetFollowersByUserId = (userId: string) => {
   return useInfiniteQuery({
-    queryKey: ['followers', userId],
+    queryKey: ['followers'],
     queryFn: ({ pageParam }) => getFollowersDataByUserId(userId, pageParam),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, allPages) => {
@@ -69,7 +74,7 @@ export const useGetFollowersByUserId = (userId: string) => {
 
 export const useGetFollowingsByUserId = (userId: string) => {
   return useInfiniteQuery({
-    queryKey: ['followees', userId],
+    queryKey: ['followees'],
     queryFn: ({ pageParam }) => getFollowingsDataByUserId(userId, pageParam),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, allPages) => {
@@ -80,13 +85,22 @@ export const useGetFollowingsByUserId = (userId: string) => {
 
 export const useGetIsFollowingUser = (userId: string) => {
   return useQuery({
-    queryKey: ['isFollowing', userId],
+    queryKey: ['isFollowing'],
     queryFn: () => getIsFollowingUserData(userId),
   });
 };
 
 export const usePostFollow = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (data: Follow) => postFollowData(data),
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user'] });
+      await queryClient.invalidateQueries({ queryKey: ['followers'] });
+      await queryClient.invalidateQueries({ queryKey: ['isFollowing'] });
+
+      return;
+    },
   });
 };

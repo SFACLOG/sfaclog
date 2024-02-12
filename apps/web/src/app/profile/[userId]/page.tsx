@@ -6,14 +6,15 @@ import { Children, useMemo, useState } from 'react';
 import { Avatar, ProfileCard, SelectBox, SquareButton } from 'sfac-design-kit';
 import { cn } from 'sfac-design-kit/src/utils';
 import { useGetUserById } from '@/hooks/useUserData';
-import { getUser, login, logout } from '@/api/user';
-import { Modal } from '@/components/Modal';
 import {
+  useDeleteFollow,
   useGetFollowersByUserId,
   useGetFollowingsByUserId,
   useGetIsFollowingUser,
   usePostFollow,
 } from '@/hooks/useFollowData';
+import { getUser } from '@/api/user';
+import { Modal } from '@/components/Modal';
 import { User } from '@/types/user';
 
 const NAV_LINK = [
@@ -62,7 +63,6 @@ const FILTER_OPTIONS = [
 const Profile = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const userId = useMemo(() => pathname.split('/')[2], [pathname]);
   const [isOpenFollowerModal, setIsOpenFollowerModal] = useState(false);
   const [isOpenFollowingModal, setIsOpenFollowingModal] = useState(false);
   const [activeBtn, setActiveBtn] = useState(() => {
@@ -77,49 +77,52 @@ const Profile = () => {
         return 0;
     }
   });
-  const isMyProfile = useMemo(
-    () => userId === getUser()?.id,
-    [userId, getUser()],
-  );
-  const { data: user } = useGetUserById(userId);
-  const { data: isFollowing } = useGetIsFollowingUser(userId);
+  const userId = useMemo(() => getUser()?.id, [getUser]);
+  const profileId = useMemo(() => pathname.split('/')[2], [pathname]);
+  const isMyProfile = useMemo(() => profileId === userId, [profileId, userId]);
+
+  const { data: user } = useGetUserById(profileId);
+  const { data: isFollowing } = useGetIsFollowingUser(profileId);
   const {
     data: followers,
     hasNextPage: hasNextFollowerPage,
     fetchNextPage: fetchNextFollowerPage,
-  } = useGetFollowersByUserId(userId);
+  } = useGetFollowersByUserId(profileId);
   const {
     data: followings,
     hasNextPage: hasNextFollowingPage,
     fetchNextPage: fetchNextFollowingPage,
-  } = useGetFollowingsByUserId(userId);
-  const { mutate } = usePostFollow();
+  } = useGetFollowingsByUserId(profileId);
+  const { mutate: postFollow } = usePostFollow();
+  const { mutate: deleteFollow } = useDeleteFollow();
 
   const handleClickFollow = () => {
-    const followerId = getUser()?.id;
+    if (!userId) return router.replace('/login');
 
-    if (!followerId) return router.replace('/login');
+    const submitData = { followee: profileId, follower: userId };
 
-    const submitData = { followee: userId, follower: followerId };
-
-    mutate(submitData);
+    postFollow(submitData);
   };
+
+  const handleClickUnfollow = () => {
+    if (!userId) return router.replace('/login');
+
+    const submitData = { followee: profileId, follower: userId };
+
+    deleteFollow(submitData);
+  };
+
   const handleFetchFollower = () => {
     if (hasNextFollowerPage) {
       fetchNextFollowerPage();
     }
   };
+
   const handleFetchFollowing = () => {
     if (hasNextFollowingPage) {
       fetchNextFollowingPage();
     }
   };
-
-  // 임의 로그인/로그아웃
-  // login('imsi@google.com', '123456789!');
-  // logout();
-  // c7mgibzaz1qzvj4
-  // 63uiryfe1e1gdmy
 
   if (!user) return;
 
@@ -143,9 +146,9 @@ const Profile = () => {
           facebook={user.sns?.facebook}
           following={user.following}
           follower={user.follower}
-          isShowFollowingBtn={!isMyProfile && !isFollowing}
+          isFollowing={isFollowing}
           isMine={isMyProfile}
-          onClickFollow={handleClickFollow}
+          onClickFollow={isFollowing ? handleClickUnfollow : handleClickFollow}
           onClickEdit={
             isMyProfile ? () => router.push('/profile/edit') : () => {}
           }
@@ -171,7 +174,7 @@ const Profile = () => {
                     )}
                   >
                     <Link
-                      href={`/profile/${userId}/${link}`}
+                      href={`/profile/${profileId}/${link}`}
                       onClick={() => setActiveBtn(i)}
                     >
                       {tab}

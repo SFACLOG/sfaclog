@@ -5,6 +5,8 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import {
+  deleteFollow,
+  getFollowId,
   getFollowersByUserId,
   getFollowingsByUserId,
   getIsFollowingUser,
@@ -49,13 +51,27 @@ const getIsFollowingUserData = async (followeeId: string) => {
 const postFollowData = async (data: Follow) => {
   try {
     const { followee: followeeId, follower: followerId } = data;
-
     const { follower } = await getUserById(followeeId);
     const { following } = await getUserById(followerId);
 
     await updateUser(followeeId, { follower: follower + 1 });
     await updateUser(followerId, { following: following + 1 });
     await postFollow(data);
+  } catch (e) {
+    return console.error(e);
+  }
+};
+
+const deleteFollowData = async (data: Follow) => {
+  try {
+    const { followee: followeeId, follower: followerId } = data;
+    const followId = await getFollowId(followeeId, followerId);
+    const { follower } = await getUserById(followeeId);
+    const { following } = await getUserById(followerId);
+
+    await updateUser(followeeId, { follower: follower - 1 });
+    await updateUser(followerId, { following: following - 1 });
+    await deleteFollow(followId);
   } catch (e) {
     return console.error(e);
   }
@@ -95,6 +111,21 @@ export const usePostFollow = () => {
 
   return useMutation({
     mutationFn: (data: Follow) => postFollowData(data),
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user'] });
+      await queryClient.invalidateQueries({ queryKey: ['followers'] });
+      await queryClient.invalidateQueries({ queryKey: ['isFollowing'] });
+
+      return;
+    },
+  });
+};
+
+export const useDeleteFollow = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: Follow) => deleteFollowData(data),
     onSettled: async () => {
       await queryClient.invalidateQueries({ queryKey: ['user'] });
       await queryClient.invalidateQueries({ queryKey: ['followers'] });

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Children } from 'react';
+import { Children, useEffect, useState } from 'react';
 import { getUser, logout } from '@/api/user';
 import { useRouter } from 'next/navigation';
 
@@ -31,7 +31,11 @@ const NAV = [
 
 const Navigation = () => {
   const router = useRouter();
-  const userId = getUser()?.id;
+  const [userId, setUserId] = useState();
+
+  useEffect(() => {
+    setUserId(getUser()?.id);
+  }, [getUser()?.id]);
 
   const handleClickLogout = () => {
     logout();

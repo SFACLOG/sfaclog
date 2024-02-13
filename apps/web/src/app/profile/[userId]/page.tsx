@@ -107,9 +107,9 @@ const Profile = () => {
   const handleClickUnfollow = () => {
     if (!userId) return router.replace('/login');
 
-    const submitData = { followee: profileId, follower: userId };
+    const deleteData = { followee: profileId, follower: userId };
 
-    deleteFollow(submitData);
+    deleteFollow(deleteData);
   };
 
   const handleFetchFollower = () => {

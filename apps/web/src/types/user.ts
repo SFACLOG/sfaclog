@@ -1,6 +1,7 @@
 export interface User {
   id: string;
   username: string;
+  nickname: string;
   email: string;
   profile_image?: FormDataEntryValue | null;
   description?: string;
@@ -8,6 +9,8 @@ export interface User {
   interest?: Interest;
   proposal?: Proposal;
   sns?: Sns;
+  following?: number;
+  follower?: number;
 }
 
 export interface Interest {
@@ -36,7 +39,7 @@ export interface Sns {
 }
 
 export interface Follow {
-  id: string;
-  followee: Pick<User, 'id'>;
-  follwer: Pick<User, 'id'>;
+  id?: string;
+  followee: string;
+  follower: string;
 }

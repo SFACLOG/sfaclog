@@ -25,7 +25,7 @@ const formData = new FormData();
 
 const ProfileEdit = () => {
   const router = useRouter();
-  const userId = useMemo(() => getUser()?.id, [getUser]);
+  const userId = getUser()?.id;
 
   if (!userId) return router.replace('/login');
 

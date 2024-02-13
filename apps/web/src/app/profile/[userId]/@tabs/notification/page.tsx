@@ -1,6 +1,6 @@
 'use client';
 
-import { LargeLogCard, NotificationCard } from 'sfac-design-kit';
+import { NotificationCard } from 'sfac-design-kit';
 
 const NotificationSection = () => {
   return (

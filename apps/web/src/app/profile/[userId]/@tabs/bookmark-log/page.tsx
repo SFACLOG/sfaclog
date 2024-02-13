@@ -3,17 +3,17 @@
 import { usePathname } from 'next/navigation';
 import { Children, useCallback, useEffect, useRef } from 'react';
 import { LargeLogCard } from 'sfac-design-kit';
-import { useGetPostsByUserId } from '@/hooks/usePostData';
+import { useGetBookmarkPostsByUserId } from '@/hooks/usePostData';
 import { Post } from '@/types/post';
 
-const LogSection = () => {
+const bookmarkLogSection = () => {
   const observerRef = useRef(null);
   const pathname = usePathname();
   const {
     data: posts,
     hasNextPage,
     fetchNextPage,
-  } = useGetPostsByUserId(pathname.split('/')[2]);
+  } = useGetBookmarkPostsByUserId(pathname.split('/')[2]);
 
   const handleObserver = useCallback(
     ([entries]: IntersectionObserverEntry[]) => {
@@ -42,16 +42,20 @@ const LogSection = () => {
     <div className='flex flex-col gap-[60px] mt-10'>
       {Children.toArray(
         posts.pages.map((group: any) =>
-          group.items.map((item: Post) => (
-            <LargeLogCard
-              thumbnail={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/post/${item.id}/${item.thumbnail}`}
-              title={item.title}
-              summary={item.content}
-              comments={item.comments}
-              likes={item.likes}
-              tags={item.tag && Object.keys(item.tag)}
-            />
-          )),
+          group.items.map((item: { expand: { post_id: Post } }) => {
+            const post = item.expand.post_id;
+
+            return (
+              <LargeLogCard
+                thumbnail={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/post/${post.id}/${post.thumbnail}`}
+                title={post.title}
+                summary={post.content}
+                comments={post.comments}
+                likes={post.likes}
+                tags={post.tag && Object.keys(post.tag)}
+              />
+            );
+          }),
         ),
       )}
       <div ref={observerRef}></div>
@@ -59,4 +63,4 @@ const LogSection = () => {
   );
 };
 
-export default LogSection;
+export default bookmarkLogSection;

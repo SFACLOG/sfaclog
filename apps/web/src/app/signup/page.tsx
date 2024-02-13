@@ -1,13 +1,11 @@
 'use client';
-import { useState, useMemo } from 'react';
-import LoginLayout from '../../components/LoginLayout';
-import generateRandomNumber from '../../components/RandomNumber';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { Checkbox, Input, SquareButton } from 'sfac-design-kit';
+import LoginLayout from '../../components/LoginLayout';
 import { useUserContext } from '@/context/UserContext';
-
-// const crypto = new Crypto();
+import { generateRandomNumber } from '@/utils/math';
 
 const Signup = () => {
   const { userData, setUserData } = useUserContext();
@@ -51,12 +49,6 @@ const Signup = () => {
       console.error('이메일 전송 중 오류:', error);
     }
   };
-
-  // const code = useMemo(
-  //   // () => crypto.randomUUID().split('-')[0],
-  //   () => generateRandomNumber(),
-  //   [isClickSendBtn],
-  // );
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsNameChecked(!!event.target.value);

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { ReactNode } from 'react';
+import Navigation from '@/components/Navigation';
 
 interface ProfileLayoutProps {
   children: ReactNode;
@@ -13,10 +14,13 @@ export const metadata: Metadata = {
 
 const ProfileLayout = ({ children, tabs }: ProfileLayoutProps) => {
   return (
-    <main className='mx-auto container pb-[200px]'>
-      {children}
-      <section className='max-w-[780px] mx-auto'>{tabs}</section>
-    </main>
+    <>
+      <Navigation />
+      <main className='mx-auto container pb-[200px]'>
+        {children}
+        <section className='max-w-[780px] mx-auto'>{tabs}</section>
+      </main>
+    </>
   );
 };
 

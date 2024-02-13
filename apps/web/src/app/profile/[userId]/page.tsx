@@ -13,7 +13,7 @@ import {
   useGetIsFollowingUser,
   usePostFollow,
 } from '@/hooks/useFollowData';
-import { getUser } from '@/api/user';
+import { getUser, login, logout } from '@/api/user';
 import { Modal } from '@/components/Modal';
 import { User } from '@/types/user';
 
@@ -77,7 +77,7 @@ const Profile = () => {
         return 0;
     }
   });
-  const userId = useMemo(() => getUser()?.id, [getUser]);
+  const userId = getUser()?.id;
   const profileId = useMemo(() => pathname.split('/')[2], [pathname]);
   const isMyProfile = useMemo(() => profileId === userId, [profileId, userId]);
 

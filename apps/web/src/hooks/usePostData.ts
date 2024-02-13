@@ -1,11 +1,21 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getPostsbyUserId, getUserRelatedPostsByUserId } from '@/api/post';
+import {
+  getTagsByPostId,
+  getPostsbyUserId,
+  getUserRelatedPostsByUserId,
+} from '@/api/post';
 
 const getPostsDataByUserId = async (userId: string, page: number) => {
   try {
     const posts = await getPostsbyUserId(userId, page);
+    const postsWithTags = await Promise.all(
+      posts.items.map(async post => {
+        const tags = await getTagsByPostId(post.id);
+        return { ...post, tags };
+      }),
+    );
 
-    return posts;
+    return postsWithTags;
   } catch (e) {
     return console.error(e);
   }
@@ -18,8 +28,14 @@ const getUserRelatedPostDataByUserId = async (
 ) => {
   try {
     const posts = await getUserRelatedPostsByUserId(collection, userId, page);
+    const postsWithTags = await Promise.all(
+      posts.map(async post => {
+        const tags = await getTagsByPostId(post.id);
+        return { ...post, tags };
+      }),
+    );
 
-    return posts;
+    return postsWithTags;
   } catch (e) {
     return console.error(e);
   }

@@ -8,7 +8,7 @@ export interface Post {
   views: number;
   likes: number;
   comments: number;
-  tag: {};
+  tags: string[];
   profileImage: string;
   userId: Pick<User, 'id'>;
 }

@@ -41,23 +41,19 @@ const RecentViewLogSection = () => {
   return (
     <section className='flex flex-col gap-[60px] max-w-[780px] mx-auto mt-10'>
       {Children.toArray(
-        posts.pages.map((group: any) =>
-          group.items.map((item: { expand: { post_id: Post } }) => {
-            const post = item.expand.post_id;
-
-            return (
-              <Link href={`/recent-log/${post.id}`}>
-                <LargeLogCard
-                  thumbnail={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/post/${post.id}/${post.thumbnail}`}
-                  title={post.title}
-                  summary={post.content}
-                  comments={post.comments}
-                  likes={post.likes}
-                  tags={post.tag && Object.keys(post.tag)}
-                />
-              </Link>
-            );
-          }),
+        posts.pages.map((items: any) =>
+          items.map((post: Post) => (
+            <Link href={`/recent-log/${post.id}`}>
+              <LargeLogCard
+                thumbnail={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/post/${post.id}/${post.thumbnail}`}
+                title={post.title}
+                summary={post.content}
+                comments={post.comments}
+                likes={post.likes}
+                tags={post.tags}
+              />
+            </Link>
+          )),
         ),
       )}
       <div ref={observerRef}></div>

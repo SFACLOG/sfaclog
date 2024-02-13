@@ -130,7 +130,11 @@ const Profile = () => {
     <>
       <header className='flex justify-between items-center py-[25px] border-b border-neutral-20'>
         <h2 className='text-title1'>{user.sfaclog_title}</h2>
-        {isMyProfile && <SquareButton>+ 로그 작성</SquareButton>}
+        {isMyProfile && (
+          <SquareButton onClick={() => router.push('/recent-log/write')}>
+            + 로그 작성
+          </SquareButton>
+        )}
       </header>
       <div className='mt-10 max-w-[780px] mx-auto'>
         <ProfileCard

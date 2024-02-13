@@ -4,7 +4,7 @@ import { NotificationCard } from 'sfac-design-kit';
 
 const NotificationSection = () => {
   return (
-    <div className='flex flex-col gap-[30px] mt-10'>
+    <section className='flex flex-col gap-[30px] max-w-[780px] mx-auto mt-10'>
       <NotificationCard
         title='새로운 댓글, 답글이 달렸습니다.'
         time='30분 전'
@@ -62,7 +62,7 @@ const NotificationSection = () => {
           onClickCard={() => {}}
         />
       </NotificationCard>
-    </div>
+    </section>
   );
 };
 

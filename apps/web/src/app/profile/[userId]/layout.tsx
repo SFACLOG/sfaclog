@@ -19,7 +19,7 @@ const ProfileLayout = ({ children, tabs }: ProfileLayoutProps) => {
       <Navigation />
       <main className='mx-auto container pb-[200px]'>
         {children}
-        <section className='max-w-[780px] mx-auto'>{tabs}</section>
+        {tabs}
       </main>
       <Footer />
     </>

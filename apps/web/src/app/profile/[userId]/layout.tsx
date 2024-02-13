@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { ReactNode } from 'react';
-import Navigation from '@/components/Navigation';
+import Navigation from '@/components/layout/Navigation';
+import Footer from '@/components/layout/Footer';
 
 interface ProfileLayoutProps {
   children: ReactNode;
@@ -20,6 +21,7 @@ const ProfileLayout = ({ children, tabs }: ProfileLayoutProps) => {
         {children}
         <section className='max-w-[780px] mx-auto'>{tabs}</section>
       </main>
+      <Footer />
     </>
   );
 };

@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Provider from './Provider';
-import Header from '../components/Header';
+import Header from '@/components/layout/Header';
 import 'sfac-design-kit/dist/style.css';
 import './globals.css';
-import Navigation from '@/components/Navigation';
 
 export const metadata: Metadata = {
   title: '스팩로그',

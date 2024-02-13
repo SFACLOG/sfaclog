@@ -48,12 +48,14 @@ const Navigation = () => {
   return (
     <>
       <section className='flex items-center h-20 container m-auto'>
-        <Image
-          src='/images/main_logo.svg'
-          width={180}
-          height={33}
-          alt='main_logo'
-        />
+        <Link href='/main'>
+          <Image
+            src='/images/main_logo.svg'
+            width={180}
+            height={33}
+            alt='main_logo'
+          />
+        </Link>
         <nav className='flex w-full ml-[50px] text-title4'>
           <ul className='flex-1 flex gap-8'>
             {Children.toArray(

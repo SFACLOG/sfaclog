@@ -1,22 +1,22 @@
 'use client';
-import React, { useState, MouseEventHandler, useEffect } from 'react';
+import React, { useState, MouseEventHandler } from 'react';
 import { Avatar, Modal, RoundButton } from 'sfac-design-kit';
 import Image from 'next/image';
-import {
-  useGetUserById,
-  useGetUserDataWithPropsById,
-} from '@/hooks/useUserData';
-import {
-  useDeleteProjectByProjectId,
-  useGetAllUserProfileById,
-  useGetUserProfileById,
-} from '@/hooks/useProjectData';
+import { useGetUserDataWithPropsById } from '@/hooks/useUserData';
+import { useGetUserProfileById } from '@/hooks/useProjectData';
 import { useGetSkillData } from '@/hooks/useSkillData';
-import { chipoptions, process, position } from '../page';
+import { process, position, imagechipoptions } from '../page';
 import { useGetMeetingData } from '@/hooks/useMeetingData';
 import { useGetPositionData } from '@/hooks/usePositionData';
-import { deleteProject, updateProjectIsEnd } from '@/api/project';
+import { deleteProject, updateProjectIs } from '@/api/project';
 import { useRouter } from 'next/navigation';
+import {
+  deleteProjectLike,
+  getProjectLike,
+  postProjectLike,
+} from '@/api/projectlike';
+import { getUserId } from '@/api/user';
+import LinkCopy from './LinkCopy';
 
 interface Project {
   collectionId: string;
@@ -48,13 +48,12 @@ const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
   const [editButtonTheme, setEditButtonTheme] = useState<boolean>(false);
   const [deleteButtonTheme, setDeleteButtonTheme] = useState<boolean>(false);
   const [isEnd, setIsEnd] = useState<boolean>(projectInfo.is_end);
-
-  // useEffect(() => {
-  //   setIsEnd(projectInfo.is_end);
-  // }, [projectInfo.is_end]);
-
+  const [isHeart, setIsHeart] = useState<boolean>(false);
+  const [likes, setLikes] = useState<number>(projectInfo.likes);
+  const isUser = getUserId();
   const handleEditButtonClick = () => {
     setEditButtonTheme(prevTheme => !prevTheme);
+    router.push(`/project/update/${projectInfo.id}`);
   };
 
   const handleDeleteButtonClick = () => {
@@ -63,7 +62,7 @@ const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
 
   const handleCloseButtonClick = async () => {
     const updatedProjectInfo = { ...projectInfo, is_end: !projectInfo.is_end };
-    await updateProjectIsEnd(projectInfo.id, updatedProjectInfo);
+    await updateProjectIs(projectInfo.id, updatedProjectInfo);
     setIsEnd(!isEnd);
   };
 
@@ -78,7 +77,7 @@ const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
   }
   const allSkillValues = allSkill?.map(projectSkills =>
     projectSkills.map((skill: any) => {
-      const foundOption = chipoptions.find(
+      const foundOption = imagechipoptions.find(
         option => option.label === skill.skill_id,
       );
       return foundOption ? foundOption.value : '';
@@ -105,6 +104,23 @@ const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
   const handleDeleteConfirm: MouseEventHandler<HTMLButtonElement> = event => {
     deleteProject(projectInfo.id);
     router.push('/project');
+  };
+
+  const heartOnclick = async () => {
+    setIsHeart(prev => !prev);
+    const updatedLikes = isHeart ? projectInfo.likes : projectInfo.likes + 1;
+    const updatedProjectInfo = { ...projectInfo, likes: updatedLikes };
+    await updateProjectIs(projectInfo.id, updatedProjectInfo);
+    setLikes(updatedLikes);
+    const hasLike = await getProjectLike({
+      project_id: projectInfo.id,
+      user_id: isUser,
+    });
+    if (hasLike) {
+      return;
+    }
+    await postProjectLike({ project_id: projectInfo.id, user_id: isUser });
+    // await deleteProjectLike()
   };
 
   return (
@@ -168,6 +184,7 @@ const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
             width={19}
             height={21}
             className='mb-[46px] mt-[11px]'
+            onClick={LinkCopy}
           />
           <div className='flex flex-col items-center'>
             <Image
@@ -175,9 +192,10 @@ const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
               alt='heart'
               width={22}
               height={20}
-              className='mb-3 grayscale'
+              className={`mb-3 ${!isHeart && 'grayscale'} cursor-pointer`}
+              onClick={heartOnclick}
             />
-            <p>10</p>
+            <p>{likes}</p>
           </div>
         </div>
       </div>

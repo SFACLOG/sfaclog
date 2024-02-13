@@ -5,19 +5,65 @@ import {
   SelectBoxOption,
   SelectBoxPosition,
   SelectChipBox,
+  chipoptions,
 } from 'sfac-design-kit';
-import GoBack from '../(components)/GoBack';
-import Calendar from '../(components)/Calendar';
+import GoBack from '../../(components)/GoBack';
+import Calendar from '../../(components)/Calendar';
 import { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
-import { getUser, isValidUser } from '@/api/user';
-import { getLatestProjectById, postProject } from '@/api/project';
-import { getMeeting, postMeeting } from '@/api/meeting';
-import { getPositionByName, postPosition } from '@/api/position';
-import { getSkillByName, postSkill } from '@/api/skill';
-import { useRouter } from 'next/navigation';
+import { getUser } from '@/api/user';
+import { updateProjectId } from '@/api/project';
+import {
+  getMeeting,
+  getProjectMeetingByData,
+  updateMeeting,
+} from '@/api/meeting';
+import {
+  deletePosition,
+  getPositionByName,
+  getPositionsById,
+  postPosition,
+} from '@/api/position';
+import {
+  deleteSkill,
+  getProjectSkillById,
+  getSkillByName,
+  postSkill,
+} from '@/api/skill';
+import { usePathname, useRouter } from 'next/navigation';
+import {
+  useGetProjectDataByProjectId,
+  useGetProjectImageByProjectId,
+  useGetUserIdByProjectId,
+} from '@/hooks/useProjectData';
+import { useGetSkillData } from '@/hooks/useSkillData';
+import { imagechipoptions, position, process } from '../../page';
+import { useGetPositionData } from '@/hooks/usePositionData';
+import { useGetMeetingData } from '@/hooks/useMeetingData';
 
 const page = () => {
+  const id = usePathname();
+  const getUserId = getUser();
+  const router = useRouter();
+
+  const { data: user } = useGetUserIdByProjectId(id.split('/')[3]);
+  const isOwner = user && getUserId ? user === getUserId : false;
+  const { data: projectInfo } = useGetProjectDataByProjectId(id.split('/')[3]);
+  const { data: allSkill } = useGetSkillData(
+    projectInfo ? [projectInfo.id] : [],
+  );
+  const { data: allPosition } = useGetPositionData(
+    projectInfo ? [projectInfo.id] : [],
+  );
+
+  const { data: allMeeting } = useGetMeetingData(
+    projectInfo ? [projectInfo.id] : [],
+  );
+
+  const { data: projectImage } = useGetProjectImageByProjectId(
+    projectInfo ? projectInfo.id : '',
+  );
+
   const [selectedProcess, setSelectedProcess] = useState<string>('');
   const [selectedPosition, setSelectedPosition] = useState<string[]>([]);
   const [selectedSkill, setSelectedSkill] = useState<string[]>([]);
@@ -29,22 +75,11 @@ const page = () => {
   const [content, setContent] = useState<string>('');
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
-  const [preference, setPreference] = useState<string>('');
+  const [preference, setPreference] = useState<string>(
+    projectInfo ? projectInfo?.preference : '',
+  );
 
-  const router = useRouter();
-
-  const getUserId = getUser();
-
-  const isAnyFieldEmpty =
-    !selectedProcess ||
-    selectedPosition.length === 0 ||
-    selectedSkill.length === 0 ||
-    !selectedSize ||
-    !selectedStatus ||
-    !selectedDeadline ||
-    !title ||
-    !content ||
-    images.length === 0;
+  const textRef = useRef<HTMLTextAreaElement>(null);
 
   const handleProcessChange = (selectedOption: SelectBoxOption) => {
     setSelectedProcess(selectedOption.value);
@@ -91,8 +126,6 @@ const page = () => {
     setPreference(e.target.value);
   };
 
-  const textRef = useRef<HTMLTextAreaElement>(null);
-
   const handleResizeHeight = useCallback(() => {
     if (textRef.current) {
       textRef.current.style.height = textRef.current.scrollHeight + 'px';
@@ -133,7 +166,73 @@ const page = () => {
     setPreviews(newPreviews);
   };
 
-  const handleProjectUpload = async () => {
+  if (
+    !projectInfo ||
+    !allSkill ||
+    !allPosition ||
+    !allMeeting ||
+    !projectImage
+  ) {
+    return;
+  }
+
+  const allPositionValues = allPosition?.map(projectPositions =>
+    projectPositions.map((projectposition: any) => {
+      const foundOption = position.find(
+        option => option.value === projectposition.position_id,
+      );
+      return foundOption ? foundOption.label : '';
+    }),
+  );
+
+  const allSkillValues = allSkill?.map(projectSkills =>
+    projectSkills.map((skill: any) => {
+      const foundOption = imagechipoptions.find(
+        option => option.label === skill.skill_id,
+      );
+      return foundOption ? foundOption.value : '';
+    }),
+  );
+
+  const allMeetingValues = allMeeting?.map(projectMeetings =>
+    projectMeetings.map((meeting: any) => {
+      const foundOption = process.find(
+        option => option.value === meeting.meeting_id,
+      );
+      return foundOption ? foundOption.label : '';
+    }),
+  );
+  // console.log(allMeetingValues[0][0]);
+
+  const getLabelFromValue = (value: string) => {
+    const foundOption = chipoptions.find(option => option.value === value);
+    return foundOption ? foundOption.label : '';
+  };
+  const getLabelFromValuePosition = (label: string) => {
+    const foundOption = position.find(option => option.label === label);
+    return foundOption ? foundOption.label : '';
+  };
+
+  if (!isOwner) {
+    <div>사용자 권한이 없는 페이지입니다.</div>;
+  }
+
+  const isAnyFieldEmpty =
+    !selectedProcess ||
+    selectedPosition.length === 0 ||
+    selectedSkill.length === 0 ||
+    !projectInfo.size ||
+    !projectInfo.status ||
+    !projectInfo.deadline ||
+    !projectInfo.title ||
+    !projectInfo.content;
+
+  // const { data: meetingId } = useGetProjectMeeting(allMeetingValues[0][0]);
+  // if (!meetingId) {
+  //   return;
+  // }
+
+  const handleProjectUpdate = async () => {
     if (isAnyFieldEmpty) {
       return;
     }
@@ -143,33 +242,50 @@ const page = () => {
         size: selectedSize,
         status: selectedStatus,
         deadline: selectedDeadline ? selectedDeadline : null,
-        title,
-        content,
+        title: title ? title : projectInfo.title,
+        content: content ? content : projectInfo.content,
         images,
         user_id: getUserId,
         preference,
-        previews,
       };
 
-      await postProject(projectData);
-      const projectId = await getLatestProjectById(getUserId);
-      const meetingId = await getMeeting(selectedProcess);
-      const positionId = await getPositionByName(selectedPosition);
-      const skillId = await getSkillByName(selectedSkill);
-      await postMeeting({
-        project_id: projectId.id,
+      await updateProjectId(projectInfo.id, projectData);
+
+      const meetingId = await getMeeting(allMeetingValues[0]);
+      const getMeetingId = await getMeeting(selectedProcess);
+
+      const projectMeetingId = await getProjectMeetingByData({
+        project_id: projectInfo.id,
         meeting_id: meetingId.id,
       });
+
+      await updateMeeting(projectMeetingId[0].id, {
+        project_id: projectInfo.id,
+        meeting_id: getMeetingId.id,
+      });
+
+      const getposition = await getPositionsById(projectInfo.id);
+
+      await deletePosition(getposition);
+
+      const positionId = await getPositionByName(selectedPosition);
+
       for (const position of positionId) {
         await postPosition({
-          project_id: projectId.id,
+          project_id: projectInfo.id,
           position_id: position.id,
         });
       }
 
+      const getSkillId = await getProjectSkillById(projectInfo.id);
+
+      await deleteSkill(getSkillId);
+
+      const skillId = await getSkillByName(selectedSkill);
+
       for (const skill of skillId) {
         await postSkill({
-          project_id: projectId.id,
+          project_id: projectInfo.id,
           skill_id: skill.id,
         });
       }
@@ -180,12 +296,12 @@ const page = () => {
     router.push('/project');
   };
 
-  const process = [
+  const processes = [
     { label: '온라인', value: '온라인' },
     { label: '오프라인', value: '오프라인' },
     { label: '온라인/오프라인', value: '온라인/오프라인' },
   ];
-  const position = [
+  const positions = [
     { label: '프론트엔드', value: '프론트엔드' },
     { label: '백엔드', value: '백엔드' },
     { label: '디자이너', value: '디자이너' },
@@ -231,25 +347,40 @@ const page = () => {
             <label className=' text-title4'>진행방식</label>
             <SelectBox
               title='전체'
-              options={process}
+              options={processes}
               className='border-neutral-40 text-neutral-100 text-btn'
               onChange={handleProcessChange}
+              defaultValue={{
+                value: allMeetingValues[0],
+                label: allMeetingValues[0],
+              }}
             />
           </div>
           <div className='flex flex-col w-full  gap-[10px]'>
             <label className=' text-title4'>모집 포지션</label>
             <SelectBoxPosition
               title='전체'
-              options={position}
+              options={positions}
               className='border-neutral-40 text-neutral-100 text-btn'
               onChange={handlePositionChange}
+              defaultValue={allPositionValues[0].map((value: string) => ({
+                value,
+                label: getLabelFromValuePosition(value),
+              }))}
             />
           </div>
         </div>
         <div className='flex gap-[20px] w-full mb-[30px]'>
           <div className='flex flex-col w-full  gap-[10px]'>
             <label className=' text-title4'>기술 스택</label>
-            <SelectChipBox title='제목' onChange={handleSkillChange} />
+            <SelectChipBox
+              title='제목'
+              onChange={handleSkillChange}
+              defaultValue={allSkillValues[0].map((value: string) => ({
+                value,
+                label: getLabelFromValue(value),
+              }))}
+            />
           </div>
           <div className='flex flex-col w-full  gap-[10px]'>
             <label className=' text-title4'>모집 인원</label>
@@ -258,6 +389,10 @@ const page = () => {
               options={recruit}
               className='border-neutral-40 text-neutral-100 text-btn'
               onChange={handleSizeChange}
+              defaultValue={{
+                value: projectInfo.size,
+                label: projectInfo.size,
+              }}
             />
           </div>
         </div>
@@ -269,11 +404,18 @@ const page = () => {
               options={projectstatus}
               className='border-neutral-40 text-neutral-100 text-btn'
               onChange={handleStatusChange}
+              defaultValue={{
+                value: projectInfo.status,
+                label: projectInfo.status,
+              }}
             />
           </div>
           <div className='flex flex-col w-full  gap-[10px]'>
             <label className=' text-title4'>모집 마감일</label>
-            <Calendar onChange={handleDeadlineChange} />
+            <Calendar
+              onChange={handleDeadlineChange}
+              defaultValue={new Date(projectInfo.deadline)}
+            />
           </div>
         </div>
       </div>
@@ -291,6 +433,7 @@ const page = () => {
             placeholder='제목을 입력하세요'
             className=' text-h1 border-none placeholder:text-neutral-20 w-full'
             onChange={handleTitleChange}
+            value={title || projectInfo.title}
           />
           <div className=' border border-neutral-10 my-5 '></div>
           <textarea
@@ -299,6 +442,7 @@ const page = () => {
             placeholder='어떤 프로젝트인가요? 설명해주세요!'
             className='placeholder:text-neutral-20 w-full mb-[70px] p-5 border-none resize-none overflow-hidden'
             onChange={handleContentChange}
+            value={content || projectInfo.content}
           />
 
           <div>
@@ -355,13 +499,14 @@ const page = () => {
             placeholder='우리 팀에는 어떤 팀원이 필요한가요?'
             className=' w-[580px] h-[346px] px-[51px] py-11 placeholder:text-neutral-50 text-body1  bg-neutral-10 mb-[70px] rounded-[5px] resize-none'
             onChange={handlePreferenceChange}
+            value={preference || projectInfo.preference}
           />
           <RoundButton
             disabled={isAnyFieldEmpty}
             theme={`${isAnyFieldEmpty ? 'disable' : 'primary'}`}
-            onClick={handleProjectUpload}
+            onClick={handleProjectUpdate}
           >
-            프로젝트 업로드
+            프로젝트 수정
           </RoundButton>
         </div>
       </div>

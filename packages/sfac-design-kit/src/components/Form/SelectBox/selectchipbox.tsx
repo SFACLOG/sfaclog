@@ -17,22 +17,59 @@ export interface SelectChipBoxProps {
   title: string;
   className?: string;
   onChange?: (selectedOption: SelectChipBoxOption[]) => void;
+  defaultValue?: SelectChipBoxOption[];
 }
+
+export const chipoptions = [
+  { value: '/images/chipIcon/javascript.svg', label: 'Javascript' },
+  { value: '/images/chipIcon/django.svg', label: 'Django' },
+  { value: '/images/chipIcon/figma.svg', label: 'Figma' },
+  { value: '/images/chipIcon/flutter.svg', label: 'Flutter' },
+  { value: '/images/chipIcon/git.svg', label: 'Git' },
+  { value: '/images/chipIcon/java.svg', label: 'Java' },
+  { value: '/images/chipIcon/kotlin.svg', label: 'Kotlin' },
+  { value: '/images/chipIcon/mongodb.svg', label: 'MongoDB' },
+  { value: '/images/chipIcon/mysql.svg', label: 'MySQL' },
+  { value: '/images/chipIcon/nestjs.svg', label: 'Nestjs' },
+  { value: '/images/chipIcon/nextjs.svg', label: 'Nextjs' },
+  { value: '/images/chipIcon/nodejs.svg', label: 'Nodejs' },
+  { value: '/images/chipIcon/react.svg', label: 'React' },
+  { value: '/images/chipIcon/reactnative.svg', label: 'ReactNative' },
+  { value: '/images/chipIcon/spring.svg', label: 'Spring' },
+  { value: '/images/chipIcon/swift.svg', label: 'Swift' },
+  { value: '/images/chipIcon/typescript.svg', label: 'TypeScript' },
+  { value: '/images/chipIcon/vue.svg', label: 'Vue' },
+  { value: '', label: '기타' },
+];
 
 export const SelectChipBox = ({
   className,
   title,
   onChange,
+  defaultValue,
 }: SelectChipBoxProps) => {
+  useEffect(() => {
+    if (onChange && defaultValue) {
+      onChange(defaultValue);
+    }
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<SelectChipBoxOption[]>(
-    [],
+    defaultValue || [],
   );
   const [clickedChipIndexes, setClickedChipIndexes] = useState<number[]>([]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const pathname = usePathname();
+
+  useEffect(() => {
+    const newClickedChipIndexes = selectedOptions.map(option =>
+      chipoptions.findIndex(chip => chip.value === option.value),
+    );
+    setClickedChipIndexes(newClickedChipIndexes);
+  }, [selectedOptions]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -95,28 +132,6 @@ export const SelectChipBox = ({
       onChange(updatedOptions);
     }
   };
-
-  const chipoptions = [
-    { value: '/images/chipIcon/javascript.svg', label: 'Javascript' },
-    { value: '/images/chipIcon/django.svg', label: 'Django' },
-    { value: '/images/chipIcon/figma.svg', label: 'Figma' },
-    { value: '/images/chipIcon/flutter.svg', label: 'Flutter' },
-    { value: '/images/chipIcon/git.svg', label: 'Git' },
-    { value: '/images/chipIcon/java.svg', label: 'Java' },
-    { value: '/images/chipIcon/kotlin.svg', label: 'Kotlin' },
-    { value: '/images/chipIcon/mongodb.svg', label: 'MongoDB' },
-    { value: '/images/chipIcon/mysql.svg', label: 'MySQL' },
-    { value: '/images/chipIcon/nestjs.svg', label: 'Nestjs' },
-    { value: '/images/chipIcon/nextjs.svg', label: 'Nextjs' },
-    { value: '/images/chipIcon/nodejs.svg', label: 'Nodejs' },
-    { value: '/images/chipIcon/react.svg', label: 'React' },
-    { value: '/images/chipIcon/reactnative.svg', label: 'ReactNative' },
-    { value: '/images/chipIcon/spring.svg', label: 'Spring' },
-    { value: '/images/chipIcon/swift.svg', label: 'Swift' },
-    { value: '/images/chipIcon/typescript.svg', label: 'TypeScript' },
-    { value: '/images/chipIcon/vue.svg', label: 'Vue' },
-    { value: '', label: '기타' },
-  ];
 
   return (
     <div

@@ -33,7 +33,7 @@ export const getLatestProjectById = async (user_id: string) => {
     sort: '-created ',
     filter: `user_id = "${user_id}"`,
   });
-  console.log(records[0]);
+
   return records[0];
 };
 
@@ -50,7 +50,11 @@ export const getAllProjectImageById = async (id: string) => {
   return records;
 };
 
-export const updateProjectIsEnd = async (id: string, data: ProjectInfo) => {
+export const updateProjectIs = async (id: string, data: ProjectInfo) => {
+  await pb.collection('project').update(id, data);
+};
+
+export const updateProjectId = async (id: string, data: Project) => {
   await pb.collection('project').update(id, data);
 };
 

@@ -1,6 +1,6 @@
 'use client';
 import DatePicker from 'react-datepicker';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import { getMonth, getYear } from 'date-fns';
 import Image from 'next/image';
@@ -9,10 +9,19 @@ import './style.css';
 
 export interface CalendarProps {
   onChange: (date: string) => void;
+  defaultValue?: Date;
 }
 
-const Calendar = ({ onChange }: CalendarProps) => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+const Calendar = ({ onChange, defaultValue }: CalendarProps) => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(
+    defaultValue || new Date(),
+  );
+
+  useEffect(() => {
+    if (onChange && defaultValue) {
+      onChange(defaultValue.toISOString());
+    }
+  }, []);
 
   const currentYear = new Date().getFullYear();
   const YEARS = Array.from({ length: 11 }, (_, i) => currentYear + i);

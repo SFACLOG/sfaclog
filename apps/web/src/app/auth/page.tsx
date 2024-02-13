@@ -18,17 +18,42 @@ import {
   getLatestProjectById,
   getProjectById,
 } from '@/api/project';
-import { getMeeting } from '@/api/meeting';
+import {
+  getMeeting,
+  getMeetingById,
+  getProjectMeetingByData,
+  updateMeeting,
+} from '@/api/meeting';
 import { getPositionByName } from '@/api/position';
+import { deleteProjectLike } from '@/api/projectlike';
+import { useGetProjectDataByProjectId } from '@/hooks/useProjectData';
 
 const AuthTest = async () => {
+  // const { data: projectInfo } = useGetProjectDataByProjectId('z2mg2riq1xw3wkd');
+  // if (!projectInfo) {
+  //   return;
+  // }
   try {
     // Call resultList using await to wait for the result
     // const users = await getPositionByName(['프론트엔드', '백엔드']);
     // const a = await getAllSkills('cm62ocju80lts54');
     // console.log(users);
-    // const a = await deleteProejectMeeting('1lzus16fk2q2awa');
-    // console.log(a);
+    // const a = await deleteProjectLike({
+    //   project_id: 'r7irbj5d4aq96hb',
+    //   user_id: '63uiryfe1e1gdmy',
+    // });
+    // const b = await getMeeting('온라인');
+    // const a = await getProjectMeetingByData({
+    //   project_id: projectInfo?.id,
+    //   meeting_id: b.id,
+    // });
+    // const c = await updateMeeting(a[0].id, {
+    //   project_id: projectInfo.id,
+    //   meeting_id: b.id,
+    // });
+    // console.log(c);
+    // const a = await getMeetingById('4lcuq9joet135hk');
+    // console.log(a.type);
   } catch (error) {
     console.error('Error in AuthTest:', error);
   }

@@ -32,7 +32,6 @@ const DetailContents = ({ projectInfo }: DetailContentsProps) => {
   if (!projectImage) {
     return;
   }
-  console.log(projectImage);
 
   return (
     <div className='border-b border-neutral-10 mb-[57px]'>

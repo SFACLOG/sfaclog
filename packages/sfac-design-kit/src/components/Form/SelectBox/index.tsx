@@ -15,6 +15,7 @@ export interface SelectBoxProps {
   title: string;
   className?: string;
   onChange?: (selectedOption: SelectBoxOption) => void;
+  defaultValue?: SelectBoxOption;
 }
 
 export const SelectBox = ({
@@ -22,13 +23,20 @@ export const SelectBox = ({
   options,
   title,
   onChange,
+  defaultValue,
 }: SelectBoxProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<SelectBoxOption | null>(
-    null,
+    defaultValue || null,
   );
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (onChange && defaultValue) {
+      onChange(defaultValue);
+    }
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

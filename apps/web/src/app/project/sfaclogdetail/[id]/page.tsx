@@ -22,7 +22,7 @@ const SfacLogDetail = () => {
   if (!projectInfo) {
     return;
   }
-  console.log(projectInfo);
+
   return (
     <div className='mt-[50px] max-w-[780px] mx-auto'>
       <GoBack />

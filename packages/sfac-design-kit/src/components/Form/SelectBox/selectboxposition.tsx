@@ -15,21 +15,43 @@ export interface SelectBoxPositionProps {
   title: string;
   className?: string;
   onChange?: (selectedOption: SelectBoxPostionOption[]) => void;
+  defaultValue?: SelectBoxPostionOption[];
 }
+const positions = [
+  { label: '프론트엔드', value: '프론트엔드' },
+  { label: '백엔드', value: '백엔드' },
+  { label: '디자이너', value: '디자이너' },
+  { label: 'IOS', value: 'IOS' },
+  { label: 'Android', value: 'Android' },
+  { label: '데브옵스', value: '데브옵스' },
+];
 
 export const SelectBoxPosition = ({
   className,
   options,
   title,
   onChange,
+  defaultValue,
 }: SelectBoxPositionProps) => {
+  useEffect(() => {
+    if (onChange && defaultValue) {
+      onChange(defaultValue);
+    }
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<
     SelectBoxPostionOption[]
-  >([]);
+  >(defaultValue || []);
   const [clickedChipIndexes, setClickedChipIndexes] = useState<number[]>([]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const newClickedChipIndexes = selectedOptions.map(option =>
+      positions.findIndex(chip => chip.label === option.label),
+    );
+    setClickedChipIndexes(newClickedChipIndexes);
+  }, [selectedOptions]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -53,7 +75,7 @@ export const SelectBoxPosition = ({
 
   const handleOptionClick = (option: SelectBoxPostionOption, index: number) => {
     const selectedIndex = selectedOptions.findIndex(
-      selectedOption => selectedOption.value === option.value,
+      selectedOption => selectedOption.label === option.label,
     );
     let updatedOptions: SelectBoxPostionOption[];
 
@@ -61,7 +83,7 @@ export const SelectBoxPosition = ({
       updatedOptions = [...selectedOptions, option];
     } else {
       updatedOptions = selectedOptions.filter(
-        selectedOption => selectedOption.value !== option.value,
+        selectedOption => selectedOption.label !== option.label,
       );
     }
 

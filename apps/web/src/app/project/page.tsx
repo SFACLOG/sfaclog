@@ -9,6 +9,7 @@ import {
 } from 'sfac-design-kit';
 import Carousel from '@/components/Carousel';
 import {
+  useGetAllUserById,
   useGetAllUserProfileById,
   useGetProjectData,
 } from '@/hooks/useProjectData';
@@ -84,7 +85,7 @@ const sfacProjects = [
   },
 ];
 
-export const chipoptions = [
+export const imagechipoptions = [
   { value: '/images/chipIcon/javascript.svg', label: 'qz6b1owj3uqn9r5' },
   { value: '/images/chipIcon/django.svg', label: 'no35jb96c0a99fu' },
   { value: '/images/chipIcon/figma.svg', label: 'zzdgc96zp62tq72' },
@@ -138,14 +139,18 @@ const Project = () => {
   const { data: allUserProfile } = useGetAllUserProfileById(allUserId);
 
   const { data: allSkill } = useGetSkillData(allProjectId);
+  const { data: allUserInfo } = useGetAllUserById(allUserId);
+
   const allSkillValues = allSkill?.map(projectSkills =>
     projectSkills.map((skill: any) => {
-      const foundOption = chipoptions.find(
+      const foundOption = imagechipoptions.find(
         option => option.label === skill.skill_id,
       );
       return foundOption ? foundOption.value : '';
     }),
   );
+
+  const usernames = allUserInfo?.flat().map(obj => obj.username);
 
   const [isRecruit, setIsRecruit] = useState<boolean>(false);
   const recruitButtonClick = () => {
@@ -181,7 +186,7 @@ const Project = () => {
           </p>
           <div className='flex gap-5'>
             {sfacProjects.map((project, index) => (
-              <Link href={`/project/sfacfoliodetail/${index}`}>
+              <Link href={`/project/sfacfoliodetail/${index}`} key={index}>
                 <SfacfolioCard
                   key={index}
                   title={project.title}
@@ -249,9 +254,11 @@ const Project = () => {
                           ? allUserProfile[index]
                           : []
                       }
-                      name='asdf'
+                      name={
+                        usernames && usernames[index] ? usernames[index] : []
+                      }
                       likes={project.likes}
-                      comments={7}
+                      comments={0}
                     />
                   </Link>
                 );

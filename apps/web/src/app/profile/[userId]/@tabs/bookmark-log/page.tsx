@@ -39,7 +39,7 @@ const bookmarkLogSection = () => {
   if (!posts) return;
 
   return (
-    <div className='flex flex-col gap-[60px] mt-10'>
+    <section className='flex flex-col gap-[60px] max-w-[780px] mx-auto mt-10'>
       {Children.toArray(
         posts.pages.map((group: any) =>
           group.items.map((item: { expand: { post_id: Post } }) => {
@@ -59,7 +59,7 @@ const bookmarkLogSection = () => {
         ),
       )}
       <div ref={observerRef}></div>
-    </div>
+    </section>
   );
 };
 

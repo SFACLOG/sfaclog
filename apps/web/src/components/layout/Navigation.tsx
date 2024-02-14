@@ -46,7 +46,7 @@ const Navigation = () => {
     router.push('/login');
   };
   return (
-    <>
+    <div className='sticky top-0 backdrop-blur-3xl z-50'>
       <section className='flex items-center h-20 container m-auto'>
         <Link href='/main'>
           <Image
@@ -91,7 +91,7 @@ const Navigation = () => {
         </nav>
       </section>
       <div className='h-[1px] bg-neutral-10' />
-    </>
+    </div>
   );
 };
 

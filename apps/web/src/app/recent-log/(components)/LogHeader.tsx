@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, RoundButton } from 'sfac-design-kit';
 import LogTag from './LogTag';
 import { getUser } from '@/api/user';
-import { createPortal } from 'react-dom';
+import { useRouter } from 'next/navigation';
 
 interface LogHeaderProps {
   tags: string[];
@@ -13,6 +13,7 @@ interface LogHeaderProps {
   nickname: string;
   profileImage: string;
   likes: number;
+  logId: string;
 }
 
 const LogHeader = ({
@@ -22,10 +23,12 @@ const LogHeader = ({
   nickname,
   profileImage,
   likes,
+  logId,
 }: LogHeaderProps) => {
   const user = getUser();
   const [isUserChecked, setIsUserChecked] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (user === null || user.id) {
@@ -36,7 +39,7 @@ const LogHeader = ({
   return (
     isUserChecked && (
       <>
-        <div className='flex justify-between items-center py-[25px]'>
+        <div className='flex justify-between items-center py-[25px] relative'>
           <div className='flex items-center gap-[10px]'>
             {tags.map(tag => (
               <LogTag key={tag} tag={tag} />
@@ -60,18 +63,19 @@ const LogHeader = ({
                 onClick={() => setIsModalOpen(!isModalOpen)}
               />
             )}
-            {isModalOpen &&
-              createPortal(
-                <div className='border border-stroke-blue w-fit text-sm font-semibold text-neutral-60 rounded-[5px]'>
-                  <div className='w-fit px-9 py-[14px] border-b border-neutral-10 cursor-pointer'>
-                    수정하기
-                  </div>
-                  <div className='w-fit px-9 py-[14px] cursor-pointer'>
-                    삭제하기
-                  </div>
-                </div>,
-                document.getElementById('modal') as Element,
-              )}
+            {isModalOpen && (
+              <div className='absolute right-0 top-[70px] border border-stroke-blue text-sm font-semibold text-neutral-60 rounded-[5px] overflow-hidden'>
+                <div
+                  className='px-9 py-[14px] border-b border-neutral-10 cursor-pointer bg-white'
+                  onClick={() => router.push(`/recent-log/edit/${logId}`)}
+                >
+                  수정하기
+                </div>
+                <div className='w-full px-9 py-[14px] cursor-pointer bg-white'>
+                  삭제하기
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <h1 className='text-h1'>{title}</h1>

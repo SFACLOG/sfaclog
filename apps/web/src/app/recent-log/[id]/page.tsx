@@ -18,6 +18,7 @@ const RecentLogDetailPage = async ({ params }: { params: { id: string } }) => {
         nickname={logData.nickname}
         profileImage={logData.profileImage}
         likes={logData.likes}
+        logId={params.id}
       />
       <MarkdownViewer source={logData.content} />
       <AuthorProfile

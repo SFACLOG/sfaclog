@@ -1,3 +1,4 @@
+'use client';
 import { Children } from 'react';
 import { Chip } from '../../Chip';
 import { cn } from '../../../utils';

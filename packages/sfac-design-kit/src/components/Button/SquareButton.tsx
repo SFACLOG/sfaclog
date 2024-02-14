@@ -39,14 +39,17 @@ const SquareButton = ({
   fullWidth = false,
   className,
   onClick,
+  ...rest
 }: SquareButtonProps) => {
   return (
     <button
       className={cn(
-        SquareButtonVariants({ size, theme, className }),
+        SquareButtonVariants({ size, theme }),
         fullWidth && 'w-full',
+        className,
       )}
       onClick={onClick}
+      {...rest}
     >
       {headIcon && <img src={headIcon} alt='icon' className='w-6 h-6' />}
       {children}

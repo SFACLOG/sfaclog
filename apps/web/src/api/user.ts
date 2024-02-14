@@ -1,5 +1,5 @@
 import pb from '.';
-import { Interest, Proposal, User } from '@/types/user';
+import { Interest, Proposal, User, UserInfo } from '@/types/user';
 
 export const getUser = () => {
   return pb.authStore.model;
@@ -65,11 +65,54 @@ export const getUserById = async (id: string) => {
   return await pb.collection('user').getOne(id);
 };
 
+export const getUserWithPropsById = async (id: string) => {
+  const user: UserInfo = await pb.collection('user').getOne(id);
+
+  return user;
+};
+
+export const getAllUsersById = async (ids: string[]) => {
+  const records: any[] = [];
+  for (const id of ids) {
+    const record = await pb.collection('user').getFullList({
+      filter: `id = "${id}"`,
+    });
+    records.push(record);
+  }
+  return records;
+};
+
+export const getUserAllProfileById = async (ids: string[]) => {
+  const records: any[] = [];
+  for (const id of ids) {
+    const record = await pb.collection('user').getOne(id);
+    const firstFilename = record.profile_image;
+    const url = pb.files.getUrl(record, firstFilename, { thumb: '100x250' });
+    records.push(url);
+  }
+  return records;
+};
+
+export const getUserProfileById = async (id: string) => {
+  const record = await pb.collection('user').getOne(id);
+  const firstFilename = record.profile_image;
+  const url = pb.files.getUrl(record, firstFilename, { thumb: '100x250' });
+
+  return url;
+};
+
+export const update = async (email: string, data: {}) => {
+  await pb.collection('user').update(email, data);
+};
+
 export const updateUser = async (id: string, data: Partial<User>) => {
   return await pb.collection('user').update(id, data);
 };
 
-// 회원탈퇴 기능 수정 필요
 export const withdrawal = async (id: string) => {
   await pb.collection('user').delete(id);
+};
+
+export const getUserId = () => {
+  return pb.authStore.model?.id ?? '';
 };

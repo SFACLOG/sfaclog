@@ -247,6 +247,7 @@ const page = () => {
         images,
         user_id: getUserId,
         preference,
+        previews,
       };
 
       await updateProjectId(projectInfo.id, projectData);
@@ -328,6 +329,7 @@ const page = () => {
     { label: '10명 이상', value: '10명 이상' },
   ];
 
+  console.log(projectImage);
   return (
     <div className='mt-[50px] max-w-[780px] mx-auto'>
       <GoBack />

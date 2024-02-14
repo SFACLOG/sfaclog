@@ -148,7 +148,6 @@ const page = () => {
         images,
         user_id: getUserId,
         preference,
-        previews,
       };
 
       await postProject(projectData);

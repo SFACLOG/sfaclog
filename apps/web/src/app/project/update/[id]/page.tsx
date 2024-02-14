@@ -371,7 +371,7 @@ const page = () => {
           </div>
         </div>
         <div className='flex gap-[20px] w-full mb-[30px]'>
-          <div className='flex flex-col w-full  gap-[10px]'>
+          <div className='flex flex-col w-full  gap-[10px] relative'>
             <label className=' text-title4'>기술 스택</label>
             <SelectChipBox
               title='제목'
@@ -380,6 +380,7 @@ const page = () => {
                 value,
                 label: getLabelFromValue(value),
               }))}
+              className=' border-neutral-40'
             />
           </div>
           <div className='flex flex-col w-full  gap-[10px]'>

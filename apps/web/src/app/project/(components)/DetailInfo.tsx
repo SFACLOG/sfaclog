@@ -188,7 +188,7 @@ const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
             alt='share button'
             width={19}
             height={21}
-            className='mb-[46px] mt-[11px]'
+            className='mb-[46px] mt-[11px] cursor-pointer'
             onClick={LinkCopy}
           />
           <div className='flex flex-col items-center'>

@@ -230,7 +230,8 @@ const page = () => {
     !projectInfo.status ||
     !projectInfo.deadline ||
     !projectInfo.title ||
-    !projectInfo.content;
+    !projectInfo.content ||
+    previews.length === 0;
 
   // const { data: meetingId } = useGetProjectMeeting(allMeetingValues[0][0]);
   // if (!meetingId) {

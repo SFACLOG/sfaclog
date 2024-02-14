@@ -25,6 +25,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body className={`relative ${pretendard.className} min-h-screen`}>
         <Header />
         <Provider>
+          <Header />
           {children}
           <div id='modal'></div>
         </Provider>

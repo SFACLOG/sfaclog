@@ -106,7 +106,7 @@ const page = () => {
         <p className='mb-[10px] text-caption3'>
           관심 분야와 제안 허용은 마이페이지에서 수정 가능해요!
         </p>
-        <Link href={'/signup/1/2'}>
+        <Link href={'/sign-up/1/2'}>
           <SquareButton fullWidth={true} onClick={handleSubmit}>
             회원가입 완료하기
           </SquareButton>

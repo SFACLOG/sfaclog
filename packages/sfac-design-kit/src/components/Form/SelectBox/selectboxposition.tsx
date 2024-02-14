@@ -125,7 +125,7 @@ export const SelectBoxPosition = ({
       <div
         onClick={toggleDropdown}
         className={cn(
-          'flex justify-between items-center p-[10px] w-full ',
+          'inline-flex justify-between items-center p-[10px] w-full ',
 
           className,
         )}

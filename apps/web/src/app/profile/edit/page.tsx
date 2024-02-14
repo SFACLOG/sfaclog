@@ -3,14 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Avatar, Input, Modal, SquareButton } from 'sfac-design-kit';
 import { useGetUserById, usePatchUser } from '@/hooks/useUserData';
 import { getUser } from '@/api/user';
@@ -26,9 +19,6 @@ const formData = new FormData();
 const ProfileEdit = () => {
   const router = useRouter();
   const userId = getUser()?.id;
-
-  if (!userId) return router.replace('/login');
-
   const nameRef = useRef<HTMLInputElement>(null);
   const nicknameRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
@@ -40,6 +30,10 @@ const ProfileEdit = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const { data: user } = useGetUserById(userId);
   const { mutate, isSuccess } = usePatchUser();
+
+  useEffect(() => {
+    if (!userId) return router.replace('/login');
+  }, [userId]);
 
   useEffect(() => {
     setIsOpenModal(prev => !prev);

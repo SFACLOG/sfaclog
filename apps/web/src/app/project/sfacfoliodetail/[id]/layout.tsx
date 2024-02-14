@@ -3,7 +3,6 @@ import { ReactNode } from 'react';
 
 interface ProjectLayout {
   children: ReactNode;
-  tabs: ReactNode;
 }
 
 export const metadata: Metadata = {

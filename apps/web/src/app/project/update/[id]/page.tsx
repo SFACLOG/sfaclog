@@ -37,9 +37,9 @@ import {
   useGetUserIdByProjectId,
 } from '@/hooks/useProjectData';
 import { useGetSkillData } from '@/hooks/useSkillData';
-import { imagechipoptions, position, process } from '../../page';
 import { useGetPositionData } from '@/hooks/usePositionData';
 import { useGetMeetingData } from '@/hooks/useMeetingData';
+import { imagechipoptions, process, position } from '../../(contants)';
 
 const page = () => {
   const id = usePathname();

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Input, Modal, SelectBox, SquareButton } from 'sfac-design-kit';
 import { getUser, login, withdrawal } from '@/api/user';
 
@@ -37,14 +37,16 @@ const Withdraw = () => {
   const [isErrorPassword, setIsErrorPassword] = useState(false);
   const user = useMemo(() => getUser(), [getUser]);
 
-  if (!user?.id) return router.replace('/login');
+  useEffect(() => {
+    if (!user?.id) return router.replace('/login');
+  }, [user?.id]);
 
   const handleConfirmWithdraw = async () => {
     if (!passwordRef.current) return;
 
     try {
-      await login(user.email, passwordRef.current.value);
-      await withdrawal(user.id);
+      await login(user?.email, passwordRef.current.value);
+      await withdrawal(user?.id);
     } catch (e) {
       setIsErrorPassword(true);
     } finally {

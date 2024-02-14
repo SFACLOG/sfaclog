@@ -17,12 +17,10 @@ const page = () => {
   const userEmail = userData.email;
   const userId = userData.id;
 
-  // getUserByEmail(userEmail)
-
   const handleButtonClick = async () => {
     const user = await getUserByEmail(userEmail);
     if (user) {
-      console.log(user.id);
+      // Todo: updateUser prams type 수정 필요
       await updateUser(userId, {
         ...user,
         password,

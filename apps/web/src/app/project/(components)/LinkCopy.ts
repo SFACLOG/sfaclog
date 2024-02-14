@@ -1,4 +1,4 @@
-import React from 'react';
+'use client';
 
 const LinkCopy = () => {
   let currentUrl = window.document.location.href;

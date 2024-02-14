@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { useGetUserDataWithPropsById } from '@/hooks/useUserData';
 import { useGetUserProfileById } from '@/hooks/useProjectData';
 import { useGetSkillData } from '@/hooks/useSkillData';
-import { process, position, imagechipoptions } from '../page';
 import { useGetMeetingData } from '@/hooks/useMeetingData';
 import { useGetPositionData } from '@/hooks/usePositionData';
 import { deleteProject, updateProjectIs } from '@/api/project';
@@ -17,6 +16,7 @@ import {
 } from '@/api/projectlike';
 import { getUserId } from '@/api/user';
 import LinkCopy from './LinkCopy';
+import { imagechipoptions, process, position } from '../(contants)';
 
 interface Project {
   collectionId: string;

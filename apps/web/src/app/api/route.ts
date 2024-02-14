@@ -16,7 +16,7 @@ const mailOptions = {
   text: '',
 };
 
-export const sendEmail = async () => {
+const sendEmail = async () => {
   try {
     const info = await transporter.sendMail(mailOptions);
     console.log('이메일 전송 성공:', info.response);

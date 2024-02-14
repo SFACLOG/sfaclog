@@ -248,7 +248,11 @@ const page = () => {
         <div className='flex gap-[20px] w-full mb-[30px]'>
           <div className='flex flex-col w-full  gap-[10px] relative'>
             <label className=' text-title4 '>기술 스택</label>
-            <SelectChipBox title='제목' onChange={handleSkillChange} />
+            <SelectChipBox
+              title='제목'
+              onChange={handleSkillChange}
+              className=' border-neutral-40'
+            />
           </div>
           <div className='flex flex-col w-full  gap-[10px]'>
             <label className=' text-title4'>모집 인원</label>

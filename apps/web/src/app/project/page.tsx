@@ -187,8 +187,10 @@ const Project = () => {
               </Link>
             </div>
           </div>
-          <div className='mb-[35px]'>
-            <SelectChipBox title='기술 스택' className='mr-[10px]' />
+          <div className='flex mb-[35px] relative'>
+            <SelectChipBox title='기술 스택' className='mr-[10px] w-0 top-0 ' />
+
+            <div className='w-[140px] h-[44px] mr-[10px]'> </div>
 
             <SelectBox
               title='모집 포지션'
@@ -218,7 +220,7 @@ const Project = () => {
                       avatar={
                         allUserProfile && allUserProfile[index]
                           ? allUserProfile[index]
-                          : []
+                          : '/images/avatar.svg'
                       }
                       name={
                         usernames && usernames[index] ? usernames[index] : []

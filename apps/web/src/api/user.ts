@@ -41,7 +41,6 @@ export const resetPassword = async (email: string) => {
 
 export const resultx = async () => {
   const result = await pb.collection('user').listAuthMethods();
-  console.log(result);
 };
 
 export const resultList = async (email: string) => {

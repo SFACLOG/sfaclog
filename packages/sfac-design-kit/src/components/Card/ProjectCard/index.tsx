@@ -32,13 +32,17 @@ export const ProjectCard = ({
         <div className='flex gap-[9px] mt-5 mb-20'>
           {Children.toArray(
             icons.map(icon => (
-              <img className='w-[30px] h-[30px]' src={icon} alt='skill icon' />
+              <ImageWrapper
+                className='w-[30px] h-[30px]'
+                path={icon}
+                alt='skill icon'
+              />
             )),
           )}
         </div>
         <div className='flex justify-between mb-[15px] text-caption3 text-neutral-50'>
-          <p className={cn(isRecruit || 'text-primary-100')}>
-            {isRecruit ? '모집중' : '모집완료'}
+          <p className={cn(!isRecruit || 'text-primary-100')}>
+            {!isRecruit ? '모집중' : '모집완료'}
           </p>
           <p>마감일 | {deadline}</p>
         </div>

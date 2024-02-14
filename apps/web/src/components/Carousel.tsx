@@ -8,9 +8,11 @@ interface CarouselProps {
   children: React.ReactNode;
   options?: EmblaOptionsType;
   isPageButton?: boolean;
+  className?: string;
 }
 
 const Carousel = ({
+  className,
   children,
   options,
   isPageButton = false,
@@ -42,7 +44,7 @@ const Carousel = ({
   return (
     <div className='relative'>
       <div
-        className='overflow-hidden px-[22px] py-[27px] bg-[rgba(0,41,255,0.07)]'
+        className={`overflow-hidden px-[22px] py-[27px] bg-[rgba(0,41,255,0.07)] ${className}`}
         ref={emblaRef}
       >
         <div className={`flex`}>{children}</div>

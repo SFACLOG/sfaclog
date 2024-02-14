@@ -1,6 +1,5 @@
 'use client';
 import { usePathname, useRouter } from 'next/navigation';
-import Logo from './Logo';
 import Image from 'next/image';
 
 interface CommonLayoutProps {
@@ -23,7 +22,6 @@ const LoginLayout: React.FC<CommonLayoutProps> = ({
   const isTerm = pathname === '/signup/terms';
   return (
     <div className='flex flex-col justify-center items-center mb-20'>
-      <Logo />
       <div
         className={`flex justify-center w-[700px] min-h-min-[450px]  bg-white mt-[11.5px] rounded-[40px] ${
           isTerm ? 'px-[100px]' : 'px-[160px]'

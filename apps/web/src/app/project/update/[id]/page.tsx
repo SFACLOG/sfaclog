@@ -11,7 +11,7 @@ import GoBack from '../../(components)/GoBack';
 import Calendar from '../../(components)/Calendar';
 import { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
-import { getUser } from '@/api/user';
+import { getUser, getUserId } from '@/api/user';
 import { updateProjectId } from '@/api/project';
 import {
   getMeeting,
@@ -43,11 +43,10 @@ import { useGetMeetingData } from '@/hooks/useMeetingData';
 
 const page = () => {
   const id = usePathname();
-  const getUserId = getUser();
   const router = useRouter();
-
+  const isUser = getUserId();
   const { data: user } = useGetUserIdByProjectId(id.split('/')[3]);
-  const isOwner = user && getUserId ? user === getUserId : false;
+  const isOwner = user && isUser ? user === isUser : false;
   const { data: projectInfo } = useGetProjectDataByProjectId(id.split('/')[3]);
   const { data: allSkill } = useGetSkillData(
     projectInfo ? [projectInfo.id] : [],
@@ -245,9 +244,8 @@ const page = () => {
         title: title ? title : projectInfo.title,
         content: content ? content : projectInfo.content,
         images,
-        user_id: getUserId,
+        user_id: isUser,
         preference,
-        previews,
       };
 
       await updateProjectId(projectInfo.id, projectData);

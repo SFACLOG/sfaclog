@@ -4,6 +4,7 @@ import { cn } from '../../../utils';
 import ImageWrapper from '../../common/ImageWrapper';
 import HEART_ICON from '../../../../public/images/dark_heart.svg';
 import CHAT_ICON from '../../../../public/images/chat.svg';
+import MDEditor from '@uiw/react-md-editor';
 
 export interface LargeLogCardProps {
   width?: number;
@@ -37,7 +38,53 @@ export const LargeLogCard = ({
         />
         <div className='flex flex-col gap-[25px] w-full h-full whitespace-pre-wrap'>
           <p className='text-h2 line-clamp-2'>{title}</p>
-          <p className='text-body2 text-neutral-80 line-clamp-5'>{summary}</p>
+          <MDEditor.Markdown
+            className={cn('text-body2 line-clamp-5')}
+            style={{
+              maxHeight: 120,
+              overflow: 'hidden',
+              color: 'rgb(51, 51, 51)',
+            }}
+            source={summary}
+            components={{
+              h1: props => (
+                <h1
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    border: 'none',
+                    padding: 0,
+                    margin: 0,
+                  }}
+                  {...props}
+                />
+              ),
+              h2: props => (
+                <h2
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    border: 'none',
+                    padding: 0,
+                    margin: 0,
+                  }}
+                  {...props}
+                />
+              ),
+              h3: props => (
+                <h3
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    border: 'none',
+                    padding: 0,
+                    margin: 0,
+                  }}
+                  {...props}
+                />
+              ),
+            }}
+          />
         </div>
       </div>
       <div className='flex items-center justify-between'>

@@ -1,43 +1,126 @@
 'use client';
 
-import { getUser } from '@/api/user';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Children, useMemo, useRef, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Avatar, Input, Modal, SquareButton } from 'sfac-design-kit';
+import { useGetUserById, usePatchUser } from '@/hooks/useUserData';
+import { getUser } from '@/api/user';
+import InterestAndProposalButton from '@/components/InterestAndProposalButton';
+import {
+  intersts as interestList,
+  proposals as proposalList,
+} from '@images/interest';
+import { Interest, Proposal, User } from '@/types/user';
 
-const POSITIONS = [
-  { icon: 'frontend', name: '프론트엔드' },
-  { icon: 'backend', name: '백엔드' },
-  { icon: 'machinelearning', name: '머신러닝' },
-  { icon: 'cloudcomputing', name: '클라우드컴퓨팅' },
-  { icon: 'database', name: '데이터베이스' },
-  { icon: 'container', name: '컨테이너화' },
-  { icon: 'serverless', name: '서버리스' },
-  { icon: 'mobile', name: '모바일' },
-];
-const PROPOSALS = [
-  { icon: 'frontend', name: '프로젝트 제안' },
-  { icon: 'backend', name: '채용 제안' },
-  { icon: 'machinelearning', name: '의견 제안' },
-];
+const formData = new FormData();
 
 const ProfileEdit = () => {
   const router = useRouter();
+  const userId = getUser()?.id;
+
+  if (!userId) return router.replace('/login');
+
   const nameRef = useRef<HTMLInputElement>(null);
   const nicknameRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
-  const sfacURLRef = useRef<HTMLInputElement>(null);
   const sfacTitleRef = useRef<HTMLInputElement>(null);
+  const [interests, setInterests] = useState<Interest>({});
+  const [proposals, setProposals] = useState<Proposal>({});
+  const [uploadedImg, setUploadedImg] = useState<string>('');
+  const [isDeleteProfile, setIsDeleteProfile] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const userId = useMemo(() => getUser()?.id, [getUser]);
+  const { data: user } = useGetUserById(userId);
+  const { mutate, isSuccess } = usePatchUser();
 
-  const handleClickSubmit = () => {
+  useEffect(() => {
     setIsOpenModal(prev => !prev);
+  }, [isSuccess]);
+
+  useEffect(() => {
+    setInterests(() => user?.interests);
+    setProposals(() => user?.proposals);
+  }, [user]);
+
+  const handleUploadProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files === null) return;
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setUploadedImg(String(reader.result));
+
+      formData.set('profile', file);
+    };
+
+    setIsDeleteProfile(false);
   };
 
-  if (!userId) return;
+  const handleDeleteProfile = () => {
+    formData.delete('profile');
+
+    setUploadedImg('/images/avatar.svg');
+    setIsDeleteProfile(true);
+  };
+
+  const handleClickInterest = (
+    icon: keyof Interest,
+    iconGetter: Interest,
+    iconSetter: Dispatch<SetStateAction<Interest>>,
+  ) => {
+    iconSetter(prev => {
+      const data = { ...prev };
+
+      data[icon] = !iconGetter[icon as keyof Interest];
+
+      return data;
+    });
+  };
+
+  const handleClickProposal = (
+    icon: keyof Proposal,
+    iconGetter: Proposal,
+    iconSetter: Dispatch<SetStateAction<Proposal>>,
+  ) => {
+    iconSetter(prev => {
+      const data = { ...prev };
+
+      data[icon] = !iconGetter[icon as keyof Proposal];
+
+      return data;
+    });
+  };
+
+  const handleClickSubmit = async () => {
+    const submitData = {
+      nickname: nicknameRef.current?.value,
+      description: descriptionRef.current?.value,
+      sfaclog_title: sfacTitleRef.current?.value,
+      interests,
+      proposals,
+    } as Partial<User>;
+
+    if (formData.get('profile')) {
+      submitData.profile_image = formData.get('profile');
+    }
+
+    if (isDeleteProfile) {
+      submitData.profile_image = null;
+    }
+
+    mutate(submitData);
+  };
+
+  if (!user) return;
 
   return (
     <main className='relative max-w-[700px] mx-auto bg-white rounded-[40px]'>
@@ -55,12 +138,33 @@ const ProfileEdit = () => {
         </button>
         <h2 className='text-h2'>내 정보 수정</h2>
         <section className='flex gap-[30px] w-full'>
-          <Avatar src='/images/avatar.svg' size='large' />
+          <Avatar
+            src={
+              uploadedImg ||
+              (user.profile_image &&
+                `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/user/${user.id}/${user.profile_image}`)
+            }
+            size='large'
+          />
           <div className='flex flex-col gap-[10px] mt-[26px]'>
-            <SquareButton className='w-[140px] h-[30px]' theme='disable'>
-              업로드 하기
+            <SquareButton className='w-[140px] h-[30px] p-0' theme='disable'>
+              <label
+                className='w-[140px] h-[30px] leading-[30px] cursor-pointer before:content-["업로드하기"]'
+                htmlFor='profile'
+              />
+              <input
+                className=' hidden'
+                id='profile'
+                type='file'
+                accept='image/*'
+                onChange={handleUploadProfile}
+              />
             </SquareButton>
-            <SquareButton className='w-[140px] h-[30px]' theme='disable'>
+            <SquareButton
+              className='w-[140px] h-[30px]'
+              theme='disable'
+              onClick={handleDeleteProfile}
+            >
               프로필 사진 삭제
             </SquareButton>
             <p className='text-caption3 text-neutral-50'>
@@ -69,50 +173,76 @@ const ProfileEdit = () => {
           </div>
         </section>
         <section className='flex flex-col gap-[15px] w-full'>
-          <Input label='이름' required ref={nameRef} />
-          <Input label='닉네임' description='최대 8자' ref={nicknameRef} />
-          <Input label='소개' description='최대 400자' ref={descriptionRef} />
+          <Input
+            label='이름'
+            required
+            defaultValue={user.username}
+            ref={nameRef}
+          />
+          <Input
+            label='닉네임'
+            description='최대 8자'
+            defaultValue={user.nickname}
+            ref={nicknameRef}
+          />
+          <Input
+            label='소개'
+            description='최대 400자'
+            defaultValue={user.description}
+            ref={descriptionRef}
+          />
         </section>
         <h2 className='text-h2'>내 스팩로그</h2>
         <section className='flex flex-col gap-[15px] w-full'>
-          <Input label='내 스팩로그 URL' ref={sfacURLRef} />
+          <Input
+            label='내 스팩로그 URL'
+            defaultValue={`localhost:3000/${user.id}`}
+            disabled
+          />
           <Input
             label='스팩로그 제목'
             description='최대 8자'
+            defaultValue={user.sfaclog_title}
             ref={sfacTitleRef}
           />
         </section>
         <h2 className='text-h2'>관심 분야</h2>
         <section className='grid grid-flow-row grid-cols-4 gap-5 w-full'>
-          {Children.toArray(
-            POSITIONS.map(({ icon, name }) => (
-              <button className='flex flex-col items-center gap-[14px]'>
-                <Image
-                  src={`/images/interest/${icon}.svg`}
-                  width={80}
-                  height={80}
-                  alt={name}
-                />
-                <span className='text-caption2_bold'>{name}</span>
-              </button>
-            )),
-          )}
+          {interestList.map(interest => (
+            <InterestAndProposalButton
+              key={interest}
+              category='interest'
+              size='lg'
+              type={interest}
+              selected={interests && interests[interest as keyof Interest]}
+              onClick={() =>
+                handleClickInterest(
+                  interest as keyof Interest,
+                  interests,
+                  setInterests,
+                )
+              }
+            />
+          ))}
         </section>
         <h2 className='text-h2'>제안 허용</h2>
         <section className='grid grid-flow-row grid-cols-3 gap-5 w-full'>
-          {Children.toArray(
-            PROPOSALS.map(({ icon, name }) => (
-              <button className='flex flex-col items-center gap-[14px]'>
-                <Image
-                  src={`/images/interest/${icon}.svg`}
-                  width={110}
-                  height={110}
-                  alt={name}
-                />
-                <span className='text-caption2_bold'>{name}</span>
-              </button>
-            )),
-          )}
+          {proposalList.map(proposal => (
+            <InterestAndProposalButton
+              key={proposal}
+              category='proposal'
+              size='lg'
+              type={proposal}
+              selected={proposals && proposals[proposal as keyof Proposal]}
+              onClick={() =>
+                handleClickProposal(
+                  proposal as keyof Proposal,
+                  proposals,
+                  setProposals,
+                )
+              }
+            />
+          ))}
         </section>
         <section className='flex flex-col gap-5 w-full text-caption1 text-neutral-40'>
           <Link className='relative' href='./policy'>
@@ -144,13 +274,15 @@ const ProfileEdit = () => {
         >
           변경사항 적용하기
         </SquareButton>
-        <Modal
-          isOpen={isOpenModal}
-          setOpen={setIsOpenModal}
-          title='저장 완료'
-          content='해당 정보가 저장되었습니다.'
-          onClickConfirm={() => router.push(`./${userId}`)}
-        />
+        {isSuccess && (
+          <Modal
+            isOpen={isOpenModal}
+            setOpen={setIsOpenModal}
+            title='저장 완료'
+            content='해당 정보가 저장되었습니다.'
+            onClickConfirm={() => router.push(`./${userId}`)}
+          />
+        )}
       </div>
     </main>
   );

@@ -1,12 +1,24 @@
 import pb from '.';
-import { Interest, Proposal, UserInfo } from '@/types/user';
+import { Interest, Proposal, User, UserInfo } from '@/types/user';
 
-export const login = async (id: string, password: string) => {
-  await pb.collection('user').authWithPassword(id, password);
+export const getUser = () => {
+  return pb.authStore.model;
+};
+
+export const isValidUser = () => {
+  return pb.authStore.isValid;
+};
+
+export const getToken = () => {
+  return pb.authStore.token;
 };
 
 export const logout = () => {
   pb.authStore.clear();
+};
+
+export const login = async (id: string, password: string) => {
+  await pb.collection('user').authWithPassword(id, password);
 };
 
 export const signup = async (data: {
@@ -49,11 +61,8 @@ export const getUserByEmail = async (email: string) => {
   return records;
 };
 
-// view => getUserById 수정
 export const getUserById = async (id: string) => {
-  const user = await pb.collection('user').getOne(id);
-
-  return user;
+  return await pb.collection('user').getOne(id);
 };
 
 export const getUserWithPropsById = async (id: string) => {
@@ -92,29 +101,16 @@ export const getUserProfileById = async (id: string) => {
   return url;
 };
 
-export const updateUser = async (id: string, data: any) => {
-  await pb.collection('user').update(id, data);
-};
-
 export const update = async (email: string, data: {}) => {
   await pb.collection('user').update(email, data);
 };
 
-// 회원탈퇴 기능 수정 필요
+export const updateUser = async (id: string, data: Partial<User>) => {
+  return await pb.collection('user').update(id, data);
+};
+
 export const withdrawal = async (id: string) => {
   await pb.collection('user').delete(id);
-};
-
-export const getUser = () => {
-  return pb.authStore.model?.id ?? '';
-};
-
-export const isValidUser = () => {
-  return pb.authStore.isValid;
-};
-
-export const getToken = () => {
-  return pb.authStore.token;
 };
 
 export const getUserId = () => {

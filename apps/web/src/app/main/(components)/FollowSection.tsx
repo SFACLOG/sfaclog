@@ -32,6 +32,7 @@ const FollowSection = () => {
       >
         {userDummy.map(user => (
           <UserCard
+            key={user.id}
             followers={user.followers}
             views={user.views}
             info={user.info}

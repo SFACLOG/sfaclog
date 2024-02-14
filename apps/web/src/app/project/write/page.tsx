@@ -33,7 +33,7 @@ const page = () => {
 
   const router = useRouter();
 
-  const getUserId = getUser();
+  const getUserId = getUser()?.id;
 
   const isAnyFieldEmpty =
     !selectedProcess ||

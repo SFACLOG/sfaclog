@@ -30,7 +30,7 @@ export const SfacfolioCard = ({
         <span className='text-caption2'>{likes}</span>
       </div>
       <ImageWrapper path={thumbnail} className='object-cover rounded-[10px]' />
-      <p className='mt-[15px] h-[42px] mb-5 mx-3 text-subtitle line-clamp-2'>
+      <p className='mt-[15px] min-h-[42px] mb-5 mx-3 text-subtitle line-clamp-2'>
         {title}
       </p>
       <div className='flex items-center justify-evenly h-[37px] border border-neutral-20 rounded-[5px] text-neutral-80'>

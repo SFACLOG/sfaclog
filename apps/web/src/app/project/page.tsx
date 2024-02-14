@@ -18,6 +18,7 @@ import { useGetSkillData } from '@/hooks/useSkillData';
 
 import Link from 'next/link';
 import { useState } from 'react';
+import Header from '@/components/layout/Header';
 
 const projects = [
   {

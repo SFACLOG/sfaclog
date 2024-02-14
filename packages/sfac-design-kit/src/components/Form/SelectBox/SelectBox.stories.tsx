@@ -1,5 +1,7 @@
 import { SelectBox } from '.';
+import { SelectChipBox } from './selectchipbox';
 import { SelectSeriesBox } from './series';
+import { SelectBoxPosition } from './selectboxposition';
 
 export default {
   title: 'FORMS/SelectBox',
@@ -28,5 +30,19 @@ export const Useage = () => (
 export const Series = () => (
   <>
     <SelectSeriesBox title='시리즈 선택 및 추가'></SelectSeriesBox>
+  </>
+);
+
+export const ChipBox = () => (
+  <>
+    <SelectChipBox title='시리즈 선택 및 추가'></SelectChipBox>
+  </>
+);
+export const SelectPosition = () => (
+  <>
+    <SelectBoxPosition
+      title='시리즈 선택 및 추가'
+      options={options}
+    ></SelectBoxPosition>
   </>
 );

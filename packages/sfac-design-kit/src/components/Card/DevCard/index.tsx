@@ -1,32 +1,36 @@
 import { Children } from 'react';
 import { Avatar } from '../../Avatar';
 import { Chip } from '../../Chip';
+import ImageWrapper from '../../common/ImageWrapper';
+import heart from '../../../../public/images/dark_heart.svg';
 
 export interface DevCardProps {
   thumbnail: string;
   icons?: string[];
-  title: string[];
-  time: string;
+  title: string;
   likes: string;
   avatar: string;
   name: string;
   tags?: string[];
+  className?: string;
 }
 
 export const DevCard = ({
   thumbnail,
   icons,
   title,
-  time,
   likes,
   avatar,
   name,
   tags,
+  className,
 }: DevCardProps) => {
   return (
-    <div className='relative w-full max-w-[446px] h-[362px]'>
+    <div
+      className={`flex-shrink-0 relative w-full max-w-[446px] h-[362px] bg-white rounded-[10px] ${className}`}
+    >
       <img
-        className='w-full h-[249px] object-cover rounded-[10px]'
+        className='w-full h-[249px] object-cover rounded-t-[10px]'
         src={thumbnail}
         alt='thumbnail'
       />
@@ -45,8 +49,7 @@ export const DevCard = ({
         <div className='flex items-center justify-between max-h-6 mt-[13px]'>
           <p className='flex-1 text-subtitle line-clamp-1'>{title}</p>
           <div className='flex'>
-            <span className='mr-[9px]'>{time}</span>
-            <img className='mr-[7px]' src='/images/dark_heart.svg' />
+            <ImageWrapper path={heart} className='mr-[7px]' />
             <span>{likes}</span>
           </div>
         </div>

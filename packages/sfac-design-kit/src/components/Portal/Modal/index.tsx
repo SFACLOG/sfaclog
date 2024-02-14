@@ -51,7 +51,7 @@ const ModalUI = ({
 }: ModalUIProps) => {
   return (
     <div
-      className='absolute top-0 flex flex-col items-center w-full h-full backdrop-blur-sm z-50'
+      className='absolute top-0 flex flex-col items-center w-full h-full backdrop-brightness-50 z-50'
       onClick={() => setOpen(prev => !prev)}
     >
       <main

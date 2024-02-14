@@ -1,5 +1,9 @@
+'use client';
+
 import { Avatar } from '../../Avatar';
 import { Chip } from '../../Chip';
+import heartIcon from '../../../../public/images/heart.svg';
+import ImageWrapper from '../../common/ImageWrapper';
 
 export interface LogCardProps {
   image: string;
@@ -27,23 +31,23 @@ export const LogCard = ({
         width={265}
         height={180}
         alt='Background Image'
-        className='mb-[10px]'
+        className='mb-[10px] rounded-[10px]'
       />
       <div>
-        <div className='flex justify-between mb-[10px]'>
-          <div className='flex'>
+        <div className='flex justify-between items-center mb-[10px]'>
+          <div className='flex items-center'>
             <Avatar src={profileImage} size='tiny' styles='mr-2' />
             <div className=' text-caption2 text-neutral-60'>{nickname}</div>
           </div>
-          <div className='flex'>
-            <img
-              src='/images/heart.svg'
+          <div className='flex items-center'>
+            <ImageWrapper
+              path={heartIcon}
               alt='heart Image'
               width={13}
               height={13}
               className='mr-[7.48px]'
             />
-            <div className=' text-caption2'>{heart}</div>
+            <div className='text-caption2'>{heart}</div>
           </div>
         </div>
         <div className='mb-[10px]'>

@@ -1,6 +1,11 @@
+'use client';
 import { Children } from 'react';
 import { Chip } from '../../Chip';
 import { cn } from '../../../utils';
+import ImageWrapper from '../../common/ImageWrapper';
+import HEART_ICON from '../../../../public/images/dark_heart.svg';
+import CHAT_ICON from '../../../../public/images/chat.svg';
+import MDEditor from '@uiw/react-md-editor';
 
 export interface LargeLogCardProps {
   width?: number;
@@ -27,26 +32,70 @@ export const LargeLogCard = ({
       style={{ maxWidth: width }}
     >
       <div className='flex gap-5 max-h-[180px]'>
-        <img
+        <ImageWrapper
           className='w-[265px] object-cover rounded-[10px]'
-          src={thumbnail}
+          path={thumbnail}
           alt='thumbnail'
         />
         <div className='flex flex-col gap-[25px] w-full h-full whitespace-pre-wrap'>
           <p className='text-h2 line-clamp-2'>{title}</p>
-          <p className='text-body2 text-neutral-80 line-clamp-5'>{summary}</p>
+          <MDEditor.Markdown
+            className={cn('text-body2 line-clamp-5')}
+            style={{
+              maxHeight: 120,
+              overflow: 'hidden',
+              color: 'rgb(51, 51, 51)',
+            }}
+            source={summary}
+            components={{
+              h1: props => (
+                <h1
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    border: 'none',
+                    padding: 0,
+                    margin: 0,
+                  }}
+                  {...props}
+                />
+              ),
+              h2: props => (
+                <h2
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    border: 'none',
+                    padding: 0,
+                    margin: 0,
+                  }}
+                  {...props}
+                />
+              ),
+              h3: props => (
+                <h3
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    border: 'none',
+                    padding: 0,
+                    margin: 0,
+                  }}
+                  {...props}
+                />
+              ),
+            }}
+          />
         </div>
       </div>
       <div className='flex items-center justify-between'>
-        {tags && (
-          <div className='flex gap-[5px]'>
-            {Children.toArray(tags.map(tag => <Chip># {tag}</Chip>))}
-          </div>
-        )}
+        <div className='flex gap-[5px]'>
+          {tags && Children.toArray(tags.map(tag => <Chip># {tag}</Chip>))}
+        </div>
         <div className='flex items-center text-caption2'>
-          <img src='/images/dark_heart.svg' />
+          <ImageWrapper path={HEART_ICON} />
           <span className='ml-[7px]'>{likes}</span>
-          <img className='ml-6' src='/images/chat.svg' />
+          <ImageWrapper className='ml-6' path={CHAT_ICON} />
           <span className='ml-[7px]'>{comments}</span>
         </div>
       </div>

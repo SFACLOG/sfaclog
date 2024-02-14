@@ -1,7 +1,9 @@
 import { Children } from 'react';
 import { Avatar } from '../../Avatar';
 import { cn } from '../../../utils';
-
+import ImageWrapper from '../../common/ImageWrapper';
+import DarkHeart from '../../../../public/images/dark_heart.svg';
+import Chat from '../../../../public/images/chat.svg';
 export interface ProjectCardProps {
   title: string;
   icons: string[];
@@ -30,13 +32,17 @@ export const ProjectCard = ({
         <div className='flex gap-[9px] mt-5 mb-20'>
           {Children.toArray(
             icons.map(icon => (
-              <img className='w-[30px] h-[30px]' src={icon} alt='skill icon' />
+              <ImageWrapper
+                className='w-[30px] h-[30px]'
+                path={icon}
+                alt='skill icon'
+              />
             )),
           )}
         </div>
         <div className='flex justify-between mb-[15px] text-caption3 text-neutral-50'>
-          <p className={cn(isRecruit || 'text-primary-100')}>
-            {isRecruit ? '모집중' : '모집완료'}
+          <p className={cn(!isRecruit || 'text-primary-100')}>
+            {!isRecruit ? '모집중' : '모집완료'}
           </p>
           <p>마감일 | {deadline}</p>
         </div>
@@ -47,9 +53,9 @@ export const ProjectCard = ({
           <p className='text-caption2 text-neutral-60'>{name}</p>
         </div>
         <div className='flex items-center text-caption2 text-neutral-20'>
-          <img src='/images/dark_heart.svg' />
+          <ImageWrapper path={DarkHeart} />
           <span className='ml-[7px]'>{likes}</span>
-          <img className='ml-3' src='/images/chat.svg' />
+          <ImageWrapper className='ml-3' path={Chat} />
           <span className='ml-[7px]'>{comments}</span>
         </div>
       </div>

@@ -16,26 +16,26 @@ import {
 import './toolbar.css';
 import { SquareButton } from 'sfac-design-kit';
 import { getUser } from '@/api/user';
+import LogUploadModal from './LogUploadModal';
 
 const MarkdownEditor = () => {
   const user = getUser();
   const titleRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState<string | undefined>('');
+  const [formData] = useState(new FormData());
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
   const handleSubmit = () => {
     event?.preventDefault();
 
-    console.log({
-      thumbnail: '',
-      title: titleRef.current?.value,
-      content: value,
-      views: 0,
-      likes: 0,
-      comments: 0,
-      tag: {},
-      profileImage: user?.profile_image,
-      userId: user?.id,
-    });
+    formData.append('user_id', user?.id);
+
+    if (!formData.get('title'))
+      formData.append('title', titleRef.current?.value || '');
+    else formData.set('title', titleRef.current?.value || '');
+
+    if (!formData.get('content')) formData.append('content', value || '');
+    else formData.set('content', value || '');
   };
 
   return (
@@ -69,10 +69,22 @@ const MarkdownEditor = () => {
           <SquareButton className='text-base font-semibold bg-neutral-5 text-neutral-60'>
             작성 취소
           </SquareButton>
-          <SquareButton className='text-base font-semibold'>
+          <SquareButton
+            className='text-base font-semibold'
+            onClick={() => {
+              handleSubmit();
+              setIsUploadModalOpen(!isUploadModalOpen);
+            }}
+          >
             작성 완료
           </SquareButton>
         </div>
+        {isUploadModalOpen && (
+          <LogUploadModal
+            setIsUploadModalOpen={setIsUploadModalOpen}
+            formData={formData}
+          />
+        )}
       </form>
     </div>
   );

@@ -23,6 +23,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en'>
       <body className={`relative ${pretendard.className} min-h-screen`}>
+        <Header />
         <Provider>
           <Header />
           {children}

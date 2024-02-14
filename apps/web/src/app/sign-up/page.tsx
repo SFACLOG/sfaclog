@@ -363,7 +363,7 @@ const Signup = () => {
                 checked={checkboxStates[1]}
                 onChange={() => handleCheckboxChange(1)}
               />
-              <Link href={'/signup/terms'}>
+              <Link href={'/sign-up/terms'}>
                 <div>약관보기</div>
               </Link>
             </div>
@@ -382,7 +382,7 @@ const Signup = () => {
             <Checkbox type='checkbox' label='통신사 이용약관 동의' />
           </div>
 
-          <Link href='/signup/1'>
+          <Link href='/sign-up/1'>
             <SquareButton
               size='lg'
               theme='disable'

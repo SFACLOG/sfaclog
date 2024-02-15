@@ -101,7 +101,7 @@ const Comments = () => {
               size={'small'}
               src={
                 userInfo?.profile_image
-                  ? userInfo?.profile_image
+                  ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/_pb_users_auth_/${isUser}/${userInfo.profile_image}`
                   : '/images/project/avatar1.svg'
               }
               className='mr-5'

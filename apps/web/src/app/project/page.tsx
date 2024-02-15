@@ -124,26 +124,28 @@ const Project = () => {
   };
   return (
     <div className='mb-[200px] '>
-      <Carousel
-        options={{
-          align: 'start',
-          slidesToScroll: 1,
-          containScroll: 'trimSnaps',
-          loop: true,
-        }}
-        isPageButton={true}
-        className=' bg-primary-10 mb-[50px]'
-      >
-        {projects.map((project, index) => (
-          <div key={index}>
-            <HotCard
-              title={project.title}
-              statuses={project.statuses}
-              imageUrl={project.imageUrl}
-            />
-          </div>
-        ))}
-      </Carousel>
+      <div className='w-full bg-primary-10'>
+        <Carousel
+          options={{
+            align: 'start',
+            slidesToScroll: 1,
+            containScroll: 'trimSnaps',
+            loop: true,
+          }}
+          isPageButton={true}
+          className=' bg-primary-10 mb-[50px]'
+        >
+          {projects.map((project, index) => (
+            <div key={index}>
+              <HotCard
+                title={project.title}
+                statuses={project.statuses}
+                imageUrl={project.imageUrl}
+              />
+            </div>
+          ))}
+        </Carousel>
+      </div>
 
       <div className='mx-auto container'>
         <section className=' mb-[90px]'>

@@ -42,7 +42,7 @@ const Carousel = ({
   }, [emblaApi]);
 
   return (
-    <div className='relative'>
+    <div className='mx-auto max-w-[1180px] relative'>
       <div
         className={`overflow-hidden px-[22px] py-[27px] bg-[rgba(0,41,255,0.07)] ${className}`}
         ref={emblaRef}

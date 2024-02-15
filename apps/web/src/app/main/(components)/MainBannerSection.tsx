@@ -12,7 +12,6 @@ const MainBannerSection = () => {
   useEffect(() => {
     if (user === null || user.id) {
       setIsLoginChecked(true);
-      console.log(user);
     }
   }, []);
 

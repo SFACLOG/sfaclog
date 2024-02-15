@@ -23,6 +23,9 @@ const ProfileEdit = () => {
   const nicknameRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const sfacTitleRef = useRef<HTMLInputElement>(null);
+  const githubRef = useRef<HTMLInputElement>(null);
+  const instagramRef = useRef<HTMLInputElement>(null);
+  const facebookRef = useRef<HTMLInputElement>(null);
   const [interests, setInterests] = useState<Interest>({});
   const [proposals, setProposals] = useState<Proposal>({});
   const [uploadedImg, setUploadedImg] = useState<string>('');
@@ -36,7 +39,7 @@ const ProfileEdit = () => {
   }, [userId]);
 
   useEffect(() => {
-    setIsOpenModal(prev => !prev);
+    setIsOpenModal(true);
   }, [isSuccess]);
 
   useEffect(() => {
@@ -99,6 +102,11 @@ const ProfileEdit = () => {
       nickname: nicknameRef.current?.value,
       description: descriptionRef.current?.value,
       sfaclog_title: sfacTitleRef.current?.value,
+      sns: {
+        github: githubRef.current?.value,
+        instagram: instagramRef.current?.value,
+        facebook: facebookRef.current?.value,
+      },
       interests,
       proposals,
     } as Partial<User>;
@@ -198,6 +206,24 @@ const ProfileEdit = () => {
             description='최대 8자'
             defaultValue={user.sfaclog_title}
             ref={sfacTitleRef}
+          />
+        </section>
+        <h2 className='text-h2'>SNS</h2>
+        <section className='flex flex-col gap-[15px] w-full'>
+          <Input
+            label='깃허브'
+            defaultValue={user.sns.github}
+            ref={githubRef}
+          />
+          <Input
+            label='인스타그램'
+            defaultValue={user.sns.instagram}
+            ref={instagramRef}
+          />
+          <Input
+            label='페이스북'
+            defaultValue={user.sns.facebook}
+            ref={facebookRef}
           />
         </section>
         <h2 className='text-h2'>관심 분야</h2>

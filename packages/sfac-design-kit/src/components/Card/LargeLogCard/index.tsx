@@ -1,4 +1,5 @@
 'use client';
+
 import { Children } from 'react';
 import { Chip } from '../../Chip';
 import { cn } from '../../../utils';
@@ -40,11 +41,10 @@ export const LargeLogCard = ({
         <div className='flex flex-col gap-[25px] w-full h-full whitespace-pre-wrap'>
           <p className='text-h2 line-clamp-2'>{title}</p>
           <MDEditor.Markdown
-            className={cn('text-body2 line-clamp-5')}
+            className={cn('text-body2 line-clamp-4')}
             style={{
-              maxHeight: 120,
-              overflow: 'hidden',
               color: 'rgb(51, 51, 51)',
+              maxHeight: 95,
             }}
             source={summary}
             components={{
@@ -80,6 +80,22 @@ export const LargeLogCard = ({
                     border: 'none',
                     padding: 0,
                     margin: 0,
+                  }}
+                  {...props}
+                />
+              ),
+              p: props => (
+                <p
+                  style={{
+                    margin: 0,
+                  }}
+                  {...props}
+                />
+              ),
+              img: props => (
+                <img
+                  style={{
+                    display: 'none',
                   }}
                   {...props}
                 />

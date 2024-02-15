@@ -7,7 +7,7 @@ import RecentNewsSection from './(components)/RecentNewsSection';
 import MainBannerSection from './(components)/MainBannerSection';
 import { getPopularPost, getRecentPost } from '@/api/post';
 
-export const revalidate = 60;
+export const fetchCache = 'force-no-store';
 
 const MainPage = async () => {
   const popularLogs = await getPopularPost();

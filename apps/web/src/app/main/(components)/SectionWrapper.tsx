@@ -23,7 +23,7 @@ const SectionWrapper = ({
         expandHref={headerExpandHref}
       />
       <section
-        className={!isCarousel ? 'flex justify-between items-center' : ''}
+        className={!isCarousel ? 'flex justify-between items-start' : ''}
       >
         {children}
       </section>

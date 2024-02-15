@@ -172,14 +172,17 @@ const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
           </div>
           <p className=' text-title1 mb-5'>{projectInfo.title}</p>
           <div className='flex items-center text-neutral-80'>
-            <Link href={`/profile/${projectInfo.user_id}`}>
+            <Link
+              className='flex items-center'
+              href={`/profile/${projectInfo.user_id}`}
+            >
               <Avatar
                 src={userProfile ? userProfile : '/images/avatar.svg'}
                 size={'tiny'}
                 className='mr-2'
               />
+              <p className=' text-caption2_bold'>{user.nickname}(디자이너)</p>
             </Link>
-            <p className=' text-caption2_bold'>{user.nickname}(디자이너)</p>
             <p className='mx-2'>|</p>
             <p className=' text-caption2'>
               {/*@ts-ignore */}

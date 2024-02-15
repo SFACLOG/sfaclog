@@ -13,7 +13,7 @@ const NAV = [
   },
   {
     title: '최신로그',
-    link: '/main',
+    link: '/recent-log',
   },
   {
     title: '팔로잉로그',

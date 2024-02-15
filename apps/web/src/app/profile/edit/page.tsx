@@ -39,6 +39,7 @@ const ProfileEdit = () => {
   }, [userId]);
 
   useEffect(() => {
+    console.log(isSuccess);
     setIsOpenModal(prev => !prev);
   }, [isSuccess]);
 

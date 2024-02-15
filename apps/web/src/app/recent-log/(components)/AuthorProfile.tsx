@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { Avatar, SquareButton } from 'sfac-design-kit';
 
@@ -17,7 +18,7 @@ const AuthorProfile = ({
   following,
 }: AuthorProfileProps) => {
   return (
-    <div className='w-full flex flex-col items-center gap-5 py-[50px] border-b border-neutral-10'>
+    <div className='w-full flex flex-col items-center gap-5 py-[50px] border-b border-neutral-10 mb-[60px]'>
       <Avatar
         className='w-[138px] h-[138px]'
         src={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/_pb_users_auth_/${userId}/${profileImage}`}
@@ -34,7 +35,7 @@ const AuthorProfile = ({
         </div>
       </div>
       <SquareButton className='text-lg font-semibold px-[22px] py-3'>
-        로그 메인 바로 가기
+        <Link href={{ pathname: '/main' }}>로그 메인 바로 가기</Link>
       </SquareButton>
     </div>
   );

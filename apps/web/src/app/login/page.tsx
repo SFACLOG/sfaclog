@@ -99,8 +99,8 @@ const Login = () => {
       console.error('로그인 실패:', error.message);
 
       setLoginError('잘못된 이메일 혹은 비밀번호입니다. 다시 입력해주세요.');
-      setEamilChange('');
-      setPasswordChange('');
+      setEamilChange(email);
+      setPasswordChange(password);
     }
   };
 

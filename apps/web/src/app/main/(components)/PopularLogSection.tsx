@@ -4,8 +4,6 @@ import { LogCard } from 'sfac-design-kit';
 import { getPopularPost } from '@/api/post';
 import Link from 'next/link';
 
-export const revalidate = 60;
-
 const PopularLogSection = async () => {
   const logs = await getPopularPost();
 

@@ -26,13 +26,9 @@ export const LogCard = ({
 }: LogCardProps) => {
   return (
     <div className='w-[265px] h-[352px]'>
-      <img
-        src={image}
-        width={265}
-        height={180}
-        alt='Background Image'
-        className='mb-[10px] rounded-[10px]'
-      />
+      <div className='flex justify-center items-center w-[265px] h-[180px] overflow-hidden rounded-[10px] mb-[10px]'>
+        <img src={image} alt='Background Image' />
+      </div>
       <div>
         <div className='flex justify-between items-center mb-[10px]'>
           <div className='flex items-center'>
@@ -52,10 +48,15 @@ export const LogCard = ({
         </div>
         <div className='mb-[10px]'>
           <div className=' text-lg font-bold mb-[10px]'>{title}</div>
-          <div className=' text-caption2 line-clamp-3'>{content}</div>
+          <div className=' text-caption2 line-clamp-3'>
+            {content.length > 64 ? content.slice(0, 65) + '...' : content}
+          </div>
         </div>
-        <div className='flex'>
-          {tags && tags.map((tag, index) => <Chip key={index}>{tag}</Chip>)}
+        <div className='flex gap-[5px] flex-wrap'>
+          {tags &&
+            tags
+              .slice(0, 3)
+              .map((tag, index) => <Chip key={index}>{tag}</Chip>)}
         </div>
       </div>
     </div>

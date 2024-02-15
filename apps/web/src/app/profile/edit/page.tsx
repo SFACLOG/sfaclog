@@ -102,6 +102,11 @@ const ProfileEdit = () => {
       nickname: nicknameRef.current?.value,
       description: descriptionRef.current?.value,
       sfaclog_title: sfacTitleRef.current?.value,
+      sns: {
+        github: githubRef.current?.value,
+        instagram: instagramRef.current?.value,
+        facebook: facebookRef.current?.value,
+      },
       interests,
       proposals,
     } as Partial<User>;

@@ -40,6 +40,7 @@ const Navigation = () => {
   const handleClickLogout = () => {
     logout();
     router.push('/main');
+    router.refresh();
   };
 
   const handleClickLogin = () => {

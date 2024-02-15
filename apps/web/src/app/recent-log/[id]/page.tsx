@@ -7,6 +7,8 @@ import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import Comments from '@/app/project/(components)/Comments';
 
+export const revalidate = 5;
+
 const RecentLogDetailPage = async ({ params }: { params: { id: string } }) => {
   const logData = await getPostByPostId(params.id);
   return (

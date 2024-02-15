@@ -51,11 +51,13 @@ export const getPopularPost = async () => {
   return response;
 };
 
-export const getRecentPost = async () => {
-  const postResponse = await pb.collection('post').getList(1, 4, {
-    expand: 'user_id',
-    sort: '-created',
-  });
+export const getRecentPost = async (page?: number, perPage?: number) => {
+  const postResponse = await pb
+    .collection('post')
+    .getList(page || 1, perPage || 4, {
+      expand: 'user_id',
+      sort: '-created',
+    });
 
   const response = await Promise.all(
     postResponse.items.map(async (post: any) => {

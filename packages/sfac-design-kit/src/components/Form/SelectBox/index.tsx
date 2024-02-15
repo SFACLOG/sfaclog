@@ -84,9 +84,9 @@ export const SelectBox = ({
           {selectedOption ? selectedOption.label : title}
         </div>
         {!isOpen ? (
-          <ImageWrapper path={UP_ARROW_ICON} alt='Dropdown Icon' />
-        ) : (
           <ImageWrapper path={DOWN_ARROW_ICON} alt='Dropdown Icon' />
+        ) : (
+          <ImageWrapper path={UP_ARROW_ICON} alt='Dropdown Icon' />
         )}
       </div>
       {isOpen && (

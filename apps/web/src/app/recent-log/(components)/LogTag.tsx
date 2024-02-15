@@ -1,8 +1,16 @@
+'use client';
 import React from 'react';
 
-const LogTag = ({ tag }: { tag: string }) => {
+interface LogTagProps {
+  tag: string;
+  isClickable?: boolean;
+}
+
+const LogTag = ({ tag, isClickable = false }: LogTagProps) => {
   return (
-    <div className='w-fit text-body1 bg-neutral-10 text-neutral-40 rounded-full py-[5px] px-[15px]'>
+    <div
+      className={`w-fit text-body1 bg-neutral-10 text-neutral-40 rounded-full py-[5px] px-[15px] ${isClickable && 'cursor-pointer'}`}
+    >
       {`# ${tag}`}
     </div>
   );

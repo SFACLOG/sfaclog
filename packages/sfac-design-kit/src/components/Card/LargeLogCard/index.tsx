@@ -1,4 +1,5 @@
 'use client';
+
 import { Children } from 'react';
 import { Chip } from '../../Chip';
 import { cn } from '../../../utils';
@@ -43,6 +44,7 @@ export const LargeLogCard = ({
             className={cn('text-body2 line-clamp-4')}
             style={{
               color: 'rgb(51, 51, 51)',
+              maxHeight: 95,
             }}
             source={summary}
             components={{
@@ -78,6 +80,22 @@ export const LargeLogCard = ({
                     border: 'none',
                     padding: 0,
                     margin: 0,
+                  }}
+                  {...props}
+                />
+              ),
+              p: props => (
+                <p
+                  style={{
+                    margin: 0,
+                  }}
+                  {...props}
+                />
+              ),
+              img: props => (
+                <img
+                  style={{
+                    display: 'none',
                   }}
                   {...props}
                 />

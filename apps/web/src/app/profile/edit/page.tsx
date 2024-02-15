@@ -190,7 +190,7 @@ const ProfileEdit = () => {
         <section className='flex flex-col gap-[15px] w-full'>
           <Input
             label='내 스팩로그 URL'
-            defaultValue={`localhost:3000/${user.id}`}
+            defaultValue={`${process.env.NEXT_PUBLIC_HOST}/${user.id}`}
             disabled
           />
           <Input

@@ -36,7 +36,7 @@ const Signup = () => {
       const newCode = generateRandomNumber();
       setCode(newCode);
 
-      const response = await fetch('http://localhost:3000/api', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

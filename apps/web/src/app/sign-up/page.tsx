@@ -242,6 +242,7 @@ const Signup = () => {
               name='nickname'
               maxLength={8}
               onChange={handleNicknameChange}
+              required
             />
             <p className=' text-neutral-60 text-[12px] mt-[10px]'>
               *최대 8글자

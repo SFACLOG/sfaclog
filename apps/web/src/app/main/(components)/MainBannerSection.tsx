@@ -12,6 +12,7 @@ const MainBannerSection = () => {
   useEffect(() => {
     if (user === null || user.id) {
       setIsLoginChecked(true);
+      console.log(user);
     }
   }, []);
 
@@ -19,7 +20,13 @@ const MainBannerSection = () => {
     <section className='mx-auto container mb-[50px]'>
       <div className='flex justify-between items-start border-b border-neutral-20 py-[50px]'>
         <MySfaclogNotification userId={user.id} />
-        <MyProfile />
+        <MyProfile
+          nickname={user.nickname}
+          id={user.id}
+          follower={user.follower}
+          following={user.following}
+          profileImage={user.profile_image}
+        />
       </div>
     </section>
   ) : (

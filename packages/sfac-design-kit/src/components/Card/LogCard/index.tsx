@@ -25,7 +25,7 @@ export const LogCard = ({
   tags,
 }: LogCardProps) => {
   return (
-    <div className='w-[265px] h-[352px]'>
+    <div className='w-[265px]'>
       <div className='flex justify-center items-center w-[265px] h-[180px] overflow-hidden rounded-[10px] mb-[10px]'>
         <ImageWrapper className='h-full w-full' path={image} alt='thumbnail' />
       </div>

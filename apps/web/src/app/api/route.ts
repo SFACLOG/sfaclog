@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 const mailOptions = {
   from: 'sfaclog.co@gmail.com',
   to: '',
-  subject: '테스트 이메일',
+  subject: '이메일 인증번호를 확인하세요',
   text: '',
 };
 

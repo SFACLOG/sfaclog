@@ -239,10 +239,10 @@ const Signup = () => {
             <Input
               placeholder='닉네임 입력'
               label='닉네임'
+              required={true}
               name='nickname'
               maxLength={8}
               onChange={handleNicknameChange}
-              required
             />
             <p className=' text-neutral-60 text-[12px] mt-[10px]'>
               *최대 8글자
@@ -389,6 +389,7 @@ const Signup = () => {
                 !isNameChecked ||
                 !isPasswordValid ||
                 !isEmailVerified ||
+                !nickname ||
                 checkboxStates.some(state => !state)
               }
               onClick={() => handleSubmit()}
@@ -397,6 +398,7 @@ const Signup = () => {
                   !isNameChecked ||
                   !isPasswordValid ||
                   !isEmailVerified ||
+                  !nickname ||
                   checkboxStates.some(state => !state)
                 ) && 'bg-primary-100 text-white'
               } `}

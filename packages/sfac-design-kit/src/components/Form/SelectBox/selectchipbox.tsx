@@ -137,14 +137,15 @@ export const SelectChipBox = ({
     <div
       ref={dropdownRef}
       className={cn(
-        `inline-flex flex-col items-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-neutral-40 rounded-md text-center  ${isOpen && 'h-[320px] px-[52px]'}`,
+        `absolute top-7  inline-flex flex-col items-center min-w-[140px] min-h-[38px] text-neutral-60 text-btn border border-neutral-40 ${selectedOptions.length && ' border-primary-100'} rounded-md text-center w-full  `,
         className,
+        `${isOpen && ' w-[780px] h-[320px] px-[52px] bg-white z-20'}`,
       )}
     >
       {pathname !== '/project' ? (
         <div
           onClick={toggleDropdown}
-          className={cn(`flex justify-between  items-center  p-[10px] w-full`)}
+          className={cn(`flex justify-between  items-center w-full  p-[10px]`)}
         >
           <div className={`text-center ${!isOpen && 'mx-auto'}`}>
             {isOpen
@@ -199,7 +200,7 @@ export const SelectChipBox = ({
           onClick={toggleDropdown}
           className={cn(
             `flex justify-center ${isOpen && 'justify-between'} items-center  py-[10.5px] w-full`,
-            selectedOptions.length > 0 && ' text-primary-100',
+            selectedOptions.length > 0 && ' text-primary-100 ',
           )}
         >
           <div className='mr-[15px] '>

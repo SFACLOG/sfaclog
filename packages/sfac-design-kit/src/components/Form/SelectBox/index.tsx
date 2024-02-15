@@ -4,7 +4,6 @@ import { cn } from '../../../utils';
 import ImageWrapper from '../../common/ImageWrapper';
 import UP_ARROW_ICON from '../../../../public/images/ic_up_arrow.svg';
 import DOWN_ARROW_ICON from '../../../../public/images/ic_down_arrow.svg';
-
 export interface SelectBoxOption {
   value: string;
   label: string;
@@ -79,7 +78,6 @@ export const SelectBox = ({
         className={cn(
           'flex justify-between items-center p-[10px] w-full',
           selectedOption && ' text-primary-100',
-          className,
         )}
       >
         <div className=' text-center mx-auto'>

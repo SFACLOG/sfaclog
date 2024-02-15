@@ -90,7 +90,7 @@ const Withdraw = () => {
           <p className='text-title4 mb-[15px]'>무엇이 불편하셨나요?</p>
           <SelectBox
             className='absolute w-full min-h-[50px]'
-            title='정렬방식'
+            title='무엇이 불편하셨나요?'
             options={SORT_OPTIONS}
           />
         </div>

@@ -65,7 +65,11 @@ const ModalUI = ({
         <section className='flex w-full'>
           {isCancleBtn && (
             <SquareButton
-              className='rounded-t-none rounded-r-none'
+              style={{
+                borderTopRightRadius: 0,
+                borderTopLeftRadius: 0,
+                borderBottomRightRadius: 0,
+              }}
               theme='disable'
               size='lg'
               onClick={() => setOpen(prev => !prev)}
@@ -75,6 +79,15 @@ const ModalUI = ({
           )}
           <SquareButton
             className={cn('rounded-t-none', isCancleBtn && 'rounded-l-none')}
+            style={
+              isCancleBtn
+                ? {
+                    borderTopRightRadius: 0,
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0,
+                  }
+                : { borderTopRightRadius: 0, borderTopLeftRadius: 0 }
+            }
             theme='primary'
             size='lg'
             onClick={onClickConfirm || (() => setOpen(prev => !prev))}

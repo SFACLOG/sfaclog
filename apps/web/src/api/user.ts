@@ -41,7 +41,6 @@ export const resetPassword = async (email: string) => {
 
 export const resultx = async () => {
   const result = await pb.collection('user').listAuthMethods();
-  console.log(result);
 };
 
 export const resultList = async (email: string) => {
@@ -115,4 +114,12 @@ export const withdrawal = async (id: string) => {
 
 export const getUserId = () => {
   return pb.authStore.model?.id ?? '';
+};
+
+export const getUsers = async () => {
+  const response = await pb.collection('user').getList(1, 6, {
+    sort: '-follower',
+  });
+
+  return response;
 };

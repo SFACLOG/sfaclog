@@ -9,7 +9,7 @@ import {
 } from 'sfac-design-kit';
 import GoBack from '../../(components)/GoBack';
 import Calendar from '../../(components)/Calendar';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { getUser, getUserId } from '@/api/user';
 import { updateProjectId } from '@/api/project';
@@ -40,6 +40,8 @@ import { useGetSkillData } from '@/hooks/useSkillData';
 import { useGetPositionData } from '@/hooks/usePositionData';
 import { useGetMeetingData } from '@/hooks/useMeetingData';
 import { imagechipoptions, process, position } from '../../(contants)';
+
+const formData = new FormData();
 
 const page = () => {
   const id = usePathname();
@@ -79,6 +81,10 @@ const page = () => {
   );
 
   const textRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    setPreviews(projectImage || []);
+  }, [projectImage]);
 
   const handleProcessChange = (selectedOption: SelectBoxOption) => {
     setSelectedProcess(selectedOption.value);
@@ -138,7 +144,7 @@ const page = () => {
     for (let i = 0; i < e.target.files!.length; i++) {
       const file: File = e.target.files![i];
       // 이미지 파일 3개로 제한
-      if (newImages.length < 3) {
+      if (newPreviews.length < 3) {
         // 이벤트객체의 파일을 newImages에 담기
         newImages.push(file);
         // 파일리더 객체 생성
@@ -224,7 +230,8 @@ const page = () => {
     !projectInfo.status ||
     !projectInfo.deadline ||
     !projectInfo.title ||
-    !projectInfo.content;
+    !projectInfo.content ||
+    previews.length === 0;
 
   // const { data: meetingId } = useGetProjectMeeting(allMeetingValues[0][0]);
   // if (!meetingId) {
@@ -326,8 +333,6 @@ const page = () => {
     { label: '9명', value: '9명' },
     { label: '10명 이상', value: '10명 이상' },
   ];
-
-  console.log(projectImage);
   return (
     <div className='mt-[50px] max-w-[780px] mx-auto'>
       <GoBack />
@@ -371,7 +376,7 @@ const page = () => {
           </div>
         </div>
         <div className='flex gap-[20px] w-full mb-[30px]'>
-          <div className='flex flex-col w-full  gap-[10px]'>
+          <div className='flex flex-col w-full  gap-[10px] relative'>
             <label className=' text-title4'>기술 스택</label>
             <SelectChipBox
               title='제목'
@@ -380,6 +385,7 @@ const page = () => {
                 value,
                 label: getLabelFromValue(value),
               }))}
+              className=' border-neutral-40'
             />
           </div>
           <div className='flex flex-col w-full  gap-[10px]'>
@@ -446,7 +452,7 @@ const page = () => {
           />
 
           <div>
-            {previews?.map((preview, index) => (
+            {previews.map((preview, index) => (
               <div key={index} className='mb-5 rounded-[20px] relative'>
                 <Image
                   src={preview}

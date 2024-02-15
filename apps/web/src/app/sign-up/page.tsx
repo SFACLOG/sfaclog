@@ -43,8 +43,6 @@ const Signup = () => {
         },
         body: JSON.stringify({ email: email, code: newCode }),
       });
-
-      console.log('이메일 성공적으로 전송됨');
     } catch (error) {
       console.error('이메일 전송 중 오류:', error);
     }
@@ -244,6 +242,7 @@ const Signup = () => {
               name='nickname'
               maxLength={8}
               onChange={handleNicknameChange}
+              required
             />
             <p className=' text-neutral-60 text-[12px] mt-[10px]'>
               *최대 8글자
@@ -363,7 +362,7 @@ const Signup = () => {
                 checked={checkboxStates[1]}
                 onChange={() => handleCheckboxChange(1)}
               />
-              <Link href={'/signup/terms'}>
+              <Link href={'/sign-up/terms'}>
                 <div>약관보기</div>
               </Link>
             </div>
@@ -382,7 +381,7 @@ const Signup = () => {
             <Checkbox type='checkbox' label='통신사 이용약관 동의' />
           </div>
 
-          <Link href='/signup/1'>
+          <Link href='/sign-up/1'>
             <SquareButton
               size='lg'
               theme='disable'

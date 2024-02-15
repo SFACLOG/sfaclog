@@ -4,7 +4,6 @@ import Provider from './Provider';
 import Header from '@/components/layout/Header';
 import 'sfac-design-kit/dist/style.css';
 import './globals.css';
-import Navigation from '@/components/layout/Navigation';
 
 export const metadata: Metadata = {
   title: '스팩로그',
@@ -24,6 +23,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang='en'>
       <body className={`relative ${pretendard.className} min-h-screen`}>
         <Provider>
+          <Header />
           {children}
           <div id='modal'></div>
         </Provider>

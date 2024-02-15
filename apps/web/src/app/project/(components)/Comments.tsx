@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { Avatar, SquareButton } from 'sfac-design-kit';
 import Image from 'next/image';
+import { getUserId } from '@/api/user';
+import { useGetUserById } from '@/hooks/useUserData';
 
 interface User {
   name: string;
@@ -23,6 +25,9 @@ interface SubComment {
 }
 
 const Comments = () => {
+  const isUser = getUserId();
+  const { data: userInfo } = useGetUserById(isUser);
+
   const [newComment, setNewComment] = useState<string>('');
   const [subComments, setSubComments] = useState<{ [key: number]: string }>({});
   const [comments, setComments] = useState<Comment[]>([]);
@@ -36,8 +41,10 @@ const Comments = () => {
       const comment: Comment = {
         text: newComment,
         user: {
-          name: '차윤정',
-          avatar: '/images/project/avatar1.svg',
+          name: userInfo?.nickname,
+          avatar: userInfo?.profile_image
+            ? userInfo?.profile_image
+            : '/images/project/avatar1.svg',
         },
         date: new Date().toLocaleDateString(),
         likes: 0,
@@ -53,8 +60,10 @@ const Comments = () => {
       const subComment: SubComment = {
         text: subCommentText,
         user: {
-          name: '파란고양이',
-          avatar: '/images/project/avatar1.svg',
+          name: userInfo?.nickname,
+          avatar: userInfo?.profile_image
+            ? userInfo?.profile_image
+            : '/images/project/avatar1.svg',
         },
         date: new Date().toLocaleDateString(),
       };
@@ -78,6 +87,10 @@ const Comments = () => {
     });
   };
 
+  const handleReplyToggle = (index: number) => {
+    setReplyIndex(replyIndex === index ? null : index);
+  };
+
   return (
     <div>
       <p className='text-h2 mb-10'>댓글({comments.length})</p>
@@ -86,10 +99,14 @@ const Comments = () => {
           <div className='flex items-center text-subtitle text-neutral-100'>
             <Avatar
               size={'small'}
-              src='/images/project/avatar1.svg'
+              src={
+                userInfo?.profile_image
+                  ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/_pb_users_auth_/${isUser}/${userInfo.profile_image}`
+                  : '/images/project/avatar1.svg'
+              }
               className='mr-5'
             />
-            <p>차윤정</p>
+            <p>{userInfo?.nickname}</p>
           </div>
         </div>
         <div className='flex flex-col items-end gap-[15px]'>
@@ -133,8 +150,8 @@ const Comments = () => {
                 </p>
               </div>
               <p
-                className='text-caption2 text-neutral-80'
-                onClick={() => setReplyIndex(index)}
+                className='text-caption2 text-neutral-80 cursor-pointer'
+                onClick={() => handleReplyToggle(index)}
               >
                 답글달기
               </p>

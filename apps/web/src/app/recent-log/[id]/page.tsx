@@ -5,6 +5,7 @@ import LogHeader from '../(components)/LogHeader';
 import AuthorProfile from '../(components)/AuthorProfile';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
+import Comments from '@/app/project/(components)/Comments';
 
 const RecentLogDetailPage = async ({ params }: { params: { id: string } }) => {
   const logData = await getPostByPostId(params.id);
@@ -32,7 +33,7 @@ const RecentLogDetailPage = async ({ params }: { params: { id: string } }) => {
           follower={logData.follower}
           following={logData.following}
         />
-        <div>댓글</div>
+        <Comments />
       </div>
       <Footer />
     </div>

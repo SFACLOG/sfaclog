@@ -72,9 +72,10 @@ const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
   const { data: allMeeting } = useGetMeetingData([projectInfo.id]);
   const { data: allPosition } = useGetPositionData([projectInfo.id]);
 
-  if (!user || !userProfile || !allSkill || !allMeeting || !allPosition) {
+  if (!user || !allSkill || !allMeeting || !allPosition) {
     return;
   }
+
   const allSkillValues = allSkill?.map(projectSkills =>
     projectSkills.map((skill: any) => {
       const foundOption = imagechipoptions.find(
@@ -168,7 +169,11 @@ const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
           </div>
           <p className=' text-title1 mb-5'>{projectInfo.title}</p>
           <div className='flex items-center text-neutral-80'>
-            <Avatar src={userProfile} size={'tiny'} className='mr-2' />
+            <Avatar
+              src={userProfile ? userProfile : '/images/avatar.svg'}
+              size={'tiny'}
+              className='mr-2'
+            />
             <p className=' text-caption2_bold'>{user.nickname}(디자이너)</p>
             <p className='mx-2'>|</p>
             <p className=' text-caption2'>
@@ -183,7 +188,7 @@ const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
             alt='share button'
             width={19}
             height={21}
-            className='mb-[46px] mt-[11px]'
+            className='mb-[46px] mt-[11px] cursor-pointer'
             onClick={LinkCopy}
           />
           <div className='flex flex-col items-center'>

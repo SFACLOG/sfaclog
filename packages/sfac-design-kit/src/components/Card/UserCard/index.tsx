@@ -10,6 +10,7 @@ export interface UserCardProps {
   followers: number;
   views: number;
   className?: string;
+  onClick?: () => void;
 }
 
 export const UserCard = ({
@@ -21,6 +22,7 @@ export const UserCard = ({
   followers,
   views,
   className,
+  onClick,
 }: UserCardProps) => {
   return (
     <div
@@ -58,7 +60,10 @@ export const UserCard = ({
           <div className='mb-1 text-caption3'>조회수</div>
           <div className='text-caption2_bold'>{views}K</div>
         </div>
-        <button className='flex justify-center items-center bg-primary-100 text-white text-caption3 py-1 px-[15px]  h-[22px] rounded-[5px]'>
+        <button
+          className='flex justify-center items-center bg-primary-100 text-white text-caption3 py-1 px-[15px]  h-[22px] rounded-[5px]'
+          onClick={onClick}
+        >
           로그 바로가기
         </button>
       </div>

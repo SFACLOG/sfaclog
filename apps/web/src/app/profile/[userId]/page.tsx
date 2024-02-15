@@ -13,7 +13,7 @@ import {
   useGetIsFollowingUser,
   usePostFollow,
 } from '@/hooks/useFollowData';
-import { getUser, login, logout } from '@/api/user';
+import { getUser } from '@/api/user';
 import { Modal } from '@/components/Modal';
 import { User } from '@/types/user';
 

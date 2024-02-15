@@ -31,3 +31,41 @@ export const getTagsByPostId = async (postId: string) => {
 
   return records.map(tag => tag.expand?.tag_id.name);
 };
+
+export const getPopularPost = async () => {
+  const postResponse = await pb.collection('post').getList(1, 4, {
+    expand: 'user_id',
+    sort: '-views',
+  });
+
+  const response = await Promise.all(
+    postResponse.items.map(async (post: any) => {
+      const tags = await getTagsByPostId(post.id);
+      return {
+        ...post,
+        tags: tags,
+      };
+    }),
+  );
+
+  return response;
+};
+
+export const getRecentPost = async () => {
+  const postResponse = await pb.collection('post').getList(1, 4, {
+    expand: 'user_id',
+    sort: '-created',
+  });
+
+  const response = await Promise.all(
+    postResponse.items.map(async (post: any) => {
+      const tags = await getTagsByPostId(post.id);
+      return {
+        ...post,
+        tags: tags,
+      };
+    }),
+  );
+
+  return response;
+};

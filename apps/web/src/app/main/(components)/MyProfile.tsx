@@ -1,7 +1,22 @@
+import Link from 'next/link';
 import React from 'react';
 import { Avatar, SquareButton } from 'sfac-design-kit';
 
-const MyProfile = () => {
+interface MyProfileProps {
+  id: string;
+  nickname: string;
+  follower: number;
+  following: number;
+  profileImage?: string;
+}
+
+const MyProfile = ({
+  id,
+  nickname,
+  follower,
+  following,
+  profileImage,
+}: MyProfileProps) => {
   return (
     <div>
       <div className='text-title3 mb-5'>내 프로필</div>
@@ -9,18 +24,22 @@ const MyProfile = () => {
         <div className='flex gap-5 items-center'>
           <Avatar
             className='w-[80px] h-[80px]'
-            src='https://images.unsplash.com/photo-1599687351724-dfa3c4ff81b1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            src={
+              profileImage
+                ? `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/_pb_users_auth_/${id}/${profileImage}`
+                : ''
+            }
           />
           <div className='flex flex-col gap-[9px]'>
-            <div className='text-title3'>차윤정</div>
+            <div className='text-title3'>{nickname}</div>
             <div className='flex gap-8 text-caption1'>
               <div className='flex gap-[15px]'>
                 <span>팔로워</span>
-                <span>67</span>
+                <span>{follower}</span>
               </div>
               <div className='flex gap-[15px]'>
                 <span>팔로잉</span>
-                <span>54</span>
+                <span>{following}</span>
               </div>
             </div>
           </div>
@@ -31,14 +50,14 @@ const MyProfile = () => {
             size={'sm'}
             className='w-40 px-3 font-semibold'
           >
-            프로필 수정하기
+            <Link href={{ pathname: `/profile/edit` }}>프로필 수정하기</Link>
           </SquareButton>
           <SquareButton
             theme={'secondary'}
             size={'sm'}
             className='w-40 px-3 font-semibold'
           >
-            + 새 로그 작성
+            <Link href={{ pathname: `/recent-log/write` }}>+ 새 로그 작성</Link>
           </SquareButton>
         </div>
       </div>

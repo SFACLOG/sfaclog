@@ -115,3 +115,11 @@ export const withdrawal = async (id: string) => {
 export const getUserId = () => {
   return pb.authStore.model?.id ?? '';
 };
+
+export const getUsers = async () => {
+  const response = await pb.collection('user').getList(1, 6, {
+    sort: '-follower',
+  });
+
+  return response;
+};

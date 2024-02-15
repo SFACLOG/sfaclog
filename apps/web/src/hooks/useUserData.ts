@@ -4,6 +4,7 @@ import {
   getUserById,
   updateUser,
   getUserWithPropsById,
+  getUsers,
 } from '@/api/user';
 import { User } from '@/types/user';
 
@@ -58,5 +59,12 @@ export const usePatchUser = () => {
 
   return useMutation({
     mutationFn: (data: Partial<User>) => patchUser(id, data),
+  });
+};
+
+export const useGetUsers = () => {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: () => getUsers(),
   });
 };

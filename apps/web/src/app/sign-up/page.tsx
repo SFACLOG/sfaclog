@@ -36,15 +36,13 @@ const Signup = () => {
       const newCode = generateRandomNumber();
       setCode(newCode);
 
-      const response = await fetch('http://localhost:3000/api', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email: email, code: newCode }),
       });
-
-      console.log('이메일 성공적으로 전송됨');
     } catch (error) {
       console.error('이메일 전송 중 오류:', error);
     }

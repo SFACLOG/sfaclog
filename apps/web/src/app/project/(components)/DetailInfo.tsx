@@ -103,8 +103,10 @@ const DetailInfo = ({ islog, isOwner, projectInfo }: DetailProps) => {
     }),
   );
 
-  const handleDeleteConfirm: MouseEventHandler<HTMLButtonElement> = event => {
-    deleteProject(projectInfo.id);
+  const handleDeleteConfirm: MouseEventHandler<
+    HTMLButtonElement
+  > = async event => {
+    await deleteProject(projectInfo.id);
     router.push('/project');
   };
 

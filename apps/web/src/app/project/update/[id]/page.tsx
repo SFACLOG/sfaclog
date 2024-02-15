@@ -79,7 +79,7 @@ const page = () => {
   const [preference, setPreference] = useState<string>(
     projectInfo ? projectInfo?.preference : '',
   );
-
+  const projectDescriptionRef = useRef<HTMLTextAreaElement>(null);
   const textRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -131,11 +131,14 @@ const page = () => {
     setPreference(e.target.value);
   };
 
-  const handleResizeHeight = useCallback(() => {
-    if (textRef.current) {
-      textRef.current.style.height = textRef.current.scrollHeight + 'px';
-    }
-  }, []);
+  const handleResizeHeight = useCallback(
+    (ref: React.RefObject<HTMLTextAreaElement>) => {
+      if (ref.current) {
+        ref.current.style.height = ref.current.scrollHeight + 'px';
+      }
+    },
+    [],
+  );
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newImages: File[] = [...images];
@@ -443,12 +446,13 @@ const page = () => {
           />
           <div className=' border border-neutral-10 my-5 '></div>
           <textarea
-            ref={textRef}
-            onInput={handleResizeHeight}
+            ref={projectDescriptionRef}
+            onInput={() => handleResizeHeight(projectDescriptionRef)}
             placeholder='어떤 프로젝트인가요? 설명해주세요!'
             className='placeholder:text-neutral-20 w-full mb-[70px] p-5 border-none resize-none overflow-hidden'
             onChange={handleContentChange}
             value={content || projectInfo.content}
+            style={{ height: projectDescriptionRef.current?.scrollHeight }}
           />
 
           <div>
@@ -501,7 +505,7 @@ const page = () => {
         <div className=' flex flex-col items-center justify-center '>
           <textarea
             ref={textRef}
-            onInput={handleResizeHeight}
+            onInput={() => handleResizeHeight(textRef)}
             placeholder='우리 팀에는 어떤 팀원이 필요한가요?'
             className=' w-[580px] h-[346px] px-[51px] py-11 placeholder:text-neutral-50 text-body1  bg-neutral-10 mb-[70px] rounded-[5px] resize-none'
             onChange={handlePreferenceChange}

@@ -1,12 +1,9 @@
 import React from 'react';
 import SectionWrapper from './SectionWrapper';
 import { LogCard } from 'sfac-design-kit';
-import { getPopularPost } from '@/api/post';
 import Link from 'next/link';
 
-const PopularLogSection = async () => {
-  const logs = await getPopularPost();
-
+const PopularLogSection = ({ logs }: { logs: any }) => {
   return (
     <SectionWrapper title='🔥 인기있는 로그를 확인해 보세요!'>
       {logs.map((logPost: any) => (

@@ -1,12 +1,9 @@
 import React from 'react';
 import { LogCard } from 'sfac-design-kit';
 import SectionWrapper from './SectionWrapper';
-import { getRecentPost } from '@/api/post';
 import Link from 'next/link';
 
-const NewLogSection = async () => {
-  const logs = await getRecentPost();
-
+const NewLogSection = ({ logs }: { logs: any }) => {
   return (
     <SectionWrapper
       title='🔍 지금 스팩로그에서는'

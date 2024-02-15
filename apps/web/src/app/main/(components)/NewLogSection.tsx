@@ -8,7 +8,7 @@ const NewLogSection = ({ logs }: { logs: any }) => {
     <SectionWrapper
       title='🔍 지금 스팩로그에서는'
       headerExpandText='최신로그 모아보기'
-      headerExpandHref='/' // TODO: log 페이지 생성 후 log 페이지 url로 변경 필요
+      headerExpandHref='/recent-log'
     >
       {logs.map((logPost: any) => (
         <Link href={{ pathname: `/recent-log/${logPost.id}` }}>

@@ -19,6 +19,8 @@ const logDummy = Array.from({ length: 4 }, (_, idx) => {
   };
 });
 
+export const revalidate = 60;
+
 const NewLogSection = async () => {
   const logs = await getRecentPost();
 

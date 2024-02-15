@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import SfacProgramSection from '../main/(components)/SfacProgramSection';
 import RecentLogTagSection from './(components)/RecentLogTagSection';
@@ -7,6 +8,8 @@ import { getRecentPost } from '@/api/post';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import { getTags } from '@/api/tag';
+import { useGetRecentLogs } from '@/hooks/useProjectData';
+import { useGetTags } from '@/hooks/useTag';
 
 const filterOptions = [
   { value: '전체', label: '전체' },
@@ -17,23 +20,26 @@ const filterOptions = [
 ];
 
 export const fetchCache = 'force-no-store';
+export const dynamic = 'force-dynamic';
 
-const RecentLogPage = async () => {
-  const recentLogs = await getRecentPost(1, 16);
-  const tags = await getTags(1, 12);
+const RecentLogPage = () => {
+  const { data, isLoading } = useGetRecentLogs(1, 16);
+  const { data: tags } = useGetTags(1, 12);
+  // const recentLogs = await getRecentPost(1, 16);
+  // const tags = await getTags(1, 12);
 
   return (
     <>
       <Navigation />
       <div className='mx-auto container'>
-        <RecentLogTagSection tags={tags} />
+        {tags && <RecentLogTagSection tags={tags} />}
         <div className='flex items-center gap-5 mb-[13px]'>
           <span className='text-caption1 text-neutral-40'>정렬방식</span>
           <SelectBox title={'전체'} options={filterOptions} />
         </div>
         <div className='flex flex-col gap-[90px]'>
           <div className='grid grid-cols-4 gap-10'>
-            {recentLogs.slice(0, 8).map((logPost: any) => (
+            {data?.slice(0, 8).map((logPost: any) => (
               <Link href={{ pathname: `/recent-log/${logPost.id}` }}>
                 <LogCard
                   key={logPost.id}
@@ -56,7 +62,7 @@ const RecentLogPage = async () => {
           </div>
           <SfacProgramSection />
           <div className='grid grid-cols-4 gap-10 mb-[200px]'>
-            {recentLogs.slice(8, 16).map((logPost: any) => (
+            {data?.slice(8, 16).map((logPost: any) => (
               <Link href={{ pathname: `/recent-log/${logPost.id}` }}>
                 <LogCard
                   key={logPost.id}

@@ -8,17 +8,15 @@ import MainBannerSection from './(components)/MainBannerSection';
 import { getPopularPost, getRecentPost } from '@/api/post';
 
 export const fetchCache = 'force-no-store';
+export const dynamic = 'force-dynamic';
 
-const MainPage = async () => {
-  const popularLogs = await getPopularPost();
-  const recentLogs = await getRecentPost();
-
+const MainPage = () => {
   return (
     <div className='w-full'>
       <MainBannerSection />
       <div className='flex flex-col gap-[90px] container mx-auto mb-[200px]'>
-        <PopularLogSection logs={popularLogs} />
-        <NewLogSection logs={recentLogs} />
+        <PopularLogSection />
+        <NewLogSection />
         <SfacProgramSection />
         <FollowSection />
         <RecentNewsSection />

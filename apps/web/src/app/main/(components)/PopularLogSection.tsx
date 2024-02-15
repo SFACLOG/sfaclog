@@ -1,15 +1,17 @@
+'use client';
 import React from 'react';
 import SectionWrapper from './SectionWrapper';
 import { LogCard } from 'sfac-design-kit';
 import Link from 'next/link';
+import { useGetPopularLogs } from '@/hooks/useProjectData';
 
-const PopularLogSection = ({ logs }: { logs: any }) => {
+const PopularLogSection = () => {
+  const { data, isLoading } = useGetPopularLogs();
   return (
     <SectionWrapper title='🔥 인기있는 로그를 확인해 보세요!'>
-      {logs.map((logPost: any) => (
-        <Link href={{ pathname: `/recent-log/${logPost.id}` }}>
+      {data?.map((logPost: any) => (
+        <Link href={{ pathname: `/recent-log/${logPost.id}` }} key={logPost.id}>
           <LogCard
-            key={logPost.id}
             image={
               `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/${logPost.collectionId}/${logPost.id}/${logPost.thumbnail}` ||
               'https://images.unsplash.com/photo-1573167101669-476636b96cea?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'

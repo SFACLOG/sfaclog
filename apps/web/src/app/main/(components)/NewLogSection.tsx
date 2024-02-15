@@ -1,19 +1,22 @@
+'use client';
 import React from 'react';
 import { LogCard } from 'sfac-design-kit';
 import SectionWrapper from './SectionWrapper';
 import Link from 'next/link';
+import { useGetRecentLogs } from '@/hooks/useProjectData';
 
-const NewLogSection = ({ logs }: { logs: any }) => {
+const NewLogSection = () => {
+  const { data, isLoading } = useGetRecentLogs();
+  console.log(data);
   return (
     <SectionWrapper
       title='🔍 지금 스팩로그에서는'
       headerExpandText='최신로그 모아보기'
       headerExpandHref='/recent-log'
     >
-      {logs.map((logPost: any) => (
-        <Link href={{ pathname: `/recent-log/${logPost.id}` }}>
+      {data?.map((logPost: any) => (
+        <Link href={{ pathname: `/recent-log/${logPost.id}` }} key={logPost.id}>
           <LogCard
-            key={logPost.id}
             image={
               `${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/${logPost.collectionId}/${logPost.id}/${logPost.thumbnail}` ||
               'https://images.unsplash.com/photo-1573167101669-476636b96cea?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'

@@ -1,3 +1,4 @@
+import { getPopularPost, getRecentPost } from '@/api/post';
 import {
   deleteProject,
   getAllProjectImageById,
@@ -149,5 +150,19 @@ export const useDeleteProjectByProjectId = (id: string) => {
   return useQuery({
     queryKey: ['deleteproject', id],
     queryFn: () => deleteProjectByProjectId(id),
+  });
+};
+
+export const useGetPopularLogs = () => {
+  return useQuery({
+    queryKey: ['popularLogs'],
+    queryFn: () => getPopularPost(),
+  });
+};
+
+export const useGetRecentLogs = (page?: number, perPage?: number) => {
+  return useQuery({
+    queryKey: ['popularLogs', page, perPage],
+    queryFn: () => getRecentPost(page || 1, perPage || 4),
   });
 };

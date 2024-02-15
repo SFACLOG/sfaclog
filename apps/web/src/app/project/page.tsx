@@ -116,7 +116,7 @@ const Project = () => {
     }),
   );
 
-  const usernames = allUserInfo?.flat().map(obj => obj.username);
+  const usernames = allUserInfo?.flat().map(obj => obj.nickname);
 
   const [isRecruit, setIsRecruit] = useState<boolean>(false);
   const recruitButtonClick = () => {

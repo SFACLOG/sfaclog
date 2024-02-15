@@ -20,7 +20,7 @@ const LoginLayout: React.FC<CommonLayoutProps> = ({
     router.back();
   };
   const pathname = usePathname();
-  const isTerm = pathname === '/signup/terms';
+  const isTerm = pathname === '/sign-up/terms';
   return (
     <div className='flex  flex-col justify-center items-center  bg-neutral-5'>
       <Logo />

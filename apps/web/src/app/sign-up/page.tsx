@@ -241,6 +241,7 @@ const Signup = () => {
             <Input
               placeholder='닉네임 입력'
               label='닉네임'
+              required={true}
               name='nickname'
               maxLength={8}
               onChange={handleNicknameChange}
@@ -390,6 +391,7 @@ const Signup = () => {
                 !isNameChecked ||
                 !isPasswordValid ||
                 !isEmailVerified ||
+                !nickname ||
                 checkboxStates.some(state => !state)
               }
               onClick={() => handleSubmit()}
@@ -398,6 +400,7 @@ const Signup = () => {
                   !isNameChecked ||
                   !isPasswordValid ||
                   !isEmailVerified ||
+                  !nickname ||
                   checkboxStates.some(state => !state)
                 ) && 'bg-primary-100 text-white'
               } `}

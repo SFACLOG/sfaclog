@@ -53,8 +53,9 @@ const Login = () => {
           setLoginError(
             '잘못된 이메일 혹은 비밀번호입니다. 다시 입력해주세요.',
           );
-          setEamilChange('');
-          setPasswordChange('');
+
+          setEamilChange(email);
+          setPasswordChange(password);
         }
       }
     };
@@ -109,10 +110,9 @@ const Login = () => {
         onSubmit={handleLogin}
         className='w-full text-neutral-40 text-caption3 '
       >
-        <div className='mb-[55px]'>
+        <div className={`flex flex-col mb-[55px] gap-[22px]`}>
           <Input
             placeholder='이메일'
-            styles={`${emailError ? '' : ' mb-[22px]'}`}
             ref={emailInputRef}
             status={
               loginError

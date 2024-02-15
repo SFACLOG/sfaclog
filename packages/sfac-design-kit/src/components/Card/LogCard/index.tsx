@@ -27,7 +27,7 @@ export const LogCard = ({
   return (
     <div className='w-[265px] h-[352px]'>
       <div className='flex justify-center items-center w-[265px] h-[180px] overflow-hidden rounded-[10px] mb-[10px]'>
-        <img src={image} alt='Background Image' />
+        <ImageWrapper className='h-full w-full' path={image} alt='thumbnail' />
       </div>
       <div>
         <div className='flex justify-between items-center mb-[10px]'>

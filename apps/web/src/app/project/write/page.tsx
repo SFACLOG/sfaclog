@@ -17,6 +17,8 @@ import { getPositionByName, postPosition } from '@/api/position';
 import { getSkillByName, postSkill } from '@/api/skill';
 import { useRouter } from 'next/navigation';
 
+const formData = new FormData();
+
 const page = () => {
   const [selectedProcess, setSelectedProcess] = useState<string>('');
   const [selectedPosition, setSelectedPosition] = useState<string[]>([]);

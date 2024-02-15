@@ -16,7 +16,7 @@ const filterOptions = [
   { value: '이번 년도', label: '이번 년도' },
 ];
 
-export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 const RecentLogPage = async () => {
   const recentLogs = await getRecentPost(1, 16);

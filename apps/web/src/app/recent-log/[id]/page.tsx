@@ -7,7 +7,7 @@ import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import Comments from '@/app/project/(components)/Comments';
 
-export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 const RecentLogDetailPage = async ({ params }: { params: { id: string } }) => {
   const logData = await getPostByPostId(params.id);

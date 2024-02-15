@@ -15,8 +15,6 @@ const page = () => {
 
   const { username, nickname, email, password, passwordConfirm } = userData;
 
-  console.log(username, nickname, email, password, passwordConfirm);
-
   const handleInterestClick = (interest: string) => {
     const newSelectedInterests = selectedInterests.includes(interest)
       ? selectedInterests.filter(item => item !== interest)

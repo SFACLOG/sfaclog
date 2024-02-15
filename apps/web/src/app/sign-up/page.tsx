@@ -43,8 +43,6 @@ const Signup = () => {
         },
         body: JSON.stringify({ email: email, code: newCode }),
       });
-
-      console.log('이메일 성공적으로 전송됨');
     } catch (error) {
       console.error('이메일 전송 중 오류:', error);
     }

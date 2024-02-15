@@ -5,6 +5,7 @@ import { Avatar, RoundButton } from 'sfac-design-kit';
 import LogTag from './LogTag';
 import { getUser } from '@/api/user';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface LogHeaderProps {
   tags: string[];
@@ -81,12 +82,16 @@ const LogHeader = ({
         <h1 className='text-h1'>{title}</h1>
         <div className='flex justify-between items-start mt-5 mb-20'>
           <div className='flex items-center gap-[25px]'>
-            <Avatar
-              className='w-[45px] h-[45px]'
-              src={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/_pb_users_auth_/${userId}/${profileImage}`}
-            />
-            <div className='text-title3'>{nickname}</div>
-            <RoundButton size={'xs'}>팔로우</RoundButton>
+            <Link
+              className='flex items-center gap-[25px]'
+              href={`/profile/${userId}`}
+            >
+              <Avatar
+                className='w-[45px] h-[45px]'
+                src={`${process.env.NEXT_PUBLIC_POCKETEBASE_HOST}/api/files/_pb_users_auth_/${userId}/${profileImage}`}
+              />
+              <div className='text-title3'>{nickname}</div>
+            </Link>
           </div>
           <div className='text-neutral-40 text-[15px] flex gap-[30px] items-center'>
             <div className='w-fit text-center'>

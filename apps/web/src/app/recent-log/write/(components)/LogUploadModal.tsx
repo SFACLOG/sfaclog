@@ -70,7 +70,6 @@ const LogUploadModal = ({
         postTags.map(postTag => pb.collection('post_tag').create(postTag)),
       );
 
-      console.log('log 등록 성공: ', response);
       router.push(`/recent-log/upload-success/${postId}`);
     } catch (error) {
       console.error('log 등록 실패: ', error);

@@ -212,17 +212,17 @@ const ProfileEdit = () => {
         <section className='flex flex-col gap-[15px] w-full'>
           <Input
             label='깃허브'
-            defaultValue={user.sns.github}
+            defaultValue={user.sns?.github}
             ref={githubRef}
           />
           <Input
             label='인스타그램'
-            defaultValue={user.sns.instagram}
+            defaultValue={user.sns?.instagram}
             ref={instagramRef}
           />
           <Input
             label='페이스북'
-            defaultValue={user.sns.facebook}
+            defaultValue={user.sns?.facebook}
             ref={facebookRef}
           />
         </section>
